@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Exam Q&amp;A — CBSE Class 8 Physics</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">⚛ Physics Lab</div>
+      <ul class="nav-tabs">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="experiments.html">Experiments</a></li>
+        <li><a href="models.html">Physical Models</a></li>
+        <li><a href="questions.html">Exam Q&amp;A</a></li>
+        <li><a href="quiz.html">Quiz</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="breadcrumb">
+    <a href="../index.html">Home</a> <span>›</span> Exam Q&amp;A
+  </div>
+
+  <div class="container">
+    <h1 class="section-title">Exam Questions &amp; Answers</h1>
+    <p class="section-subtitle">Filter by chapter and marks. Reveal answers and track your revision.</p>
+
+    <!-- Filters -->
+    <div class="filters">
+      <div class="filter-group">
+        <label for="chapterFilter">Chapter</label>
+        <select id="chapterFilter">
+          <option value="all">All Chapters</option>
+          <option value="Force and Pressure">Force and Pressure</option>
+          <option value="Friction">Friction</option>
+          <option value="Sound">Sound</option>
+          <option value="Light">Light</option>
+          <option value="Human Eye and Colourful World">Human Eye and Colourful World</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label for="marksFilter">Marks</label>
+        <select id="marksFilter">
+          <option value="all">All Marks</option>
+          <option value="1">1 Mark</option>
+          <option value="2">2 Marks</option>
+          <option value="5">5 Marks</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Questions Container -->
+    <div id="questionsContainer"></div>
+  </div>
+
+  <script src="../script.js"></script>
+  <script src="../data/questions.js"></script>
+  <script>
+    const chapterFilter = document.getElementById('chapterFilter');
+    const marksFilter = document.getElementById('marksFilter');
+    const container = document.getElementById('questionsContainer');
+
+    function renderQuestions() {
+      const ch = chapterFilter.value;
+      const mk = marksFilter.value;
+
+      const filtered = questions.filter(q => {
+        if (ch !== 'all' && q.chapter !== ch) return false;
+        if (mk !== 'all' && q.marks !== parseInt(mk)) return false;
+        return true;
+      });
+
+      if (filtered.length === 0) {
+        container.innerHTML = '<p style="color: var(--gray-400); padding: 2rem; text-align: center;">No questions match your filters.</p>';
+        return;
+      }
+
+      container.innerHTML = filtered.map((q, i) => {
+        const qId = q.chapter + '|' + q.question.substring(0, 40);
+        const safeId = qId.replace(/&/g,'&amp;').replace(/"/g,'&quot;').replace(/'/g,'&#39;').replace(/</g,'&lt;');
+        const revised = isRevised(qId);
+        return `
+          <div class="question-card ${revised ? 'revised' : ''}" data-id="${safeId}" data-index="${i}">
+            <span class="chapter-tag">${q.chapter}</span>
+            <span class="marks-tag">${q.marks} Mark${q.marks > 1 ? 's' : ''} · ${q.type}</span>
+            <div class="question-text">${q.question}</div>
+            <div class="answer-text" id="ans-${i}">${q.answer}</div>
+            <div class="btn-row mt-1">
+              <button class="btn btn-primary btn-sm" onclick="toggleAnswer(${i})">Show Answer</button>
+              <button class="btn ${revised ? 'btn-success' : 'btn-outline'} btn-sm" onclick="markRevised(this)">
+                ${revised ? '✓ Revised' : 'Mark as Revised'}
+              </button>
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    function toggleAnswer(index) {
+      const el = document.getElementById('ans-' + index);
+      const btn = el.parentElement.querySelector('.btn-primary');
+      el.classList.toggle('show');
+      btn.textContent = el.classList.contains('show') ? 'Hide Answer' : 'Show Answer';
+    }
+
+    function markRevised(btn) {
+      const card = btn.closest('.question-card');
+      const i = parseInt(card.dataset.index);
+      const ch = chapterFilter.value;
+      const mk = marksFilter.value;
+      const filtered = questions.filter(q => {
+        if (ch !== 'all' && q.chapter !== ch) return false;
+        if (mk !== 'all' && q.marks !== parseInt(mk)) return false;
+        return true;
+      });
+      const q = filtered[i];
+      const qId = q.chapter + '|' + q.question.substring(0, 40);
+      const nowRevised = toggleRevised(qId);
+      if (nowRevised) {
+        card.classList.add('revised');
+        btn.classList.remove('btn-outline');
+        btn.classList.add('btn-success');
+        btn.textContent = '✓ Revised';
+      } else {
+        card.classList.remove('revised');
+        btn.classList.remove('btn-success');
+        btn.classList.add('btn-outline');
+        btn.textContent = 'Mark as Revised';
+      }
+    }
+
+    chapterFilter.addEventListener('change', renderQuestions);
+    marksFilter.addEventListener('change', renderQuestions);
+
+    renderQuestions();
+  </script>
+</body>
+</html>

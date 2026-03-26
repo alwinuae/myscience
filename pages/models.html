@@ -1,0 +1,464 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Physical Models - CBSE Class 8 Physics</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-container">
+    <div class="nav-logo">&#9883; Physics Lab</div>
+    <ul class="nav-tabs">
+      <li><a href="../index.html">Home</a></li>
+      <li><a href="experiments.html">Experiments</a></li>
+      <li><a href="models.html">Physical Models</a></li>
+      <li><a href="questions.html">Exam Q&amp;A</a></li>
+      <li><a href="quiz.html">Quiz</a></li>
+    </ul>
+  </div>
+</nav>
+
+<main class="container">
+  <div class="breadcrumb">
+    <a href="../index.html">Home</a> &gt; Physical Models
+  </div>
+
+  <h1>Interactive Physical Models</h1>
+  <p>Explore interactive diagrams to understand how things work. Click on parts of each model to learn more.</p>
+
+  <!-- ============================================================ -->
+  <!-- MODEL 1: THE HUMAN EAR                                       -->
+  <!-- ============================================================ -->
+  <div class="model-section" id="ear-model">
+    <h2>Model 1: The Human Ear</h2>
+    <div class="learn-note">
+      The ear converts sound waves in the air into electrical signals that the brain interprets as sound. Click on each part to learn how it contributes to hearing.
+    </div>
+    <div class="model-container">
+      <div class="model-svg-container">
+        <svg viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cross-section of the human ear">
+          <defs>
+            <linearGradient id="earBg" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#fdf6e3"/>
+              <stop offset="100%" stop-color="#fcebd0"/>
+            </linearGradient>
+          </defs>
+          <rect width="600" height="400" fill="url(#earBg)" rx="8"/>
+
+          <!-- Labels for regions -->
+          <text x="80" y="30" font-size="13" fill="#888" font-weight="bold">Outer Ear</text>
+          <text x="230" y="30" font-size="13" fill="#888" font-weight="bold">Middle Ear</text>
+          <text x="430" y="30" font-size="13" fill="#888" font-weight="bold">Inner Ear</text>
+
+          <!-- Pinna -->
+          <g class="svg-part" data-part="pinna" style="cursor:pointer;">
+            <path d="M60,100 C20,120 10,180 15,230 C20,280 40,320 70,340 C85,348 95,340 90,320 C85,300 75,280 80,250 C85,230 100,220 105,200 C110,180 100,160 90,150 C80,140 70,130 75,115 C80,105 70,98 60,100 Z"
+                  fill="#e8a87c" stroke="#c47c5a" stroke-width="2"/>
+            <text class="svg-label" x="30" y="370" font-size="12" fill="#c47c5a" text-anchor="middle" font-weight="bold">Pinna</text>
+          </g>
+
+          <!-- Ear Canal -->
+          <g class="svg-part" data-part="ear-canal" style="cursor:pointer;">
+            <path d="M95,200 L100,195 L200,195 L200,215 L100,215 L95,210 Z"
+                  fill="#f5c6a0" stroke="#c47c5a" stroke-width="1.5"/>
+            <text class="svg-label" x="150" y="240" font-size="11" fill="#b05c2a" text-anchor="middle" font-weight="bold">Ear Canal</text>
+          </g>
+
+          <!-- Eardrum (Tympanic Membrane) -->
+          <g class="svg-part" data-part="eardrum" style="cursor:pointer;">
+            <ellipse cx="210" cy="205" rx="4" ry="28" fill="#d4a574" stroke="#8b5e3c" stroke-width="2"/>
+            <text class="svg-label" x="210" y="260" font-size="11" fill="#8b5e3c" text-anchor="middle" font-weight="bold">Eardrum</text>
+          </g>
+
+          <!-- Ossicles: Hammer, Anvil, Stirrup -->
+          <g class="svg-part" data-part="ossicles" style="cursor:pointer;">
+            <!-- Hammer (Malleus) -->
+            <path d="M218,195 L235,175 L240,178 L225,198 Z" fill="#e07050" stroke="#a03020" stroke-width="1.5"/>
+            <circle cx="236" cy="173" r="5" fill="#e07050" stroke="#a03020" stroke-width="1.5"/>
+            <!-- Anvil (Incus) -->
+            <path d="M240,178 L270,172 L272,180 L242,184 Z" fill="#d9534f" stroke="#a03020" stroke-width="1.5"/>
+            <circle cx="272" cy="176" r="5" fill="#d9534f" stroke="#a03020" stroke-width="1.5"/>
+            <!-- Stirrup (Stapes) -->
+            <path d="M277,176 L295,182 L295,198 L277,192 Z" fill="#c9302c" stroke="#8b1a1a" stroke-width="1.5"/>
+            <ellipse cx="296" cy="190" rx="4" ry="10" fill="none" stroke="#8b1a1a" stroke-width="2"/>
+            <text class="svg-label" x="258" y="150" font-size="11" fill="#a03020" text-anchor="middle" font-weight="bold">Ossicles</text>
+            <text x="232" y="162" font-size="9" fill="#a03020" text-anchor="middle">(Hammer, Anvil, Stirrup)</text>
+          </g>
+
+          <!-- Cochlea -->
+          <g class="svg-part" data-part="cochlea" style="cursor:pointer;">
+            <path d="M310,190 C340,170 370,175 375,200 C380,225 360,240 340,235 C320,230 325,215 340,210 C355,205 360,215 350,220"
+                  fill="none" stroke="#5b8c5a" stroke-width="6" stroke-linecap="round"/>
+            <path d="M310,190 C340,170 370,175 375,200 C380,225 360,240 340,235 C320,230 325,215 340,210 C355,205 360,215 350,220"
+                  fill="none" stroke="#7ec87d" stroke-width="3" stroke-linecap="round"/>
+            <text class="svg-label" x="345" y="265" font-size="11" fill="#3a6b39" text-anchor="middle" font-weight="bold">Cochlea</text>
+          </g>
+
+          <!-- Auditory Nerve -->
+          <g class="svg-part" data-part="auditory-nerve" style="cursor:pointer;">
+            <path d="M355,222 C380,250 420,260 470,250 C500,245 530,230 560,210"
+                  fill="none" stroke="#4a69bd" stroke-width="5" stroke-linecap="round"/>
+            <path d="M355,222 C380,250 420,260 470,250 C500,245 530,230 560,210"
+                  fill="none" stroke="#6a89dd" stroke-width="2.5" stroke-linecap="round"/>
+            <text class="svg-label" x="480" y="280" font-size="11" fill="#2c3e8c" text-anchor="middle" font-weight="bold">Auditory Nerve</text>
+            <text x="555" y="200" font-size="10" fill="#888" text-anchor="middle">To Brain</text>
+          </g>
+
+          <!-- Sound waves indicator -->
+          <path d="M10,200 Q20,190 30,200 Q40,210 50,200" fill="none" stroke="#aaa" stroke-width="1.5" stroke-dasharray="3,3"/>
+          <text x="15" y="185" font-size="9" fill="#aaa">Sound</text>
+        </svg>
+      </div>
+      <div class="model-info-box" id="ear-info-box">
+        <p>Click on a part to learn about it.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- MODEL 2: THE HUMAN EYE                                       -->
+  <!-- ============================================================ -->
+  <div class="model-section" id="eye-model">
+    <h2>Model 2: The Human Eye</h2>
+    <div class="learn-note">
+      The eye works like a camera, focusing light onto the retina to create images. Click on each part to see its role in vision.
+    </div>
+    <div class="model-container">
+      <div class="model-svg-container">
+        <svg id="eye-svg" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Cross-section of the human eye">
+          <defs>
+            <linearGradient id="eyeBg" x1="0" y1="0" x2="1" y2="1">
+              <stop offset="0%" stop-color="#eef5fc"/>
+              <stop offset="100%" stop-color="#dfeaf5"/>
+            </linearGradient>
+            <radialGradient id="lensGrad" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stop-color="rgba(173,216,230,0.6)"/>
+              <stop offset="100%" stop-color="rgba(100,149,237,0.3)"/>
+            </radialGradient>
+          </defs>
+          <rect width="600" height="400" fill="url(#eyeBg)" rx="8"/>
+
+          <!-- Eyeball outline (sclera) -->
+          <ellipse cx="300" cy="200" rx="200" ry="160" fill="#f7f7f0" stroke="#bbb" stroke-width="2"/>
+
+          <!-- Retina (inner back surface) -->
+          <g class="svg-part" data-part="retina" style="cursor:pointer;">
+            <path d="M380,80 A180,155 0 0,1 380,320" fill="none" stroke="#cc5500" stroke-width="8" stroke-linecap="round"/>
+            <path d="M380,80 A180,155 0 0,1 380,320" fill="none" stroke="#ff8833" stroke-width="4" stroke-linecap="round"/>
+            <text class="svg-label" x="445" y="130" font-size="11" fill="#cc5500" font-weight="bold">Retina</text>
+          </g>
+
+          <!-- Vitreous humor (inner fill) -->
+          <ellipse cx="310" cy="200" rx="160" ry="130" fill="rgba(220,235,250,0.3)" stroke="none"/>
+
+          <!-- Cornea -->
+          <g class="svg-part" data-part="cornea" style="cursor:pointer;">
+            <path d="M110,120 Q70,200 110,280" fill="none" stroke="#1e90ff" stroke-width="6" stroke-linecap="round"/>
+            <path d="M110,120 Q70,200 110,280" fill="none" stroke="#63b3ff" stroke-width="3" stroke-linecap="round"/>
+            <text class="svg-label" x="55" y="310" font-size="11" fill="#1565c0" font-weight="bold">Cornea</text>
+          </g>
+
+          <!-- Iris -->
+          <g class="svg-part" data-part="iris" style="cursor:pointer;">
+            <path d="M140,120 L155,165" fill="none" stroke="#2e7d32" stroke-width="8" stroke-linecap="round"/>
+            <path d="M140,280 L155,235" fill="none" stroke="#2e7d32" stroke-width="8" stroke-linecap="round"/>
+            <path d="M140,120 L155,165" fill="none" stroke="#4caf50" stroke-width="4" stroke-linecap="round"/>
+            <path d="M140,280 L155,235" fill="none" stroke="#4caf50" stroke-width="4" stroke-linecap="round"/>
+            <text class="svg-label" x="120" y="110" font-size="11" fill="#2e7d32" font-weight="bold">Iris</text>
+          </g>
+
+          <!-- Pupil -->
+          <g class="svg-part" data-part="pupil" style="cursor:pointer;">
+            <ellipse cx="150" cy="200" rx="8" ry="35" fill="#111" stroke="#000" stroke-width="1"/>
+            <text class="svg-label" x="130" y="310" font-size="11" fill="#333" font-weight="bold">Pupil</text>
+          </g>
+
+          <!-- Lens -->
+          <g class="svg-part" data-part="lens" style="cursor:pointer;">
+            <ellipse cx="190" cy="200" rx="20" ry="50" fill="url(#lensGrad)" stroke="#4682b4" stroke-width="2"/>
+            <text class="svg-label" x="190" y="270" font-size="11" fill="#2c5f8a" font-weight="bold">Lens</text>
+          </g>
+
+          <!-- Optic Nerve -->
+          <g class="svg-part" data-part="optic-nerve" style="cursor:pointer;">
+            <path d="M490,200 C510,200 530,195 560,185 L570,182"
+                  fill="none" stroke="#7b1fa2" stroke-width="7" stroke-linecap="round"/>
+            <path d="M490,200 C510,200 530,195 560,185 L570,182"
+                  fill="none" stroke="#ab47bc" stroke-width="3.5" stroke-linecap="round"/>
+            <circle cx="490" cy="200" r="8" fill="#f7f7f0" stroke="#7b1fa2" stroke-width="2"/>
+            <text class="svg-label" x="540" y="170" font-size="11" fill="#6a1b9a" font-weight="bold">Optic Nerve</text>
+            <text x="575" y="195" font-size="9" fill="#888">To Brain</text>
+          </g>
+
+          <!-- Light path (hidden by default) -->
+          <g id="light-path-group" style="display:none;">
+            <line x1="10" y1="200" x2="110" y2="200" stroke="#ffcc00" stroke-width="2" stroke-dasharray="6,3"/>
+            <line x1="110" y1="200" x2="190" y2="200" stroke="#ffcc00" stroke-width="2" stroke-dasharray="6,3"/>
+            <line x1="190" y1="200" x2="420" y2="200" stroke="#ffcc00" stroke-width="2" stroke-dasharray="6,3"/>
+            <circle id="light-photon" cx="10" cy="200" r="5" fill="#ffcc00" stroke="#ff9900" stroke-width="1.5">
+              <animate attributeName="cx" from="10" to="420" dur="2s" repeatCount="indefinite"/>
+            </circle>
+            <text x="30" y="190" font-size="10" fill="#cc9900" font-weight="bold">Light Ray</text>
+          </g>
+        </svg>
+      </div>
+      <div class="controls">
+        <div class="control-group">
+          <button class="btn btn-primary toggle-btn" id="toggle-light-path">Show Light Path</button>
+        </div>
+      </div>
+      <div class="model-info-box" id="eye-info-box">
+        <p>Click on a part to learn about it.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ============================================================ -->
+  <!-- MODEL 3: FRICTION - MICROSCOPIC MODEL                        -->
+  <!-- ============================================================ -->
+  <div class="model-section" id="friction-model">
+    <h2>Model 3: Friction &mdash; Microscopic Model</h2>
+    <div class="learn-note">
+      Even surfaces that look smooth have tiny bumps at the microscopic level. These bumps interlock and resist motion, creating friction. Use the slider to see how surface roughness affects friction.
+    </div>
+    <div class="model-container">
+      <div class="model-svg-container">
+        <svg id="friction-svg" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Microscopic view of friction between two surfaces">
+          <defs>
+            <linearGradient id="topSurface" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#5c6bc0"/>
+              <stop offset="100%" stop-color="#7986cb"/>
+            </linearGradient>
+            <linearGradient id="bottomSurface" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#ef6c00"/>
+              <stop offset="100%" stop-color="#ff9800"/>
+            </linearGradient>
+            <marker id="arrowhead" markerWidth="10" markerHeight="7" refX="10" refY="3.5" orient="auto">
+              <polygon points="0 0, 10 3.5, 0 7" fill="#5c6bc0"/>
+            </marker>
+          </defs>
+          <rect width="600" height="300" fill="#fafafa" rx="8"/>
+
+          <!-- Labels -->
+          <text x="300" y="30" font-size="14" fill="#5c6bc0" text-anchor="middle" font-weight="bold">Top Surface (moving object)</text>
+          <text x="300" y="290" font-size="14" fill="#ef6c00" text-anchor="middle" font-weight="bold">Bottom Surface (ground)</text>
+
+          <!-- Arrow showing motion -->
+          <line x1="480" y1="55" x2="560" y2="55" stroke="#5c6bc0" stroke-width="2" marker-end="url(#arrowhead)"/>
+          <text x="500" y="50" font-size="10" fill="#5c6bc0">Motion</text>
+
+          <!-- Top surface block -->
+          <rect x="30" y="40" width="540" height="60" fill="url(#topSurface)" rx="4"/>
+
+          <!-- Top bumps (hanging down) -->
+          <path id="top-bumps" d="" fill="#7986cb" stroke="#5c6bc0" stroke-width="1"/>
+
+          <!-- Bottom bumps (pointing up) -->
+          <path id="bottom-bumps" d="" fill="#ff9800" stroke="#ef6c00" stroke-width="1"/>
+
+          <!-- Bottom surface block -->
+          <rect x="30" y="200" width="540" height="60" fill="url(#bottomSurface)" rx="4"/>
+
+          <!-- Friction explanation text -->
+          <text id="friction-explanation" x="300" y="155" font-size="13" fill="#555" text-anchor="middle" font-style="italic"></text>
+        </svg>
+      </div>
+      <div class="controls">
+        <div class="control-group">
+          <label for="roughness-slider"><strong>Surface Roughness:</strong></label>
+          <input type="range" id="roughness-slider" min="5" max="50" value="30" style="width: 220px; vertical-align: middle;">
+          <span id="roughness-value">30</span>
+        </div>
+      </div>
+      <div class="model-info-box" id="friction-info-box">
+        <p>Adjust the slider above to change the roughness of both surfaces and see how it affects friction.</p>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<script src="../script.js"></script>
+<script>
+(function() {
+  // ==========================================================
+  // DATA: Ear parts info
+  // ==========================================================
+  var earInfo = {
+    'pinna': {
+      name: 'Pinna (Outer Ear)',
+      info: 'The pinna is the visible, fleshy part of the ear on the outside of the head. It acts like a funnel, collecting sound waves from the environment and directing them into the ear canal. Its curved shape helps determine the direction a sound is coming from.'
+    },
+    'ear-canal': {
+      name: 'Ear Canal',
+      info: 'The ear canal is a tube-shaped passage about 2.5 cm long that carries sound waves from the pinna to the eardrum. It also protects the inner parts of the ear and produces earwax to trap dust and germs.'
+    },
+    'eardrum': {
+      name: 'Eardrum (Tympanic Membrane)',
+      info: 'The eardrum is a thin, cone-shaped membrane that vibrates when sound waves reach it. These vibrations are the first step in converting sound waves into mechanical motion. Even very soft sounds can make it vibrate.'
+    },
+    'ossicles': {
+      name: 'Ossicles (Hammer, Anvil, Stirrup)',
+      info: 'The ossicles are the three smallest bones in the human body. The hammer (malleus) is attached to the eardrum, the anvil (incus) connects hammer to stirrup, and the stirrup (stapes) presses against the cochlea. Together, they amplify the vibrations from the eardrum by about 20 times before passing them to the inner ear.'
+    },
+    'cochlea': {
+      name: 'Cochlea',
+      info: 'The cochlea is a snail-shaped, fluid-filled organ in the inner ear. When vibrations enter through the stirrup, they create waves in the fluid. Tiny hair cells inside the cochlea detect these waves and convert them into electrical signals. Different parts of the cochlea respond to different pitches of sound.'
+    },
+    'auditory-nerve': {
+      name: 'Auditory Nerve',
+      info: 'The auditory nerve carries electrical signals from the cochlea to the brain. The brain then interprets these signals as recognizable sounds such as speech, music, or environmental noises. This is the final step in the hearing process.'
+    }
+  };
+
+  // ==========================================================
+  // DATA: Eye parts info
+  // ==========================================================
+  var eyeInfo = {
+    'cornea': {
+      name: 'Cornea',
+      info: 'The cornea is the clear, dome-shaped front surface of the eye. It is responsible for most of the eye\'s focusing power, bending (refracting) light as it enters the eye. It also acts as a barrier against dirt, germs, and UV light.'
+    },
+    'iris': {
+      name: 'Iris',
+      info: 'The iris is the colored part of the eye (brown, blue, green, etc.). It is a muscular ring that controls the size of the pupil, regulating how much light enters the eye. In bright light it contracts (smaller pupil), and in dim light it relaxes (larger pupil).'
+    },
+    'pupil': {
+      name: 'Pupil',
+      info: 'The pupil is the black circular opening in the center of the iris. It is not a structure itself, but a hole through which light enters the eye. Its size is controlled by the iris muscles and changes in response to light intensity.'
+    },
+    'lens': {
+      name: 'Lens',
+      info: 'The lens is a transparent, flexible, biconvex structure behind the iris. It fine-focuses the light that has already been partly focused by the cornea, adjusting its shape (accommodation) to focus on objects at different distances. It projects an inverted image onto the retina.'
+    },
+    'retina': {
+      name: 'Retina',
+      info: 'The retina is a thin layer of light-sensitive cells (rods and cones) lining the back of the eye. It acts like the film in a camera, receiving the focused image and converting it into electrical nerve signals. Rods detect light/dark, while cones detect color.'
+    },
+    'optic-nerve': {
+      name: 'Optic Nerve',
+      info: 'The optic nerve is a bundle of over one million nerve fibers at the back of the eye. It carries electrical signals from the retina to the brain\'s visual cortex, where the signals are interpreted as the images we see. The point where it connects to the retina is the "blind spot" as there are no light-sensitive cells there.'
+    }
+  };
+
+  // ==========================================================
+  // GENERIC: Click handler for SVG part info
+  // ==========================================================
+  function setupModelClicks(sectionId, infoBoxId, infoData) {
+    var section = document.getElementById(sectionId);
+    var infoBox = document.getElementById(infoBoxId);
+    var parts = section.querySelectorAll('.svg-part');
+
+    parts.forEach(function(part) {
+      part.addEventListener('click', function() {
+        // Remove highlight from all
+        parts.forEach(function(p) {
+          p.classList.remove('active');
+          p.style.filter = '';
+          p.style.opacity = '';
+        });
+        // Highlight clicked
+        this.classList.add('active');
+        this.style.filter = 'brightness(1.3) drop-shadow(0 0 6px rgba(0,0,0,0.3))';
+
+        var partKey = this.getAttribute('data-part');
+        var data = infoData[partKey];
+        if (data) {
+          infoBox.innerHTML =
+            '<h3>' + data.name + '</h3>' +
+            '<p>' + data.info + '</p>';
+        }
+      });
+    });
+  }
+
+  setupModelClicks('ear-model', 'ear-info-box', earInfo);
+  setupModelClicks('eye-model', 'eye-info-box', eyeInfo);
+
+  // ==========================================================
+  // EYE: Light path toggle
+  // ==========================================================
+  var lightPathBtn = document.getElementById('toggle-light-path');
+  var lightPathGroup = document.getElementById('light-path-group');
+  var lightPathVisible = false;
+
+  lightPathBtn.addEventListener('click', function() {
+    lightPathVisible = !lightPathVisible;
+    lightPathGroup.style.display = lightPathVisible ? 'inline' : 'none';
+    lightPathBtn.textContent = lightPathVisible ? 'Hide Light Path' : 'Show Light Path';
+    if (lightPathVisible) {
+      lightPathBtn.classList.add('active');
+    } else {
+      lightPathBtn.classList.remove('active');
+    }
+  });
+
+  // ==========================================================
+  // FRICTION: Roughness slider
+  // ==========================================================
+  var roughnessSlider = document.getElementById('roughness-slider');
+  var roughnessValue = document.getElementById('roughness-value');
+  var topBumpsPath = document.getElementById('top-bumps');
+  var bottomBumpsPath = document.getElementById('bottom-bumps');
+  var frictionExplanation = document.getElementById('friction-explanation');
+
+  // Use seeded "random" for consistent bumps at same roughness
+  var bumpSeedsTop = [];
+  var bumpSeedsBottom = [];
+  for (var i = 0; i < 20; i++) {
+    bumpSeedsTop.push(0.6 + (((i * 7 + 3) % 11) / 11) * 0.8);
+    bumpSeedsBottom.push(0.6 + (((i * 5 + 7) % 13) / 13) * 0.8);
+  }
+
+  function generateSeededBumps(direction, height, seeds) {
+    var startX = 30;
+    var endX = 570;
+    var bumpWidth = 30;
+    var numBumps = Math.floor((endX - startX) / bumpWidth);
+    var baseY = direction === 'down' ? 100 : 200;
+    var path = 'M' + startX + ',' + baseY;
+
+    for (var j = 0; j < numBumps; j++) {
+      var x1 = startX + j * bumpWidth;
+      var x2 = x1 + bumpWidth / 2;
+      var x3 = x1 + bumpWidth;
+      var bumpH = height * seeds[j % seeds.length];
+      if (direction === 'down') {
+        path += ' L' + x2 + ',' + (baseY + bumpH) + ' L' + x3 + ',' + baseY;
+      } else {
+        path += ' L' + x2 + ',' + (baseY - bumpH) + ' L' + x3 + ',' + baseY;
+      }
+    }
+    path += ' L' + endX + ',' + baseY + ' Z';
+    return path;
+  }
+
+  function updateFriction() {
+    var val = parseInt(roughnessSlider.value, 10);
+    roughnessValue.textContent = val;
+
+    topBumpsPath.setAttribute('d', generateSeededBumps('down', val, bumpSeedsTop));
+    bottomBumpsPath.setAttribute('d', generateSeededBumps('up', val, bumpSeedsBottom));
+
+    if (val >= 35) {
+      frictionExplanation.textContent = 'High friction \u2014 surfaces interlock strongly. Hard to slide!';
+      frictionExplanation.setAttribute('fill', '#c62828');
+    } else if (val >= 20) {
+      frictionExplanation.textContent = 'Moderate friction \u2014 some interlocking between bumps.';
+      frictionExplanation.setAttribute('fill', '#e65100');
+    } else {
+      frictionExplanation.textContent = 'Low friction \u2014 smoother surfaces slide easily.';
+      frictionExplanation.setAttribute('fill', '#2e7d32');
+    }
+  }
+
+  roughnessSlider.addEventListener('input', updateFriction);
+  updateFriction();
+})();
+</script>
+
+</body>
+</html>

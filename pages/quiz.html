@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Quiz — CBSE Class 8 Physics</title>
+  <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">⚛ Physics Lab</div>
+      <ul class="nav-tabs">
+        <li><a href="../index.html">Home</a></li>
+        <li><a href="experiments.html">Experiments</a></li>
+        <li><a href="models.html">Physical Models</a></li>
+        <li><a href="questions.html">Exam Q&amp;A</a></li>
+        <li><a href="quiz.html">Quiz</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="breadcrumb">
+    <a href="../index.html">Home</a> <span>›</span> Quiz
+  </div>
+
+  <div class="container">
+    <!-- Setup Screen -->
+    <div id="quizSetup" class="quiz-setup">
+      <h2 class="section-title">Choose a Chapter</h2>
+      <p class="section-subtitle">Select a chapter to start a 10-question timed quiz</p>
+      <div class="chapter-select-grid" id="chapterButtons"></div>
+    </div>
+
+    <!-- Quiz Screen -->
+    <div id="quizScreen" class="hidden">
+      <div class="quiz-container">
+        <div class="quiz-header">
+          <span class="quiz-progress" id="quizProgress">Question 1 / 10</span>
+          <span class="quiz-timer" id="quizTimer">30</span>
+        </div>
+        <div class="quiz-question">
+          <h3 id="questionText"></h3>
+          <div class="quiz-options" id="optionsContainer"></div>
+        </div>
+        <div class="text-center mt-3">
+          <button class="btn btn-primary" id="nextBtn" onclick="nextQuestion()" disabled>Next →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results Screen -->
+    <div id="resultsScreen" class="hidden">
+      <div class="quiz-results">
+        <h2>Quiz Complete!</h2>
+        <p id="resultChapter" style="color: var(--gray-600);"></p>
+        <div class="score-display">
+          <div class="score-item correct-score">
+            <div class="number" id="correctCount">0</div>
+            <div class="label">Correct</div>
+          </div>
+          <div class="score-item wrong-score">
+            <div class="number" id="wrongCount">0</div>
+            <div class="label">Wrong</div>
+          </div>
+          <div class="score-item time-score">
+            <div class="number" id="totalTime">0s</div>
+            <div class="label">Total Time</div>
+          </div>
+        </div>
+        <div class="mt-3">
+          <button class="btn btn-primary" onclick="showReview()">Review Answers</button>
+          <button class="btn btn-outline" onclick="resetQuiz()" style="margin-left: 0.5rem;">Try Again</button>
+        </div>
+        <div id="reviewContainer" class="mt-4"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="../script.js"></script>
+  <script src="../data/questions.js"></script>
+  <script>
+    const chapters = [
+      "Force and Pressure",
+      "Friction",
+      "Sound",
+      "Light",
+      "Human Eye and Colourful World"
+    ];
+
+    let currentChapter = '';
+    let quizData = [];
+    let currentIndex = 0;
+    let userAnswers = [];
+    let timer = null;
+    let timeLeft = 30;
+    let quizStartTime = 0;
+
+    // Render chapter buttons
+    function renderChapterButtons() {
+      const container = document.getElementById('chapterButtons');
+      container.innerHTML = chapters.map(ch => `
+        <button class="chapter-select-btn" onclick="startQuiz('${ch}')">${ch}</button>
+      `).join('');
+    }
+
+    function startQuiz(chapter) {
+      currentChapter = chapter;
+      const chapterQs = quizQuestions.filter(q => q.chapter === chapter);
+      if (chapterQs.length < 10) {
+        alert('Not enough questions for this chapter. Need at least 10.');
+        return;
+      }
+      quizData = randomPick(chapterQs, 10);
+      currentIndex = 0;
+      userAnswers = new Array(10).fill(-1);
+      quizFinished = false;
+      quizStartTime = Date.now();
+
+      document.getElementById('quizSetup').classList.add('hidden');
+      document.getElementById('quizScreen').classList.remove('hidden');
+      document.getElementById('resultsScreen').classList.add('hidden');
+
+      showQuestion();
+    }
+
+    function showQuestion() {
+      const q = quizData[currentIndex];
+      document.getElementById('quizProgress').textContent = `Question ${currentIndex + 1} / 10`;
+      document.getElementById('questionText').textContent = q.question;
+
+      const optContainer = document.getElementById('optionsContainer');
+      optContainer.innerHTML = q.options.map((opt, i) => `
+        <button class="quiz-option" onclick="selectOption(${i})" data-index="${i}">${opt}</button>
+      `).join('');
+
+      // Restore previous selection if going back
+      if (userAnswers[currentIndex] !== -1) {
+        highlightSelected(userAnswers[currentIndex]);
+      }
+
+      const nextBtn = document.getElementById('nextBtn');
+      nextBtn.textContent = currentIndex === 9 ? 'Finish' : 'Next →';
+      nextBtn.disabled = userAnswers[currentIndex] === -1;
+
+      startTimer();
+    }
+
+    function selectOption(index) {
+      userAnswers[currentIndex] = index;
+      // Remove all selected
+      document.querySelectorAll('.quiz-option').forEach(b => b.classList.remove('selected'));
+      highlightSelected(index);
+      document.getElementById('nextBtn').disabled = false;
+    }
+
+    function highlightSelected(index) {
+      const btns = document.querySelectorAll('.quiz-option');
+      if (btns[index]) btns[index].classList.add('selected');
+    }
+
+    function nextQuestion() {
+      clearInterval(timer);
+      if (currentIndex < 9) {
+        currentIndex++;
+        showQuestion();
+      } else {
+        finishQuiz();
+      }
+    }
+
+    function startTimer() {
+      clearInterval(timer);
+      timeLeft = 30;
+      const timerEl = document.getElementById('quizTimer');
+      timerEl.textContent = timeLeft;
+      timerEl.classList.remove('warning');
+
+      timer = setInterval(() => {
+        timeLeft--;
+        timerEl.textContent = timeLeft;
+        if (timeLeft <= 10) timerEl.classList.add('warning');
+        if (timeLeft <= 0) {
+          clearInterval(timer);
+          // Auto-advance
+          if (currentIndex < 9) {
+            currentIndex++;
+            showQuestion();
+          } else {
+            finishQuiz();
+          }
+        }
+      }, 1000);
+    }
+
+    let quizFinished = false;
+    function finishQuiz() {
+      if (quizFinished) return;
+      quizFinished = true;
+      clearInterval(timer);
+      const elapsed = Math.round((Date.now() - quizStartTime) / 1000);
+      const minutes = Math.floor(elapsed / 60);
+      const seconds = elapsed % 60;
+      const timeTaken = minutes > 0 ? `${minutes}m ${seconds}s` : `${seconds}s`;
+
+      let correct = 0;
+      quizData.forEach((q, i) => {
+        if (userAnswers[i] === q.correct) correct++;
+      });
+      const wrong = 10 - correct;
+
+      // Save score
+      saveQuizScore(currentChapter, correct, 10, timeTaken);
+
+      // Show results
+      document.getElementById('quizScreen').classList.add('hidden');
+      document.getElementById('resultsScreen').classList.remove('hidden');
+      document.getElementById('resultChapter').textContent = currentChapter;
+      document.getElementById('correctCount').textContent = correct;
+      document.getElementById('wrongCount').textContent = wrong;
+      document.getElementById('totalTime').textContent = timeTaken;
+      document.getElementById('reviewContainer').innerHTML = '';
+    }
+
+    function showReview() {
+      const container = document.getElementById('reviewContainer');
+      container.innerHTML = quizData.map((q, i) => {
+        const userAns = userAnswers[i];
+        return `
+          <div class="review-question">
+            <h4>Q${i + 1}. ${q.question}</h4>
+            <div class="quiz-options" style="pointer-events:none;">
+              ${q.options.map((opt, j) => {
+                let cls = '';
+                if (j === q.correct) cls = 'correct';
+                else if (j === userAns && userAns !== q.correct) cls = 'wrong';
+                return `<div class="quiz-option ${cls}">${opt}</div>`;
+              }).join('')}
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    function resetQuiz() {
+      clearInterval(timer);
+      document.getElementById('resultsScreen').classList.add('hidden');
+      document.getElementById('quizSetup').classList.remove('hidden');
+      document.getElementById('reviewContainer').innerHTML = '';
+    }
+
+    renderChapterButtons();
+  </script>
+</body>
+</html>

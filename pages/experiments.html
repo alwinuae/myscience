@@ -1,0 +1,969 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Interactive Experiments - CBSE Class 8 Physics</title>
+    <link rel="stylesheet" href="../style.css">
+</head>
+<body>
+
+    <!-- Navigation Bar -->
+    <nav class="navbar">
+      <div class="nav-container">
+        <div class="nav-logo">⚛ Physics Lab</div>
+        <ul class="nav-tabs">
+            <li><a href="../index.html">Home</a></li>
+            <li><a href="experiments.html" class="active">Experiments</a></li>
+            <li><a href="models.html">Physical Models</a></li>
+            <li><a href="questions.html">Exam Q&amp;A</a></li>
+            <li><a href="quiz.html">Quiz</a></li>
+        </ul>
+      </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb">
+        <a href="../index.html">Home</a> &gt; <span>Experiments</span>
+    </div>
+
+    <main class="container">
+        <h1>Interactive Physics Experiments</h1>
+        <p>Explore fundamental physics concepts through hands-on simulations. Adjust the controls and observe the results in real time.</p>
+
+        <!-- ===== Experiment 1: Force and Pressure ===== -->
+        <div class="experiment" id="exp-pressure">
+            <h2>Experiment 1: Force and Pressure</h2>
+            <div class="learn-note">
+                <strong>What you will learn:</strong> Pressure is the force applied per unit area. When the same force acts on a smaller area, the pressure increases &mdash; this is why a nail tip pierces easily while a flat palm does not.
+            </div>
+            <div class="controls">
+                <div class="control-group">
+                    <label for="pressureForce">Force: <span id="pressureForceVal">50</span> N</label>
+                    <input type="range" id="pressureForce" min="0" max="100" value="50" oninput="updatePressure()">
+                </div>
+                <div class="control-group">
+                    <label for="pressureArea">Area: <span id="pressureAreaVal">25</span> cm&sup2;</label>
+                    <input type="range" id="pressureArea" min="1" max="50" value="25" oninput="updatePressure()">
+                </div>
+            </div>
+            <div class="result-display" id="pressureResult">Pressure = 2.00 N/cm&sup2;</div>
+            <canvas id="pressureCanvas" class="sim-canvas" width="600" height="300"></canvas>
+        </div>
+
+        <!-- ===== Experiment 2: Friction ===== -->
+        <div class="experiment" id="exp-friction">
+            <h2>Experiment 2: Friction</h2>
+            <div class="learn-note">
+                <strong>What you will learn:</strong> Friction is a force that opposes motion between surfaces in contact. Its magnitude depends on the nature of the surfaces (coefficient of friction) and the weight of the object. An object moves only when the applied force exceeds friction.
+            </div>
+            <div class="controls">
+                <div class="control-group">
+                    <label for="surfaceType">Surface Type:</label>
+                    <select id="surfaceType" onchange="updateFriction()">
+                        <option value="0.1">Smooth (&mu; = 0.1)</option>
+                        <option value="0.4" selected>Rough (&mu; = 0.4)</option>
+                        <option value="0.8">Very Rough (&mu; = 0.8)</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label for="frictionWeight">Weight: <span id="frictionWeightVal">50</span> N</label>
+                    <input type="range" id="frictionWeight" min="1" max="100" value="50" oninput="updateFriction()">
+                </div>
+                <div class="control-group">
+                    <label for="appliedForce">Applied Force: <span id="appliedForceVal">25</span> N</label>
+                    <input type="range" id="appliedForce" min="0" max="100" value="25" oninput="updateFriction()">
+                </div>
+            </div>
+            <div class="result-display" id="frictionResult">Friction = 20.00 N | Object stays still</div>
+            <canvas id="frictionCanvas" class="sim-canvas" width="600" height="300"></canvas>
+        </div>
+
+        <!-- ===== Experiment 3: Sound Waves ===== -->
+        <div class="experiment" id="exp-sound">
+            <h2>Experiment 3: Sound Waves</h2>
+            <div class="learn-note">
+                <strong>What you will learn:</strong> Sound travels as longitudinal waves. Here we visualise it as a transverse sine wave. Frequency determines pitch (how many waves per second), and amplitude determines loudness (wave height). Wavelength is the distance between consecutive crests.
+            </div>
+            <div class="controls">
+                <div class="control-group">
+                    <label for="soundFreq">Frequency: <span id="soundFreqVal">200</span> Hz</label>
+                    <input type="range" id="soundFreq" min="20" max="2000" value="200" oninput="updateSoundLabels()">
+                </div>
+                <div class="control-group">
+                    <label for="soundAmp">Amplitude: <span id="soundAmpVal">60</span></label>
+                    <input type="range" id="soundAmp" min="10" max="100" value="60" oninput="updateSoundLabels()">
+                </div>
+            </div>
+            <div class="result-display" id="soundResult">Frequency: 200 Hz | Amplitude: 60</div>
+            <canvas id="soundCanvas" class="sim-canvas" width="600" height="300"></canvas>
+        </div>
+
+        <!-- ===== Experiment 4: Light - Reflection ===== -->
+        <div class="experiment" id="exp-reflection">
+            <h2>Experiment 4: Light &mdash; Reflection</h2>
+            <div class="learn-note">
+                <strong>What you will learn:</strong> The law of reflection states that the angle of incidence equals the angle of reflection. Flat mirrors reflect light symmetrically. Concave mirrors converge light, while convex mirrors diverge it.
+            </div>
+            <div class="controls">
+                <div class="control-group">
+                    <label>Mirror Type:</label>
+                    <div class="toggle-group">
+                        <button class="toggle-btn active" onclick="setMirror('flat', this)">Flat</button>
+                        <button class="toggle-btn" onclick="setMirror('concave', this)">Concave</button>
+                        <button class="toggle-btn" onclick="setMirror('convex', this)">Convex</button>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="incidenceAngle">Angle of Incidence: <span id="incidenceAngleVal">45</span>&deg;</label>
+                    <input type="range" id="incidenceAngle" min="10" max="80" value="45" oninput="updateReflection()">
+                </div>
+            </div>
+            <div class="result-display" id="reflectionResult">&theta;i = 45&deg; | &theta;r = 45&deg; | Mirror: Flat</div>
+            <canvas id="reflectionCanvas" class="sim-canvas" width="600" height="400"></canvas>
+        </div>
+
+        <!-- ===== Experiment 5: Light - Refraction ===== -->
+        <div class="experiment" id="exp-refraction">
+            <h2>Experiment 5: Light &mdash; Refraction</h2>
+            <div class="learn-note">
+                <strong>What you will learn:</strong> When light passes from one medium to another (e.g., air to glass), it changes speed and bends. Snell&rsquo;s Law &mdash; n&#8321; sin(&theta;i) = n&#8322; sin(&theta;r) &mdash; governs the relationship between the angles and the refractive indices of the two media.
+            </div>
+            <div class="controls">
+                <div class="control-group">
+                    <label for="refractionMedium">Medium:</label>
+                    <select id="refractionMedium" onchange="updateRefraction()">
+                        <option value="1.5">Air to Glass (n = 1.5)</option>
+                        <option value="1.33">Air to Water (n = 1.33)</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label for="refractionAngle">Angle of Incidence: <span id="refractionAngleVal">30</span>&deg;</label>
+                    <input type="range" id="refractionAngle" min="0" max="85" value="30" oninput="updateRefraction()">
+                </div>
+            </div>
+            <div class="result-display" id="refractionResult">&theta;i = 30&deg; | &theta;r = 19.47&deg; | Medium: Glass (n=1.5)</div>
+            <canvas id="refractionCanvas" class="sim-canvas" width="600" height="400"></canvas>
+        </div>
+    </main>
+
+    <script src="../script.js"></script>
+    <script>
+    /* ================================================================
+       Experiment 1: Force and Pressure
+       ================================================================ */
+    function updatePressure() {
+        var force = parseFloat(document.getElementById('pressureForce').value);
+        var area = parseFloat(document.getElementById('pressureArea').value);
+        document.getElementById('pressureForceVal').textContent = force;
+        document.getElementById('pressureAreaVal').textContent = area;
+        var pressure = force / area;
+        document.getElementById('pressureResult').innerHTML = 'Pressure = ' + pressure.toFixed(2) + ' N/cm&sup2;';
+        drawPressure(force, area, pressure);
+    }
+
+    function drawPressure(force, area, pressure) {
+        var canvas = document.getElementById('pressureCanvas');
+        var ctx = canvas.getContext('2d');
+        var W = canvas.width, H = canvas.height;
+        ctx.clearRect(0, 0, W, H);
+
+        // Background
+        ctx.fillStyle = '#f0f4ff';
+        ctx.fillRect(0, 0, W, H);
+
+        // Surface / ground
+        var groundY = H - 50;
+        ctx.fillStyle = '#8B7355';
+        ctx.fillRect(0, groundY, W, 50);
+        ctx.strokeStyle = '#6B5335';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(0, groundY);
+        ctx.lineTo(W, groundY);
+        ctx.stroke();
+
+        // Block dimensions: compress based on pressure
+        var maxPressure = 100; // force 100 / area 1
+        var compressionRatio = Math.min(pressure / maxPressure, 1);
+        var baseWidth = 80 + area * 1.5;
+        var baseHeight = 120;
+        var blockWidth = baseWidth + compressionRatio * 60;
+        var blockHeight = baseHeight - compressionRatio * 60;
+        blockHeight = Math.max(blockHeight, 30);
+
+        var blockX = W / 2 - blockWidth / 2;
+        var blockY = groundY - blockHeight;
+
+        // Block shadow
+        ctx.fillStyle = 'rgba(0,0,0,0.1)';
+        ctx.fillRect(blockX + 4, blockY + 4, blockWidth, blockHeight);
+
+        // Block
+        var gradient = ctx.createLinearGradient(blockX, blockY, blockX, blockY + blockHeight);
+        gradient.addColorStop(0, '#5b9bd5');
+        gradient.addColorStop(1, '#2e75b6');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(blockX, blockY, blockWidth, blockHeight);
+        ctx.strokeStyle = '#1a5276';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(blockX, blockY, blockWidth, blockHeight);
+
+        // Force arrow (pointing down onto block)
+        if (force > 0) {
+            var arrowX = W / 2;
+            var arrowStartY = blockY - 80;
+            var arrowEndY = blockY - 5;
+
+            ctx.strokeStyle = '#e74c3c';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(arrowX, arrowStartY);
+            ctx.lineTo(arrowX, arrowEndY);
+            ctx.stroke();
+
+            // Arrowhead
+            ctx.fillStyle = '#e74c3c';
+            ctx.beginPath();
+            ctx.moveTo(arrowX, arrowEndY + 5);
+            ctx.lineTo(arrowX - 8, arrowEndY - 10);
+            ctx.lineTo(arrowX + 8, arrowEndY - 10);
+            ctx.closePath();
+            ctx.fill();
+
+            // Force label
+            ctx.fillStyle = '#e74c3c';
+            ctx.font = 'bold 14px sans-serif';
+            ctx.textAlign = 'left';
+            ctx.fillText('F = ' + force + ' N', arrowX + 12, arrowStartY + 20);
+        }
+
+        // Pressure label on canvas
+        ctx.fillStyle = '#1a5276';
+        ctx.font = 'bold 16px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('P = ' + pressure.toFixed(2) + ' N/cm\u00B2', W / 2, blockY + blockHeight / 2 + 6);
+
+        // Area label
+        ctx.fillStyle = '#555';
+        ctx.font = '13px sans-serif';
+        ctx.fillText('Area = ' + area + ' cm\u00B2', W / 2, groundY + 30);
+    }
+
+    /* ================================================================
+       Experiment 2: Friction
+       ================================================================ */
+    var frictionBlockX = 200;
+    var frictionMoving = false;
+    var frictionAnimId = null;
+
+    function updateFriction() {
+        var mu = parseFloat(document.getElementById('surfaceType').value);
+        var weight = parseFloat(document.getElementById('frictionWeight').value);
+        var applied = parseFloat(document.getElementById('appliedForce').value);
+        document.getElementById('frictionWeightVal').textContent = weight;
+        document.getElementById('appliedForceVal').textContent = applied;
+
+        var frictionForce = mu * weight;
+        var moving = applied > frictionForce;
+        var status = moving ? 'Object moves!' : 'Object stays still';
+        document.getElementById('frictionResult').textContent =
+            'Friction = ' + frictionForce.toFixed(2) + ' N | ' + status;
+
+        frictionMoving = moving;
+        if (!frictionAnimId) {
+            frictionBlockX = 200;
+            animateFriction();
+        }
+    }
+
+    function animateFriction() {
+        var canvas = document.getElementById('frictionCanvas');
+        var ctx = canvas.getContext('2d');
+        var W = canvas.width, H = canvas.height;
+
+        var mu = parseFloat(document.getElementById('surfaceType').value);
+        var weight = parseFloat(document.getElementById('frictionWeight').value);
+        var applied = parseFloat(document.getElementById('appliedForce').value);
+        var frictionForce = mu * weight;
+
+        ctx.clearRect(0, 0, W, H);
+
+        // Background
+        ctx.fillStyle = '#f0f4ff';
+        ctx.fillRect(0, 0, W, H);
+
+        // Surface
+        var groundY = H - 60;
+        var surfaceColor = mu <= 0.1 ? '#b0d4b0' : (mu <= 0.4 ? '#c4a66a' : '#8B6914');
+        ctx.fillStyle = surfaceColor;
+        ctx.fillRect(0, groundY, W, 60);
+
+        // Texture lines on surface
+        ctx.strokeStyle = 'rgba(0,0,0,0.15)';
+        ctx.lineWidth = 1;
+        var spacing = mu <= 0.1 ? 20 : (mu <= 0.4 ? 10 : 5);
+        for (var i = 0; i < W; i += spacing) {
+            ctx.beginPath();
+            ctx.moveTo(i, groundY);
+            ctx.lineTo(i + 5, groundY + 60);
+            ctx.stroke();
+        }
+
+        ctx.strokeStyle = '#555';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(0, groundY);
+        ctx.lineTo(W, groundY);
+        ctx.stroke();
+
+        // Move block if moving
+        if (frictionMoving) {
+            frictionBlockX += 1.5;
+            if (frictionBlockX > W + 100) frictionBlockX = -100;
+        }
+
+        // Block
+        var bw = 80, bh = 60;
+        var bx = frictionBlockX;
+        var by = groundY - bh;
+
+        var grad = ctx.createLinearGradient(bx, by, bx, by + bh);
+        grad.addColorStop(0, '#e8873c');
+        grad.addColorStop(1, '#c0601a');
+        ctx.fillStyle = grad;
+        ctx.fillRect(bx, by, bw, bh);
+        ctx.strokeStyle = '#8B4513';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(bx, by, bw, bh);
+
+        // Motion lines when moving
+        if (frictionMoving) {
+            ctx.strokeStyle = 'rgba(100,100,100,0.5)';
+            ctx.lineWidth = 2;
+            for (var j = 0; j < 3; j++) {
+                var ly = by + 15 + j * 15;
+                ctx.beginPath();
+                ctx.moveTo(bx - 10 - j * 8, ly);
+                ctx.lineTo(bx - 25 - j * 8, ly);
+                ctx.stroke();
+            }
+        }
+
+        // Applied force arrow (pointing right)
+        if (applied > 0) {
+            var arrowLen = Math.min(applied * 1.2, 120);
+            var arrowY = by + bh / 2;
+            ctx.strokeStyle = '#2ecc71';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(bx + bw, arrowY);
+            ctx.lineTo(bx + bw + arrowLen, arrowY);
+            ctx.stroke();
+            ctx.fillStyle = '#2ecc71';
+            ctx.beginPath();
+            ctx.moveTo(bx + bw + arrowLen + 8, arrowY);
+            ctx.lineTo(bx + bw + arrowLen - 6, arrowY - 7);
+            ctx.lineTo(bx + bw + arrowLen - 6, arrowY + 7);
+            ctx.closePath();
+            ctx.fill();
+            ctx.font = 'bold 12px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('Applied: ' + applied + ' N', bx + bw + arrowLen / 2, arrowY - 12);
+        }
+
+        // Friction force arrow (pointing left)
+        if (frictionForce > 0) {
+            var fLen = Math.min(frictionForce * 1.2, 120);
+            var fArrowY = by + bh / 2 + 5;
+            ctx.strokeStyle = '#e74c3c';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(bx, fArrowY);
+            ctx.lineTo(bx - fLen, fArrowY);
+            ctx.stroke();
+            ctx.fillStyle = '#e74c3c';
+            ctx.beginPath();
+            ctx.moveTo(bx - fLen - 8, fArrowY);
+            ctx.lineTo(bx - fLen + 6, fArrowY - 7);
+            ctx.lineTo(bx - fLen + 6, fArrowY + 7);
+            ctx.closePath();
+            ctx.fill();
+            ctx.font = 'bold 12px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('Friction: ' + frictionForce.toFixed(1) + ' N', bx - fLen / 2, fArrowY - 12);
+        }
+
+        // Surface label
+        ctx.fillStyle = '#333';
+        ctx.font = '13px sans-serif';
+        ctx.textAlign = 'left';
+        var surfaceLabel = mu <= 0.1 ? 'Smooth' : (mu <= 0.4 ? 'Rough' : 'Very Rough');
+        ctx.fillText('Surface: ' + surfaceLabel + ' (\u03BC = ' + mu + ')', 10, H - 20);
+
+        if (frictionMoving) {
+            frictionAnimId = requestAnimationFrame(animateFriction);
+        } else {
+            frictionAnimId = null;
+        }
+    }
+
+    /* ================================================================
+       Experiment 3: Sound Waves
+       ================================================================ */
+    var soundPhase = 0;
+    var soundAnimId = null;
+
+    function updateSoundLabels() {
+        var freq = document.getElementById('soundFreq').value;
+        var amp = document.getElementById('soundAmp').value;
+        document.getElementById('soundFreqVal').textContent = freq;
+        document.getElementById('soundAmpVal').textContent = amp;
+        document.getElementById('soundResult').textContent =
+            'Frequency: ' + freq + ' Hz | Amplitude: ' + amp;
+    }
+
+    function animateSound() {
+        var canvas = document.getElementById('soundCanvas');
+        var ctx = canvas.getContext('2d');
+        var W = canvas.width, H = canvas.height;
+        var freq = parseFloat(document.getElementById('soundFreq').value);
+        var amp = parseFloat(document.getElementById('soundAmp').value);
+
+        ctx.clearRect(0, 0, W, H);
+
+        // Background
+        ctx.fillStyle = '#f5f0ff';
+        ctx.fillRect(0, 0, W, H);
+
+        var centerY = H / 2;
+        var baseFreq = 200;
+        var waveNumber = freq / baseFreq;
+
+        // Center line
+        ctx.strokeStyle = '#ccc';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([5, 5]);
+        ctx.beginPath();
+        ctx.moveTo(0, centerY);
+        ctx.lineTo(W, centerY);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Draw sine wave
+        ctx.strokeStyle = '#8e44ad';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        for (var x = 0; x < W; x++) {
+            var y = centerY - amp * Math.sin(2 * Math.PI * waveNumber * x / W + soundPhase);
+            if (x === 0) ctx.moveTo(x, y);
+            else ctx.lineTo(x, y);
+        }
+        ctx.stroke();
+
+        // Find first crest and trough for labels
+        var wavelengthPx = W / waveNumber;
+        // First crest: where sin = 1 => 2*pi*waveNumber*x/W + phase = pi/2
+        var crestX = ((Math.PI / 2 - soundPhase) / (2 * Math.PI * waveNumber)) * W;
+        // Normalize to visible area
+        while (crestX < 30) crestX += wavelengthPx;
+        while (crestX > W - 30) crestX -= wavelengthPx;
+
+        var crestY = centerY - amp;
+        var troughX = crestX + wavelengthPx / 2;
+        var troughY = centerY + amp;
+
+        // Crest label
+        if (crestX > 20 && crestX < W - 20) {
+            ctx.fillStyle = '#e74c3c';
+            ctx.font = 'bold 12px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('Crest', crestX, crestY - 12);
+            ctx.beginPath();
+            ctx.arc(crestX, crestY, 4, 0, 2 * Math.PI);
+            ctx.fill();
+        }
+
+        // Trough label
+        if (troughX > 20 && troughX < W - 20) {
+            ctx.fillStyle = '#2980b9';
+            ctx.font = 'bold 12px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('Trough', troughX, troughY + 20);
+            ctx.beginPath();
+            ctx.arc(troughX, troughY, 4, 0, 2 * Math.PI);
+            ctx.fill();
+        }
+
+        // Amplitude label (vertical arrow from center to crest)
+        if (crestX > 60 && crestX < W - 60) {
+            ctx.strokeStyle = '#27ae60';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([3, 3]);
+            ctx.beginPath();
+            ctx.moveTo(crestX + 30, centerY);
+            ctx.lineTo(crestX + 30, crestY);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            // Arrowheads
+            ctx.fillStyle = '#27ae60';
+            ctx.beginPath();
+            ctx.moveTo(crestX + 30, crestY);
+            ctx.lineTo(crestX + 26, crestY + 6);
+            ctx.lineTo(crestX + 34, crestY + 6);
+            ctx.closePath();
+            ctx.fill();
+            ctx.font = 'bold 11px sans-serif';
+            ctx.textAlign = 'left';
+            ctx.fillText('Amplitude', crestX + 36, centerY - amp / 2 + 4);
+        }
+
+        // Wavelength label (horizontal arrow between two crests)
+        var crest2X = crestX + wavelengthPx;
+        if (crest2X < W - 20 && crestX > 20) {
+            var labelY = crestY - 30;
+            ctx.strokeStyle = '#e67e22';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(crestX, labelY);
+            ctx.lineTo(crest2X, labelY);
+            ctx.stroke();
+            // Arrowheads
+            ctx.fillStyle = '#e67e22';
+            ctx.beginPath();
+            ctx.moveTo(crestX, labelY);
+            ctx.lineTo(crestX + 7, labelY - 4);
+            ctx.lineTo(crestX + 7, labelY + 4);
+            ctx.closePath();
+            ctx.fill();
+            ctx.beginPath();
+            ctx.moveTo(crest2X, labelY);
+            ctx.lineTo(crest2X - 7, labelY - 4);
+            ctx.lineTo(crest2X - 7, labelY + 4);
+            ctx.closePath();
+            ctx.fill();
+            ctx.font = 'bold 11px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('Wavelength (\u03BB)', (crestX + crest2X) / 2, labelY - 8);
+        }
+
+        soundPhase = (soundPhase + 0.05) % (2 * Math.PI);
+        soundAnimId = requestAnimationFrame(animateSound);
+    }
+
+    /* ================================================================
+       Experiment 4: Light - Reflection
+       ================================================================ */
+    var mirrorType = 'flat';
+
+    function setMirror(type, btn) {
+        mirrorType = type;
+        var btns = btn.parentElement.querySelectorAll('.toggle-btn');
+        btns.forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        updateReflection();
+    }
+
+    function updateReflection() {
+        var angle = parseFloat(document.getElementById('incidenceAngle').value);
+        document.getElementById('incidenceAngleVal').textContent = angle;
+
+        var reflAngle = angle; // flat mirror
+        var label = mirrorType.charAt(0).toUpperCase() + mirrorType.slice(1);
+
+        if (mirrorType === 'concave') {
+            reflAngle = Math.max(angle - 8, 5);
+        } else if (mirrorType === 'convex') {
+            reflAngle = Math.min(angle + 8, 85);
+        }
+
+        document.getElementById('reflectionResult').innerHTML =
+            '\u03B8i = ' + angle + '\u00B0 | \u03B8r = ' + reflAngle.toFixed(1) + '\u00B0 | Mirror: ' + label;
+
+        drawReflection(angle, reflAngle);
+    }
+
+    function drawReflection(thetaI, thetaR) {
+        var canvas = document.getElementById('reflectionCanvas');
+        var ctx = canvas.getContext('2d');
+        var W = canvas.width, H = canvas.height;
+        ctx.clearRect(0, 0, W, H);
+
+        // Background
+        ctx.fillStyle = '#fffaf0';
+        ctx.fillRect(0, 0, W, H);
+
+        var cx = W / 2, cy = H / 2;
+
+        // Draw mirror
+        ctx.lineWidth = 4;
+        if (mirrorType === 'flat') {
+            ctx.strokeStyle = '#7f8c8d';
+            ctx.beginPath();
+            ctx.moveTo(cx - 120, cy - 120);
+            ctx.lineTo(cx - 120, cy + 120);
+            ctx.stroke();
+            // Hatching behind mirror
+            ctx.strokeStyle = '#bdc3c7';
+            ctx.lineWidth = 1;
+            for (var i = -120; i <= 120; i += 12) {
+                ctx.beginPath();
+                ctx.moveTo(cx - 120, cy + i);
+                ctx.lineTo(cx - 132, cy + i + 12);
+                ctx.stroke();
+            }
+        } else if (mirrorType === 'concave') {
+            ctx.strokeStyle = '#7f8c8d';
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.arc(cx - 20, cy, 160, Math.PI * 0.6, Math.PI * 1.4);
+            ctx.stroke();
+        } else {
+            ctx.strokeStyle = '#7f8c8d';
+            ctx.lineWidth = 4;
+            ctx.beginPath();
+            ctx.arc(cx - 220, cy, 160, -Math.PI * 0.4, Math.PI * 0.4);
+            ctx.stroke();
+        }
+
+        // Mirror contact point
+        var mirrorX, mirrorY;
+        if (mirrorType === 'flat') {
+            mirrorX = cx - 120;
+            mirrorY = cy;
+        } else if (mirrorType === 'concave') {
+            mirrorX = cx - 20 + 160 * Math.cos(Math.PI);
+            mirrorY = cy;
+        } else {
+            mirrorX = cx - 220 + 160 * Math.cos(0);
+            mirrorY = cy;
+        }
+
+        // Normal line (dashed, horizontal)
+        ctx.strokeStyle = '#999';
+        ctx.lineWidth = 1.5;
+        ctx.setLineDash([6, 4]);
+        ctx.beginPath();
+        ctx.moveTo(mirrorX, cy - 150);
+        ctx.lineTo(mirrorX, cy + 150);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle = '#999';
+        ctx.font = '12px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('Normal', mirrorX, cy - 158);
+
+        // The normal direction is horizontal (pointing right from mirror surface)
+        // Incident ray comes from top-right, hitting mirror point
+        var rayLen = 180;
+        var thetaIRad = thetaI * Math.PI / 180;
+        var thetaRRad = thetaR * Math.PI / 180;
+
+        // Incident ray: from some point to mirror contact
+        // Normal is vertical at the contact point for flat mirror.
+        // Actually let's use: normal points right from mirror.
+        // Incident from the right side, angle measured from the normal
+        // Normal points to the right (horizontal), so incident comes from upper-right
+
+        // For flat mirror, normal is horizontal pointing right
+        var normalAngle = 0; // radians, pointing right
+
+        // Incident ray endpoint (where it starts from, away from mirror)
+        var incStartX = mirrorX + rayLen * Math.cos(normalAngle + thetaIRad);
+        var incStartY = mirrorY - rayLen * Math.sin(normalAngle + thetaIRad);
+
+        // Reflected ray endpoint
+        var refEndX = mirrorX + rayLen * Math.cos(normalAngle - thetaRRad);
+        var refEndY = mirrorY + rayLen * Math.sin(normalAngle - thetaRRad);
+
+        // Draw incident ray
+        ctx.strokeStyle = '#e74c3c';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(incStartX, incStartY);
+        ctx.lineTo(mirrorX, mirrorY);
+        ctx.stroke();
+
+        // Incident arrowhead at mirror
+        var incAngle = Math.atan2(mirrorY - incStartY, mirrorX - incStartX);
+        ctx.fillStyle = '#e74c3c';
+        ctx.beginPath();
+        ctx.moveTo(mirrorX, mirrorY);
+        ctx.lineTo(mirrorX - 12 * Math.cos(incAngle - 0.3), mirrorY - 12 * Math.sin(incAngle - 0.3));
+        ctx.lineTo(mirrorX - 12 * Math.cos(incAngle + 0.3), mirrorY - 12 * Math.sin(incAngle + 0.3));
+        ctx.closePath();
+        ctx.fill();
+
+        // Draw reflected ray
+        ctx.strokeStyle = '#2980b9';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(mirrorX, mirrorY);
+        ctx.lineTo(refEndX, refEndY);
+        ctx.stroke();
+
+        // Reflected arrowhead at end
+        var refAngle = Math.atan2(refEndY - mirrorY, refEndX - mirrorX);
+        ctx.fillStyle = '#2980b9';
+        ctx.beginPath();
+        ctx.moveTo(refEndX, refEndY);
+        ctx.lineTo(refEndX - 12 * Math.cos(refAngle - 0.3), refEndY - 12 * Math.sin(refAngle - 0.3));
+        ctx.lineTo(refEndX - 12 * Math.cos(refAngle + 0.3), refEndY - 12 * Math.sin(refAngle + 0.3));
+        ctx.closePath();
+        ctx.fill();
+
+        // Angle arcs — normal is horizontal (angle=0, pointing right from mirror)
+        var arcR = 40;
+
+        // Angle of incidence arc (from normal=0 to incident ray direction)
+        ctx.strokeStyle = '#e74c3c';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        // Incident ray direction (from mirror to source): angle going up-right
+        var incDirFromMirror = Math.atan2(incStartY - mirrorY, incStartX - mirrorX);
+        var arcStart = Math.min(0, incDirFromMirror);
+        var arcEnd = Math.max(0, incDirFromMirror);
+        ctx.arc(mirrorX, mirrorY, arcR, arcStart, arcEnd);
+        ctx.stroke();
+
+        // Label theta_i
+        var midArcI = (arcStart + arcEnd) / 2;
+        ctx.fillStyle = '#e74c3c';
+        ctx.font = 'bold 14px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('\u03B8i=' + thetaI + '\u00B0', mirrorX + (arcR + 20) * Math.cos(midArcI), mirrorY + (arcR + 20) * Math.sin(midArcI));
+
+        // Angle of reflection arc (from normal=0 to reflected ray direction)
+        ctx.strokeStyle = '#2980b9';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        var arcStartR = Math.min(0, refAngle);
+        var arcEndR = Math.max(0, refAngle);
+        ctx.arc(mirrorX, mirrorY, arcR, arcStartR, arcEndR);
+        ctx.stroke();
+
+        // Label theta_r
+        var midArcR = (arcStartR + arcEndR) / 2;
+        ctx.fillStyle = '#2980b9';
+        ctx.font = 'bold 14px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('\u03B8r=' + thetaR.toFixed(0) + '\u00B0', mirrorX + (arcR + 22) * Math.cos(midArcR), mirrorY + (arcR + 22) * Math.sin(midArcR));
+
+        // Labels for rays
+        ctx.font = '13px sans-serif';
+        ctx.fillStyle = '#e74c3c';
+        ctx.fillText('Incident Ray', incStartX - 10, incStartY - 10);
+        ctx.fillStyle = '#2980b9';
+        ctx.fillText('Reflected Ray', refEndX - 10, refEndY + 20);
+    }
+
+    /* ================================================================
+       Experiment 5: Light - Refraction
+       ================================================================ */
+    function updateRefraction() {
+        var n = parseFloat(document.getElementById('refractionMedium').value);
+        var thetaI = parseFloat(document.getElementById('refractionAngle').value);
+        document.getElementById('refractionAngleVal').textContent = thetaI;
+
+        var thetaIRad = thetaI * Math.PI / 180;
+        var sinThetaR = Math.sin(thetaIRad) / n;
+        var mediumName = n === 1.5 ? 'Glass (n=1.5)' : 'Water (n=1.33)';
+        var totalInternalReflection = false;
+        var thetaR, thetaRDeg;
+
+        if (sinThetaR > 1) {
+            totalInternalReflection = true;
+            thetaRDeg = 90;
+            thetaR = Math.PI / 2;
+        } else {
+            thetaR = Math.asin(sinThetaR);
+            thetaRDeg = thetaR * 180 / Math.PI;
+        }
+
+        var resultText = '\u03B8i = ' + thetaI + '\u00B0 | \u03B8r = ' + thetaRDeg.toFixed(2) + '\u00B0 | Medium: ' + mediumName;
+        if (totalInternalReflection) {
+            resultText += ' | Total Internal Reflection!';
+        }
+        document.getElementById('refractionResult').textContent = resultText;
+
+        drawRefraction(thetaI, thetaRDeg, n, totalInternalReflection);
+    }
+
+    function drawRefraction(thetaIDeg, thetaRDeg, n, tir) {
+        var canvas = document.getElementById('refractionCanvas');
+        var ctx = canvas.getContext('2d');
+        var W = canvas.width, H = canvas.height;
+        ctx.clearRect(0, 0, W, H);
+
+        var midY = H / 2;
+        var cx = W / 2;
+
+        // Top half - air (light blue)
+        ctx.fillStyle = '#e3f2fd';
+        ctx.fillRect(0, 0, W, midY);
+        ctx.fillStyle = 'rgba(33,150,243,0.06)';
+        ctx.fillRect(0, 0, W, midY);
+
+        // Bottom half - glass/water
+        if (n === 1.5) {
+            ctx.fillStyle = '#e8f5e9'; // light green for glass
+        } else {
+            ctx.fillStyle = '#e0f7fa'; // light cyan for water
+        }
+        ctx.fillRect(0, midY, W, midY);
+
+        // Boundary line
+        ctx.strokeStyle = '#555';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(0, midY);
+        ctx.lineTo(W, midY);
+        ctx.stroke();
+
+        // Normal line (dashed, vertical)
+        ctx.strokeStyle = '#999';
+        ctx.lineWidth = 1.5;
+        ctx.setLineDash([6, 4]);
+        ctx.beginPath();
+        ctx.moveTo(cx, midY - 180);
+        ctx.lineTo(cx, midY + 180);
+        ctx.stroke();
+        ctx.setLineDash([]);
+        ctx.fillStyle = '#999';
+        ctx.font = '12px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('Normal', cx + 30, midY - 170);
+
+        // Medium labels
+        ctx.fillStyle = '#1565c0';
+        ctx.font = 'bold 14px sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText('Air (n = 1.0)', 10, 25);
+        ctx.fillStyle = n === 1.5 ? '#2e7d32' : '#00695c';
+        ctx.fillText(n === 1.5 ? 'Glass (n = 1.5)' : 'Water (n = 1.33)', 10, H - 15);
+
+        var thetaIRad = thetaIDeg * Math.PI / 180;
+        var thetaRRad = thetaRDeg * Math.PI / 180;
+        var rayLen = 170;
+
+        // Incident ray: from top-left to center
+        // Normal points down (along y-axis). Angle measured from normal.
+        // Incident ray comes from upper-left
+        var incStartX = cx - rayLen * Math.sin(thetaIRad);
+        var incStartY = midY - rayLen * Math.cos(thetaIRad);
+
+        ctx.strokeStyle = '#f44336';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(incStartX, incStartY);
+        ctx.lineTo(cx, midY);
+        ctx.stroke();
+
+        // Arrowhead for incident ray
+        var incDir = Math.atan2(midY - incStartY, cx - incStartX);
+        ctx.fillStyle = '#f44336';
+        ctx.beginPath();
+        ctx.moveTo(cx, midY);
+        ctx.lineTo(cx - 14 * Math.cos(incDir - 0.25), midY - 14 * Math.sin(incDir - 0.25));
+        ctx.lineTo(cx - 14 * Math.cos(incDir + 0.25), midY - 14 * Math.sin(incDir + 0.25));
+        ctx.closePath();
+        ctx.fill();
+
+        // Refracted ray (or total internal reflection)
+        if (!tir) {
+            var refEndX = cx + rayLen * Math.sin(thetaRRad);
+            var refEndY = midY + rayLen * Math.cos(thetaRRad);
+
+            ctx.strokeStyle = '#2196f3';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(cx, midY);
+            ctx.lineTo(refEndX, refEndY);
+            ctx.stroke();
+
+            // Arrowhead
+            var refDir = Math.atan2(refEndY - midY, refEndX - cx);
+            ctx.fillStyle = '#2196f3';
+            ctx.beginPath();
+            ctx.moveTo(refEndX, refEndY);
+            ctx.lineTo(refEndX - 14 * Math.cos(refDir - 0.25), refEndY - 14 * Math.sin(refDir - 0.25));
+            ctx.lineTo(refEndX - 14 * Math.cos(refDir + 0.25), refEndY - 14 * Math.sin(refDir + 0.25));
+            ctx.closePath();
+            ctx.fill();
+
+            ctx.fillStyle = '#2196f3';
+            ctx.font = '13px sans-serif';
+            ctx.textAlign = 'left';
+            ctx.fillText('Refracted Ray', refEndX + 5, refEndY + 5);
+        } else {
+            // Total internal reflection: ray reflects back upward
+            var tirEndX = cx + rayLen * Math.sin(thetaIRad);
+            var tirEndY = midY - rayLen * Math.cos(thetaIRad);
+            ctx.strokeStyle = '#ff9800';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(cx, midY);
+            ctx.lineTo(tirEndX, tirEndY);
+            ctx.stroke();
+            ctx.fillStyle = '#ff9800';
+            ctx.font = 'bold 13px sans-serif';
+            ctx.textAlign = 'left';
+            ctx.fillText('Total Internal Reflection', tirEndX + 5, tirEndY - 5);
+        }
+
+        // Angle of incidence arc
+        ctx.strokeStyle = '#f44336';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        // Normal points up: angle = -PI/2
+        // Incident ray direction (coming toward center): angle from center to incStart
+        var incAngleOnCanvas = Math.atan2(incStartY - midY, incStartX - cx);
+        // Arc from normal (up = -PI/2) to incident direction
+        var normalUpAngle = -Math.PI / 2;
+        ctx.arc(cx, midY, 45, Math.min(normalUpAngle, incAngleOnCanvas), Math.max(normalUpAngle, incAngleOnCanvas));
+        ctx.stroke();
+
+        // Label theta_i
+        var midArcAngle = (normalUpAngle + incAngleOnCanvas) / 2;
+        ctx.fillStyle = '#f44336';
+        ctx.font = 'bold 13px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('\u03B8i=' + thetaIDeg + '\u00B0', cx + 65 * Math.cos(midArcAngle), midY + 65 * Math.sin(midArcAngle));
+
+        // Angle of refraction arc (if no TIR)
+        if (!tir && thetaRDeg > 0.5) {
+            ctx.strokeStyle = '#2196f3';
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            var normalDownAngle = Math.PI / 2;
+            var refAngleOnCanvas = Math.atan2((midY + rayLen * Math.cos(thetaRRad)) - midY, (cx + rayLen * Math.sin(thetaRRad)) - cx);
+            ctx.arc(cx, midY, 45, Math.min(normalDownAngle, refAngleOnCanvas), Math.max(normalDownAngle, refAngleOnCanvas));
+            ctx.stroke();
+
+            var midArcR = (normalDownAngle + refAngleOnCanvas) / 2;
+            ctx.fillStyle = '#2196f3';
+            ctx.font = 'bold 13px sans-serif';
+            ctx.fillText('\u03B8r=' + thetaRDeg.toFixed(1) + '\u00B0', cx + 68 * Math.cos(midArcR), midY + 68 * Math.sin(midArcR));
+        }
+
+        // Incident ray label
+        ctx.fillStyle = '#f44336';
+        ctx.font = '13px sans-serif';
+        ctx.textAlign = 'right';
+        ctx.fillText('Incident Ray', incStartX - 5, incStartY - 5);
+    }
+
+    /* ================================================================
+       Initialise all experiments on page load
+       ================================================================ */
+    window.addEventListener('DOMContentLoaded', function() {
+        updatePressure();
+        updateFriction();
+        updateSoundLabels();
+        animateSound();
+        updateReflection();
+        updateRefraction();
+    });
+    </script>
+</body>
+</html>

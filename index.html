@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>CBSE Class 8 Physics</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-container">
+      <div class="nav-logo">⚛ Physics Lab</div>
+      <ul class="nav-tabs">
+        <li><a href="index.html">Home</a></li>
+        <li><a href="pages/experiments.html">Experiments</a></li>
+        <li><a href="pages/models.html">Physical Models</a></li>
+        <li><a href="pages/questions.html">Exam Q&amp;A</a></li>
+        <li><a href="pages/quiz.html">Quiz</a></li>
+      </ul>
+    </div>
+  </nav>
+
+  <div class="container">
+    <!-- Hero -->
+    <div class="hero">
+      <h1>Welcome to Class 8 Physics</h1>
+      <p>Explore interactive experiments, models, and test your knowledge with quizzes!</p>
+    </div>
+
+    <!-- Section Cards -->
+    <h2 class="section-title">Explore Sections</h2>
+    <div class="card-grid">
+      <a href="pages/experiments.html" class="card">
+        <div class="card-icon">🔬</div>
+        <h3>Experiments</h3>
+        <p>Interactive simulations for Force, Friction, Sound, and Light. Drag sliders and see physics in action!</p>
+        <span class="card-link">Start Experimenting →</span>
+      </a>
+      <a href="pages/models.html" class="card">
+        <div class="card-icon">🧬</div>
+        <h3>Physical Models</h3>
+        <p>Clickable cross-section diagrams of the Human Ear, Eye, and Friction at the microscopic level.</p>
+        <span class="card-link">Explore Models →</span>
+      </a>
+      <a href="pages/questions.html" class="card">
+        <div class="card-icon">📝</div>
+        <h3>Exam Q&amp;A</h3>
+        <p>Chapter-wise questions with detailed answers. Filter by marks and track your revision progress.</p>
+        <span class="card-link">Start Revising →</span>
+      </a>
+      <a href="pages/quiz.html" class="card">
+        <div class="card-icon">🏆</div>
+        <h3>Quiz</h3>
+        <p>Timed multiple-choice quizzes for each chapter. Challenge yourself and track your scores!</p>
+        <span class="card-link">Take a Quiz →</span>
+      </a>
+    </div>
+
+    <!-- Chapter Progress -->
+    <div class="progress-section">
+      <h2 class="section-title mt-4">Chapter Progress</h2>
+      <p class="section-subtitle">Questions you've revised across each chapter</p>
+      <div id="progressBars"></div>
+    </div>
+
+    <!-- Quick Revise Flashcards -->
+    <div class="mt-4">
+      <h2 class="section-title">Quick Revise</h2>
+      <p class="section-subtitle">Click a card to reveal the answer</p>
+      <div class="flashcard-grid" id="flashcards"></div>
+    </div>
+
+    <!-- Recent Quiz Scores -->
+    <div class="mt-4 mb-3">
+      <h2 class="section-title">Recent Quiz Scores</h2>
+      <div id="quizHistory"></div>
+    </div>
+  </div>
+
+  <script src="script.js"></script>
+  <script>
+    const chapters = [
+      "Force and Pressure",
+      "Friction",
+      "Sound",
+      "Light",
+      "Human Eye and Colourful World"
+    ];
+
+    // Total questions per chapter (from questions.js — approximate)
+    const totalPerChapter = {
+      "Force and Pressure": 10,
+      "Friction": 10,
+      "Sound": 10,
+      "Light": 10,
+      "Human Eye and Colourful World": 10
+    };
+
+    // Render progress bars
+    function renderProgress() {
+      const container = document.getElementById('progressBars');
+      const revised = getRevisedQuestions();
+
+      container.innerHTML = chapters.map(ch => {
+        // Count revised questions for this chapter
+        const count = revised.filter(id => id.startsWith(ch + '|')).length;
+        const total = totalPerChapter[ch];
+        const pct = Math.min(100, Math.round((count / total) * 100));
+        return `
+          <div class="progress-item">
+            <div class="progress-label">
+              <span>${ch}</span>
+              <span>${count}/${total} revised</span>
+            </div>
+            <div class="progress-bar">
+              <div class="progress-fill" style="width: ${pct}%"></div>
+            </div>
+          </div>`;
+      }).join('');
+    }
+
+    // Render flashcards
+    function renderFlashcards() {
+      const container = document.getElementById('flashcards');
+      const cards = randomPick(physicsFacts, 3);
+      container.innerHTML = cards.map(card => `
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+          <div class="flashcard-inner">
+            <div class="flashcard-front">${card.q}</div>
+            <div class="flashcard-back">${card.a}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    // Render quiz history
+    function renderQuizHistory() {
+      const container = document.getElementById('quizHistory');
+      const scores = getQuizScores();
+      if (scores.length === 0) {
+        container.innerHTML = '<p style="color: var(--gray-400);">No quiz scores yet. Take a quiz to see your results here!</p>';
+        return;
+      }
+      container.innerHTML = `
+        <table class="score-table">
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Chapter</th>
+              <th>Score</th>
+              <th>Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${scores.map(s => `
+              <tr>
+                <td>${s.date}</td>
+                <td>${s.chapter}</td>
+                <td>${s.correct}/${s.total}</td>
+                <td>${s.timeTaken}</td>
+              </tr>
+            `).join('')}
+          </tbody>
+        </table>`;
+    }
+
+    renderProgress();
+    renderFlashcards();
+    renderQuizHistory();
+  </script>
+</body>
+</html>
