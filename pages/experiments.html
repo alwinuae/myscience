@@ -19,6 +19,7 @@
             <li><a href="questions.html">Exam Q&amp;A</a></li>
             <li><a href="quiz.html">Quiz</a></li>
         </ul>
+        <button id="themeToggle" class="theme-toggle" onclick="toggleTheme()" title="Toggle theme">&#127769;</button>
       </div>
     </nav>
 
@@ -145,6 +146,490 @@
             <div class="result-display" id="refractionResult">&theta;i = 30&deg; | &theta;r = 19.47&deg; | Medium: Glass (n=1.5)</div>
             <canvas id="refractionCanvas" class="sim-canvas" width="600" height="400"></canvas>
         </div>
+
+        <!-- ===== Experiment 6: Gravity & Free Fall ===== -->
+        <div class="experiment" id="exp-gravity">
+            <h2>Experiment 6: Gravity &amp; Free Fall</h2>
+            <div class="learn-note">
+                <strong>What you will learn:</strong> All objects fall at the same rate regardless of their mass (ignoring air resistance). Galileo demonstrated this from the Leaning Tower of Pisa. The acceleration due to gravity on Earth is 9.8 m/s&sup2;, on the Moon it is 1.6 m/s&sup2;, and on Jupiter it is 24.8 m/s&sup2;. Distance fallen: s = &frac12;gt&sup2;.
+            </div>
+            <div class="controls">
+                <div class="control-group">
+                    <label for="gravityPlanet">Planet:</label>
+                    <select id="gravityPlanet" onchange="updateGravityLabel()">
+                        <option value="9.8">Earth (g = 9.8 m/s&sup2;)</option>
+                        <option value="1.6">Moon (g = 1.6 m/s&sup2;)</option>
+                        <option value="24.8">Jupiter (g = 24.8 m/s&sup2;)</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label>Mass of Object A: <span id="massAVal">1</span> kg</label>
+                    <input type="range" id="massA" min="1" max="50" value="1" oninput="updateGravityLabel()">
+                </div>
+                <div class="control-group">
+                    <label>Mass of Object B: <span id="massBVal">20</span> kg</label>
+                    <input type="range" id="massB" min="1" max="50" value="20" oninput="updateGravityLabel()">
+                </div>
+                <div class="control-group">
+                    <button class="btn btn-primary" onclick="startGravityDrop()">Drop Objects</button>
+                    <button class="btn btn-outline" onclick="resetGravityDrop()">Reset</button>
+                </div>
+            </div>
+            <div class="result-display" id="gravityResult">Click "Drop Objects" to start. Both objects fall at the same rate!</div>
+            <canvas id="gravityCanvas" class="sim-canvas" width="600" height="400"></canvas>
+        </div>
+
+        <!-- ===== Experiment 7: Pulley System ===== -->
+        <div class="experiment" id="exp-pulley">
+            <h2>Experiment 7: Pulley System</h2>
+            <div class="learn-note">
+                <strong>What you will learn:</strong> Pulleys reduce the effort needed to lift a load. A single fixed pulley changes the direction of force (MA=1). A double pulley gives MA=2, and a triple pulley gives MA=3. Mechanical Advantage = Load / Effort.
+            </div>
+            <div class="controls">
+                <div class="control-group">
+                    <label>Pulley Type:</label>
+                    <div class="toggle-group">
+                        <button class="toggle-btn active" onclick="setPulley(1, this)">Single</button>
+                        <button class="toggle-btn" onclick="setPulley(2, this)">Double</button>
+                        <button class="toggle-btn" onclick="setPulley(3, this)">Triple</button>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label for="pulleyLoad">Load Weight: <span id="pulleyLoadVal">100</span> N</label>
+                    <input type="range" id="pulleyLoad" min="10" max="500" value="100" oninput="updatePulley()">
+                </div>
+            </div>
+            <div class="result-display" id="pulleyResult">Load = 100 N | Effort = 100 N | Mechanical Advantage = 1</div>
+            <canvas id="pulleyCanvas" class="sim-canvas" width="600" height="400"></canvas>
+        </div>
+
+        <!-- ===== Experiment 8: Lever & Fulcrum ===== -->
+        <div class="experiment" id="exp-lever">
+            <h2>Experiment 8: Lever &amp; Fulcrum</h2>
+            <div class="learn-note">
+                <strong>What you will learn:</strong> A lever is a rigid bar that rotates about a fixed point called the fulcrum. The principle of moments states: For balance, clockwise moment = anticlockwise moment. Moment = Force &times; Distance from fulcrum.
+            </div>
+            <div class="controls">
+                <div class="control-group">
+                    <label>Left Weight: <span id="leverLeftWVal">30</span> N</label>
+                    <input type="range" id="leverLeftW" min="5" max="100" value="30" oninput="updateLever()">
+                </div>
+                <div class="control-group">
+                    <label>Left Distance: <span id="leverLeftDVal">3</span> m</label>
+                    <input type="range" id="leverLeftD" min="1" max="5" value="3" oninput="updateLever()">
+                </div>
+                <div class="control-group">
+                    <label>Right Weight: <span id="leverRightWVal">30</span> N</label>
+                    <input type="range" id="leverRightW" min="5" max="100" value="30" oninput="updateLever()">
+                </div>
+                <div class="control-group">
+                    <label>Right Distance: <span id="leverRightDVal">3</span> m</label>
+                    <input type="range" id="leverRightD" min="1" max="5" value="3" oninput="updateLever()">
+                </div>
+            </div>
+            <div class="result-display" id="leverResult">Left Moment = 90 Nm | Right Moment = 90 Nm | Balanced!</div>
+            <canvas id="leverCanvas" class="sim-canvas" width="600" height="350"></canvas>
+        </div>
+
+        <!-- ===== Experiment 9: Density & Floating ===== -->
+        <div class="experiment" id="exp-density">
+            <h2>Experiment 9: Density &amp; Floating</h2>
+            <div class="learn-note">
+                <strong>What you will learn:</strong> An object floats if its density is less than the liquid's density, and sinks if greater. Water has a density of 1.0 g/cm&sup3; and oil has 0.8 g/cm&sup3;. Wood (0.6) floats on both, iron (7.8) sinks in both, and ice (0.9) floats on water but sinks in oil.
+            </div>
+            <div class="controls">
+                <div class="control-group">
+                    <label for="densityLiquid">Liquid:</label>
+                    <select id="densityLiquid" onchange="updateDensity()">
+                        <option value="1.0">Water (1.0 g/cm&sup3;)</option>
+                        <option value="0.8">Oil (0.8 g/cm&sup3;)</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label for="densityObject">Object:</label>
+                    <select id="densityObject" onchange="updateDensity()">
+                        <option value="0.6">Wood (0.6 g/cm&sup3;)</option>
+                        <option value="0.9">Ice (0.9 g/cm&sup3;)</option>
+                        <option value="2.7">Aluminium (2.7 g/cm&sup3;)</option>
+                        <option value="7.8">Iron (7.8 g/cm&sup3;)</option>
+                        <option value="0.5">Cork (0.5 g/cm&sup3;)</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <button class="btn btn-primary" onclick="dropDensityObject()">Drop Object</button>
+                    <button class="btn btn-outline" onclick="resetDensity()">Reset</button>
+                </div>
+            </div>
+            <div class="result-display" id="densityResult">Select an object and liquid, then click "Drop Object".</div>
+            <canvas id="densityCanvas" class="sim-canvas" width="600" height="400"></canvas>
+        </div>
+
+        <!-- ===== Experiment 10: Spring & Hooke's Law ===== -->
+        <div class="experiment" id="exp-spring">
+            <h2>Experiment 10: Spring &amp; Hooke&rsquo;s Law</h2>
+            <div class="learn-note">
+                <strong>What you will learn:</strong> Hooke&rsquo;s Law states that the extension of a spring is directly proportional to the force applied, as long as the elastic limit is not exceeded. Formula: F = k &times; x, where k is the spring constant and x is the extension.
+            </div>
+            <div class="controls">
+                <div class="control-group">
+                    <label>Spring Constant (k): <span id="springKVal">20</span> N/m</label>
+                    <input type="range" id="springK" min="5" max="100" value="20" oninput="updateSpring()">
+                </div>
+                <div class="control-group">
+                    <label>Hanging Mass: <span id="springMassVal">2</span> kg</label>
+                    <input type="range" id="springMass" min="0" max="10" value="2" step="0.5" oninput="updateSpring()">
+                </div>
+            </div>
+            <div class="result-display" id="springResult">Force = 19.6 N | Extension = 0.98 m | F = kx</div>
+            <canvas id="springCanvas" class="sim-canvas" width="600" height="400"></canvas>
+        </div>
+
+        <!-- ===== Experiment 11: Pendulum Motion ===== -->
+        <div class="experiment" id="exp-pendulum">
+            <h2>Experiment 11: Pendulum Motion</h2>
+            <div class="learn-note">
+                <strong>What you will learn:</strong> A simple pendulum swings back and forth with a period that depends only on its length and the acceleration due to gravity, not on the mass. The formula is T = 2&pi;&radic;(L/g), where T is the time period, L is the length, and g is gravity.
+            </div>
+            <div class="controls">
+                <div class="control-group">
+                    <label>Length: <span id="pendulumLVal">1.0</span> m</label>
+                    <input type="range" id="pendulumL" min="0.2" max="3.0" value="1.0" step="0.1" oninput="updatePendulumLabel()">
+                </div>
+                <div class="control-group">
+                    <label>Initial Angle: <span id="pendulumAVal">30</span>&deg;</label>
+                    <input type="range" id="pendulumA" min="5" max="60" value="30" oninput="updatePendulumLabel()">
+                </div>
+                <div class="control-group">
+                    <button class="btn btn-primary" onclick="startPendulum()">Start</button>
+                    <button class="btn btn-outline" onclick="stopPendulum()">Stop</button>
+                </div>
+            </div>
+            <div class="result-display" id="pendulumResult">T = 2.01 s | Length = 1.0 m | g = 9.8 m/s&sup2;</div>
+            <canvas id="pendulumCanvas" class="sim-canvas" width="600" height="400"></canvas>
+        </div>
+
+        <!-- ===== Experiment 12: Wave Interference ===== -->
+        <div class="experiment" id="exp-interference">
+            <h2>Experiment 12: Wave Interference</h2>
+            <div class="learn-note">
+                <strong>What you will learn:</strong> When two waves meet, they interfere. If the crests align (in phase), the amplitude increases &mdash; this is constructive interference. If a crest meets a trough (out of phase), they cancel out &mdash; this is destructive interference.
+            </div>
+            <div class="controls">
+                <div class="control-group">
+                    <label>Wave 1 Frequency: <span id="intFreq1Val">2</span></label>
+                    <input type="range" id="intFreq1" min="1" max="8" value="2" oninput="updateInterferenceLabels()">
+                </div>
+                <div class="control-group">
+                    <label>Wave 2 Frequency: <span id="intFreq2Val">2</span></label>
+                    <input type="range" id="intFreq2" min="1" max="8" value="2" oninput="updateInterferenceLabels()">
+                </div>
+                <div class="control-group">
+                    <label>Phase Difference: <span id="intPhaseVal">0</span>&deg;</label>
+                    <input type="range" id="intPhase" min="0" max="360" value="0" oninput="updateInterferenceLabels()">
+                </div>
+            </div>
+            <div class="result-display" id="interferenceResult">Phase Diff = 0&deg; | Constructive Interference</div>
+            <canvas id="interferenceCanvas" class="sim-canvas" width="600" height="400"></canvas>
+        </div>
+
+        <!-- ===== Experiment 13: Electric Circuit ===== -->
+        <div class="experiment" id="exp-circuit">
+            <h2>Experiment 13: Electric Circuit</h2>
+            <div class="learn-note">
+                <strong>What you will learn:</strong> An electric circuit needs a complete path for current to flow. Ohm&rsquo;s Law: V = I &times; R. More batteries increase voltage, more resistors decrease current. Bulb brightness depends on current flowing through it.
+            </div>
+            <div class="controls">
+                <div class="control-group">
+                    <label>Batteries: <span id="circuitBattVal">1</span></label>
+                    <input type="range" id="circuitBatt" min="1" max="4" value="1" oninput="updateCircuit()">
+                </div>
+                <div class="control-group">
+                    <label>Resistance: <span id="circuitResVal">10</span> &Omega;</label>
+                    <input type="range" id="circuitRes" min="5" max="100" value="10" oninput="updateCircuit()">
+                </div>
+                <div class="control-group">
+                    <label>Switch:</label>
+                    <button class="btn btn-primary" id="circuitSwitch" onclick="toggleCircuitSwitch()">ON</button>
+                </div>
+            </div>
+            <div class="result-display" id="circuitResult">V = 1.5 V | I = 0.15 A | R = 10 &Omega; | Switch: ON</div>
+            <canvas id="circuitCanvas" class="sim-canvas" width="600" height="400"></canvas>
+        </div>
+
+        <!-- ===== Experiment 14: Magnetic Field Lines ===== -->
+        <div class="experiment" id="exp-magnet">
+            <h2>Experiment 14: Magnetic Field Lines</h2>
+            <div class="learn-note">
+                <strong>What you will learn:</strong> A magnet has two poles: North (N) and South (S). Magnetic field lines travel from the North pole to the South pole outside the magnet. Iron filings align along these field lines, revealing the invisible magnetic field pattern.
+            </div>
+            <div class="controls">
+                <div class="control-group">
+                    <label>Magnet Configuration:</label>
+                    <div class="toggle-group">
+                        <button class="toggle-btn active" onclick="setMagnetType('single', this)">Single Bar</button>
+                        <button class="toggle-btn" onclick="setMagnetType('attract', this)">N-S Attract</button>
+                        <button class="toggle-btn" onclick="setMagnetType('repel', this)">N-N Repel</button>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label>Field Line Density: <span id="magnetDensityVal">12</span></label>
+                    <input type="range" id="magnetDensity" min="6" max="24" value="12" oninput="updateMagnet()">
+                </div>
+            </div>
+            <div class="result-display" id="magnetResult">Single bar magnet | Field lines: N to S outside the magnet</div>
+            <canvas id="magnetCanvas" class="sim-canvas" width="600" height="400"></canvas>
+        </div>
+
+        <!-- ===== Experiment 15: Heat Conduction ===== -->
+        <div class="experiment" id="exp-heat">
+            <h2>Experiment 15: Heat Conduction</h2>
+            <div class="learn-note">
+                <strong>What you will learn:</strong> Heat travels through solids by conduction. Metals like copper conduct heat quickly, iron conducts moderately, and wood is a poor conductor (insulator). The temperature decreases along the rod from the heated end.
+            </div>
+            <div class="controls">
+                <div class="control-group">
+                    <label for="heatMaterial">Material:</label>
+                    <select id="heatMaterial" onchange="updateHeat()">
+                        <option value="385">Copper (k = 385 W/mK)</option>
+                        <option value="80">Iron (k = 80 W/mK)</option>
+                        <option value="0.15">Wood (k = 0.15 W/mK)</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label>Heat Source Temp: <span id="heatTempVal">200</span>&deg;C</label>
+                    <input type="range" id="heatTemp" min="50" max="500" value="200" oninput="updateHeat()">
+                </div>
+                <div class="control-group">
+                    <button class="btn btn-primary" onclick="startHeatAnim()">Start Heating</button>
+                    <button class="btn btn-outline" onclick="resetHeat()">Reset</button>
+                </div>
+            </div>
+            <div class="result-display" id="heatResult">Copper | Source: 200&deg;C | Good conductor - heat spreads quickly</div>
+            <canvas id="heatCanvas" class="sim-canvas" width="600" height="300"></canvas>
+        </div>
+
+        <!-- ===== Experiment 16: Convex & Concave Lens ===== -->
+        <div class="experiment" id="exp-lens">
+            <h2>Experiment 16: Convex &amp; Concave Lens</h2>
+            <div class="learn-note">
+                <strong>What you will learn:</strong> A convex lens converges light rays and can form real or virtual images depending on the object distance. A concave lens always diverges light and forms virtual, erect, diminished images. Lens formula: 1/v &minus; 1/u = 1/f. Magnification = v/u.
+            </div>
+            <div class="controls">
+                <div class="control-group">
+                    <label>Lens Type:</label>
+                    <div class="toggle-group">
+                        <button class="toggle-btn active" onclick="setLensType('convex', this)">Convex</button>
+                        <button class="toggle-btn" onclick="setLensType('concave', this)">Concave</button>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label>Focal Length: <span id="lensFVal">80</span> px</label>
+                    <input type="range" id="lensF" min="40" max="150" value="80" oninput="updateLens()">
+                </div>
+                <div class="control-group">
+                    <label>Object Distance: <span id="lensUVal">200</span> px</label>
+                    <input type="range" id="lensU" min="30" max="280" value="200" oninput="updateLens()">
+                </div>
+            </div>
+            <div class="result-display" id="lensResult">Convex Lens | u = 200 px | v = 133 px | Magnification = 0.67x | Real, Inverted</div>
+            <canvas id="lensCanvas" class="sim-canvas" width="600" height="400"></canvas>
+        </div>
+
+        <!-- ===== Experiment 17: Prism & Dispersion ===== -->
+        <div class="experiment" id="exp-prism">
+            <h2>Experiment 17: Prism &amp; Dispersion</h2>
+            <div class="learn-note">
+                <strong>What you will learn:</strong> White light is made up of seven colours (VIBGYOR). When it passes through a prism, each colour bends by a different amount because each has a different wavelength. Violet bends the most and red the least. This splitting of light is called dispersion.
+            </div>
+            <div class="controls">
+                <div class="control-group">
+                    <label>Prism Angle: <span id="prismAngleVal">60</span>&deg;</label>
+                    <input type="range" id="prismAngle" min="30" max="80" value="60" oninput="updatePrism()">
+                </div>
+            </div>
+            <div class="result-display" id="prismResult">Prism Angle = 60&deg; | White light disperses into VIBGYOR spectrum</div>
+            <canvas id="prismCanvas" class="sim-canvas" width="600" height="400"></canvas>
+        </div>
+
+        <!-- ===== Experiment 18: Projectile Motion ===== -->
+        <div class="experiment" id="exp-projectile">
+            <h2>Experiment 18: Projectile Motion</h2>
+            <div class="learn-note">
+                <strong>What you will learn:</strong> When an object is launched at an angle, it follows a parabolic path. The horizontal motion is uniform while the vertical motion is accelerated by gravity. Range = (v&sup2; sin2&theta;)/g. Maximum height = (v&sup2; sin&sup2;&theta;)/(2g). Maximum range occurs at 45&deg;.
+            </div>
+            <div class="controls">
+                <div class="control-group">
+                    <label>Launch Angle: <span id="projAngleVal">45</span>&deg;</label>
+                    <input type="range" id="projAngle" min="5" max="85" value="45" oninput="updateProjectileLabel()">
+                </div>
+                <div class="control-group">
+                    <label>Launch Speed: <span id="projSpeedVal">50</span> m/s</label>
+                    <input type="range" id="projSpeed" min="10" max="100" value="50" oninput="updateProjectileLabel()">
+                </div>
+                <div class="control-group">
+                    <button class="btn btn-primary" onclick="launchProjectile()">Launch!</button>
+                    <button class="btn btn-outline" onclick="resetProjectile()">Reset</button>
+                </div>
+            </div>
+            <div class="result-display" id="projectileResult">Range = 255.1 m | Max Height = 63.8 m | Time of Flight = 7.21 s</div>
+            <canvas id="projectileCanvas" class="sim-canvas" width="600" height="400"></canvas>
+        </div>
+
+        <!-- ===== Experiment 19: Archimedes' Principle ===== -->
+        <div class="experiment" id="exp-archimedes">
+            <h2>Experiment 19: Archimedes&rsquo; Principle</h2>
+            <div class="learn-note">
+                <strong>What you will learn:</strong> When an object is immersed in a fluid, it experiences an upward buoyant force equal to the weight of the fluid it displaces. Buoyant Force = &rho;_fluid &times; V_submerged &times; g. The apparent weight loss of the object equals the buoyant force.
+            </div>
+            <div class="controls">
+                <div class="control-group">
+                    <label>Object Density: <span id="archDensityVal">3.0</span> g/cm&sup3;</label>
+                    <input type="range" id="archDensity" min="0.5" max="10" value="3.0" step="0.1" oninput="updateArchimedes()">
+                </div>
+                <div class="control-group">
+                    <label>Object Volume: <span id="archVolumeVal">100</span> cm&sup3;</label>
+                    <input type="range" id="archVolume" min="20" max="300" value="100" oninput="updateArchimedes()">
+                </div>
+                <div class="control-group">
+                    <button class="btn btn-primary" onclick="lowerArchObject()">Lower into Water</button>
+                    <button class="btn btn-outline" onclick="resetArchimedes()">Reset</button>
+                </div>
+            </div>
+            <div class="result-display" id="archimedesResult">Weight = 2.94 N | Buoyant Force = 0.98 N | Apparent Weight = 1.96 N</div>
+            <canvas id="archimedesCanvas" class="sim-canvas" width="600" height="400"></canvas>
+        </div>
+
+        <!-- ===== Experiment 20: Speed of Sound ===== -->
+        <div class="experiment" id="exp-speedsound">
+            <h2>Experiment 20: Speed of Sound</h2>
+            <div class="learn-note">
+                <strong>What you will learn:</strong> Sound travels at different speeds through different media. In air it is about 343 m/s, in water about 1480 m/s, and in steel about 5960 m/s. Sound travels fastest through solids and slowest through gases. Thunder-lightning delay helps calculate distance: Distance = Speed &times; Time.
+            </div>
+            <div class="controls">
+                <div class="control-group">
+                    <label for="soundMedium">Medium:</label>
+                    <select id="soundMedium" onchange="updateSpeedSound()">
+                        <option value="343">Air (343 m/s)</option>
+                        <option value="1480">Water (1480 m/s)</option>
+                        <option value="5960">Steel (5960 m/s)</option>
+                    </select>
+                </div>
+                <div class="control-group">
+                    <label>Thunder Delay: <span id="thunderDelayVal">3</span> seconds</label>
+                    <input type="range" id="thunderDelay" min="1" max="20" value="3" oninput="updateSpeedSound()">
+                </div>
+            </div>
+            <div class="result-display" id="speedSoundResult">Speed = 343 m/s (Air) | Thunder delay = 3 s | Lightning distance = 1029 m (1.03 km)</div>
+            <canvas id="speedSoundCanvas" class="sim-canvas" width="600" height="350"></canvas>
+        </div>
+
+        <!-- ===== Experiment 21: Electromagnetic Induction ===== -->
+        <div class="experiment" id="exp-induction">
+            <h2>Experiment 21: Electromagnetic Induction</h2>
+            <div class="learn-note">
+                <strong>What you will learn:</strong> When a magnet moves through a coil, it changes the magnetic flux and induces an electric current (Faraday&rsquo;s Law). The faster the magnet moves, the greater the induced current. Reversing the direction reverses the current.
+            </div>
+            <div class="controls">
+                <div class="control-group">
+                    <label>Magnet Speed: <span id="inductionSpeedVal">5</span></label>
+                    <input type="range" id="inductionSpeed" min="1" max="10" value="5" oninput="updateInductionLabel()">
+                </div>
+                <div class="control-group">
+                    <button class="btn btn-primary" onclick="startInduction('right')">Move Right</button>
+                    <button class="btn btn-orange" onclick="startInduction('left')">Move Left</button>
+                    <button class="btn btn-outline" onclick="resetInduction()">Reset</button>
+                </div>
+            </div>
+            <div class="result-display" id="inductionResult">Move the magnet through the coil to induce current.</div>
+            <canvas id="inductionCanvas" class="sim-canvas" width="600" height="350"></canvas>
+        </div>
+
+        <!-- ===== Experiment 22: Thermal Expansion ===== -->
+        <div class="experiment" id="exp-expansion">
+            <h2>Experiment 22: Thermal Expansion</h2>
+            <div class="learn-note">
+                <strong>What you will learn:</strong> When materials are heated, their particles vibrate more and move apart, causing the material to expand. Solids expand the least, liquids expand more, and gases expand the most. This is why railway tracks have gaps and bridges have expansion joints.
+            </div>
+            <div class="controls">
+                <div class="control-group">
+                    <label>Material State:</label>
+                    <div class="toggle-group">
+                        <button class="toggle-btn active" onclick="setExpansionType('solid', this)">Solid</button>
+                        <button class="toggle-btn" onclick="setExpansionType('liquid', this)">Liquid</button>
+                        <button class="toggle-btn" onclick="setExpansionType('gas', this)">Gas</button>
+                    </div>
+                </div>
+                <div class="control-group">
+                    <label>Temperature: <span id="expansionTempVal">25</span>&deg;C</label>
+                    <input type="range" id="expansionTemp" min="0" max="500" value="25" oninput="updateExpansion()">
+                </div>
+            </div>
+            <div class="result-display" id="expansionResult">Solid at 25&deg;C | Expansion: minimal</div>
+            <canvas id="expansionCanvas" class="sim-canvas" width="600" height="350"></canvas>
+        </div>
+
+        <!-- ===== Experiment 23: Pascal's Law (Hydraulic Press) ===== -->
+        <div class="experiment" id="exp-pascal">
+            <h2>Experiment 23: Pascal&rsquo;s Law (Hydraulic Press)</h2>
+            <div class="learn-note">
+                <strong>What you will learn:</strong> Pascal&rsquo;s Law states that pressure applied to an enclosed fluid is transmitted equally in all directions. In a hydraulic press, a small force on a small piston creates a large force on a large piston. F&#8322;/F&#8321; = A&#8322;/A&#8321;.
+            </div>
+            <div class="controls">
+                <div class="control-group">
+                    <label>Small Piston Area: <span id="pascalA1Val">10</span> cm&sup2;</label>
+                    <input type="range" id="pascalA1" min="5" max="50" value="10" oninput="updatePascal()">
+                </div>
+                <div class="control-group">
+                    <label>Large Piston Area: <span id="pascalA2Val">100</span> cm&sup2;</label>
+                    <input type="range" id="pascalA2" min="50" max="500" value="100" oninput="updatePascal()">
+                </div>
+                <div class="control-group">
+                    <label>Input Force: <span id="pascalF1Val">20</span> N</label>
+                    <input type="range" id="pascalF1" min="5" max="100" value="20" oninput="updatePascal()">
+                </div>
+            </div>
+            <div class="result-display" id="pascalResult">Input: 20 N on 10 cm&sup2; | Output: 200 N on 100 cm&sup2; | Force Multiplied 10x</div>
+            <canvas id="pascalCanvas" class="sim-canvas" width="600" height="350"></canvas>
+        </div>
+
+        <!-- ===== Experiment 24: Bernoulli's Principle ===== -->
+        <div class="experiment" id="exp-bernoulli">
+            <h2>Experiment 24: Bernoulli&rsquo;s Principle</h2>
+            <div class="learn-note">
+                <strong>What you will learn:</strong> Bernoulli&rsquo;s Principle states that as the speed of a fluid increases, its pressure decreases. This is why airplane wings generate lift: air moves faster over the curved top surface, creating lower pressure above and higher pressure below, producing an upward force.
+            </div>
+            <div class="controls">
+                <div class="control-group">
+                    <label>Air Speed: <span id="bernoulliSpeedVal">50</span> m/s</label>
+                    <input type="range" id="bernoulliSpeed" min="10" max="150" value="50" oninput="updateBernoulli()">
+                </div>
+            </div>
+            <div class="result-display" id="bernoulliResult">Airspeed = 50 m/s | Lift Force proportional to speed&sup2;</div>
+            <canvas id="bernoulliCanvas" class="sim-canvas" width="600" height="400"></canvas>
+        </div>
+
+        <!-- ===== Experiment 25: Moment of Force (Torque) ===== -->
+        <div class="experiment" id="exp-torque">
+            <h2>Experiment 25: Moment of Force (Torque)</h2>
+            <div class="learn-note">
+                <strong>What you will learn:</strong> The moment of a force (torque) is the turning effect of a force about a pivot. Moment = Force &times; Perpendicular distance from pivot. For an object to be in rotational equilibrium, the sum of clockwise moments must equal the sum of anticlockwise moments.
+            </div>
+            <div class="controls">
+                <div class="control-group">
+                    <label>Force 1: <span id="torqueF1Val">20</span> N at <span id="torqueD1Val">3</span> m</label>
+                    <input type="range" id="torqueF1" min="5" max="80" value="20" oninput="updateTorque()">
+                    <input type="range" id="torqueD1" min="1" max="5" value="3" oninput="updateTorque()">
+                </div>
+                <div class="control-group">
+                    <label>Force 2: <span id="torqueF2Val">30</span> N at <span id="torqueD2Val">2</span> m</label>
+                    <input type="range" id="torqueF2" min="5" max="80" value="30" oninput="updateTorque()">
+                    <input type="range" id="torqueD2" min="1" max="5" value="2" oninput="updateTorque()">
+                </div>
+            </div>
+            <div class="result-display" id="torqueResult">CW Moment = 60 Nm | ACW Moment = 60 Nm | Balanced!</div>
+            <canvas id="torqueCanvas" class="sim-canvas" width="600" height="350"></canvas>
+        </div>
+
     </main>
 
     <script src="../script.js"></script>
@@ -158,7 +643,7 @@
         document.getElementById('pressureForceVal').textContent = force;
         document.getElementById('pressureAreaVal').textContent = area;
         var pressure = force / area;
-        document.getElementById('pressureResult').innerHTML = 'Pressure = ' + pressure.toFixed(2) + ' N/cm&sup2;';
+        document.getElementById('pressureResult').innerHTML = 'Pressure = ' + pressure.toFixed(2) + ' N/cm\u00B2';
         drawPressure(force, area, pressure);
     }
 
@@ -168,11 +653,9 @@
         var W = canvas.width, H = canvas.height;
         ctx.clearRect(0, 0, W, H);
 
-        // Background
         ctx.fillStyle = '#f0f4ff';
         ctx.fillRect(0, 0, W, H);
 
-        // Surface / ground
         var groundY = H - 50;
         ctx.fillStyle = '#8B7355';
         ctx.fillRect(0, groundY, W, 50);
@@ -183,8 +666,7 @@
         ctx.lineTo(W, groundY);
         ctx.stroke();
 
-        // Block dimensions: compress based on pressure
-        var maxPressure = 100; // force 100 / area 1
+        var maxPressure = 100;
         var compressionRatio = Math.min(pressure / maxPressure, 1);
         var baseWidth = 80 + area * 1.5;
         var baseHeight = 120;
@@ -195,11 +677,9 @@
         var blockX = W / 2 - blockWidth / 2;
         var blockY = groundY - blockHeight;
 
-        // Block shadow
         ctx.fillStyle = 'rgba(0,0,0,0.1)';
         ctx.fillRect(blockX + 4, blockY + 4, blockWidth, blockHeight);
 
-        // Block
         var gradient = ctx.createLinearGradient(blockX, blockY, blockX, blockY + blockHeight);
         gradient.addColorStop(0, '#5b9bd5');
         gradient.addColorStop(1, '#2e75b6');
@@ -209,7 +689,6 @@
         ctx.lineWidth = 2;
         ctx.strokeRect(blockX, blockY, blockWidth, blockHeight);
 
-        // Force arrow (pointing down onto block)
         if (force > 0) {
             var arrowX = W / 2;
             var arrowStartY = blockY - 80;
@@ -222,7 +701,6 @@
             ctx.lineTo(arrowX, arrowEndY);
             ctx.stroke();
 
-            // Arrowhead
             ctx.fillStyle = '#e74c3c';
             ctx.beginPath();
             ctx.moveTo(arrowX, arrowEndY + 5);
@@ -231,20 +709,17 @@
             ctx.closePath();
             ctx.fill();
 
-            // Force label
             ctx.fillStyle = '#e74c3c';
             ctx.font = 'bold 14px sans-serif';
             ctx.textAlign = 'left';
             ctx.fillText('F = ' + force + ' N', arrowX + 12, arrowStartY + 20);
         }
 
-        // Pressure label on canvas
         ctx.fillStyle = '#1a5276';
         ctx.font = 'bold 16px sans-serif';
         ctx.textAlign = 'center';
         ctx.fillText('P = ' + pressure.toFixed(2) + ' N/cm\u00B2', W / 2, blockY + blockHeight / 2 + 6);
 
-        // Area label
         ctx.fillStyle = '#555';
         ctx.font = '13px sans-serif';
         ctx.fillText('Area = ' + area + ' cm\u00B2', W / 2, groundY + 30);
@@ -289,17 +764,14 @@
 
         ctx.clearRect(0, 0, W, H);
 
-        // Background
         ctx.fillStyle = '#f0f4ff';
         ctx.fillRect(0, 0, W, H);
 
-        // Surface
         var groundY = H - 60;
         var surfaceColor = mu <= 0.1 ? '#b0d4b0' : (mu <= 0.4 ? '#c4a66a' : '#8B6914');
         ctx.fillStyle = surfaceColor;
         ctx.fillRect(0, groundY, W, 60);
 
-        // Texture lines on surface
         ctx.strokeStyle = 'rgba(0,0,0,0.15)';
         ctx.lineWidth = 1;
         var spacing = mu <= 0.1 ? 20 : (mu <= 0.4 ? 10 : 5);
@@ -317,13 +789,11 @@
         ctx.lineTo(W, groundY);
         ctx.stroke();
 
-        // Move block if moving
         if (frictionMoving) {
             frictionBlockX += 1.5;
             if (frictionBlockX > W + 100) frictionBlockX = -100;
         }
 
-        // Block
         var bw = 80, bh = 60;
         var bx = frictionBlockX;
         var by = groundY - bh;
@@ -337,7 +807,6 @@
         ctx.lineWidth = 2;
         ctx.strokeRect(bx, by, bw, bh);
 
-        // Motion lines when moving
         if (frictionMoving) {
             ctx.strokeStyle = 'rgba(100,100,100,0.5)';
             ctx.lineWidth = 2;
@@ -350,7 +819,6 @@
             }
         }
 
-        // Applied force arrow (pointing right)
         if (applied > 0) {
             var arrowLen = Math.min(applied * 1.2, 120);
             var arrowY = by + bh / 2;
@@ -372,7 +840,6 @@
             ctx.fillText('Applied: ' + applied + ' N', bx + bw + arrowLen / 2, arrowY - 12);
         }
 
-        // Friction force arrow (pointing left)
         if (frictionForce > 0) {
             var fLen = Math.min(frictionForce * 1.2, 120);
             var fArrowY = by + bh / 2 + 5;
@@ -394,7 +861,6 @@
             ctx.fillText('Friction: ' + frictionForce.toFixed(1) + ' N', bx - fLen / 2, fArrowY - 12);
         }
 
-        // Surface label
         ctx.fillStyle = '#333';
         ctx.font = '13px sans-serif';
         ctx.textAlign = 'left';
@@ -432,7 +898,6 @@
 
         ctx.clearRect(0, 0, W, H);
 
-        // Background
         ctx.fillStyle = '#f5f0ff';
         ctx.fillRect(0, 0, W, H);
 
@@ -440,7 +905,6 @@
         var baseFreq = 200;
         var waveNumber = freq / baseFreq;
 
-        // Center line
         ctx.strokeStyle = '#ccc';
         ctx.lineWidth = 1;
         ctx.setLineDash([5, 5]);
@@ -450,7 +914,6 @@
         ctx.stroke();
         ctx.setLineDash([]);
 
-        // Draw sine wave
         ctx.strokeStyle = '#8e44ad';
         ctx.lineWidth = 3;
         ctx.beginPath();
@@ -461,11 +924,8 @@
         }
         ctx.stroke();
 
-        // Find first crest and trough for labels
         var wavelengthPx = W / waveNumber;
-        // First crest: where sin = 1 => 2*pi*waveNumber*x/W + phase = pi/2
         var crestX = ((Math.PI / 2 - soundPhase) / (2 * Math.PI * waveNumber)) * W;
-        // Normalize to visible area
         while (crestX < 30) crestX += wavelengthPx;
         while (crestX > W - 30) crestX -= wavelengthPx;
 
@@ -473,7 +933,6 @@
         var troughX = crestX + wavelengthPx / 2;
         var troughY = centerY + amp;
 
-        // Crest label
         if (crestX > 20 && crestX < W - 20) {
             ctx.fillStyle = '#e74c3c';
             ctx.font = 'bold 12px sans-serif';
@@ -484,7 +943,6 @@
             ctx.fill();
         }
 
-        // Trough label
         if (troughX > 20 && troughX < W - 20) {
             ctx.fillStyle = '#2980b9';
             ctx.font = 'bold 12px sans-serif';
@@ -495,7 +953,6 @@
             ctx.fill();
         }
 
-        // Amplitude label (vertical arrow from center to crest)
         if (crestX > 60 && crestX < W - 60) {
             ctx.strokeStyle = '#27ae60';
             ctx.lineWidth = 2;
@@ -505,7 +962,6 @@
             ctx.lineTo(crestX + 30, crestY);
             ctx.stroke();
             ctx.setLineDash([]);
-            // Arrowheads
             ctx.fillStyle = '#27ae60';
             ctx.beginPath();
             ctx.moveTo(crestX + 30, crestY);
@@ -518,7 +974,6 @@
             ctx.fillText('Amplitude', crestX + 36, centerY - amp / 2 + 4);
         }
 
-        // Wavelength label (horizontal arrow between two crests)
         var crest2X = crestX + wavelengthPx;
         if (crest2X < W - 20 && crestX > 20) {
             var labelY = crestY - 30;
@@ -528,7 +983,6 @@
             ctx.moveTo(crestX, labelY);
             ctx.lineTo(crest2X, labelY);
             ctx.stroke();
-            // Arrowheads
             ctx.fillStyle = '#e67e22';
             ctx.beginPath();
             ctx.moveTo(crestX, labelY);
@@ -568,7 +1022,7 @@
         var angle = parseFloat(document.getElementById('incidenceAngle').value);
         document.getElementById('incidenceAngleVal').textContent = angle;
 
-        var reflAngle = angle; // flat mirror
+        var reflAngle = angle;
         var label = mirrorType.charAt(0).toUpperCase() + mirrorType.slice(1);
 
         if (mirrorType === 'concave') {
@@ -589,13 +1043,11 @@
         var W = canvas.width, H = canvas.height;
         ctx.clearRect(0, 0, W, H);
 
-        // Background
         ctx.fillStyle = '#fffaf0';
         ctx.fillRect(0, 0, W, H);
 
         var cx = W / 2, cy = H / 2;
 
-        // Draw mirror
         ctx.lineWidth = 4;
         if (mirrorType === 'flat') {
             ctx.strokeStyle = '#7f8c8d';
@@ -603,7 +1055,6 @@
             ctx.moveTo(cx - 120, cy - 120);
             ctx.lineTo(cx - 120, cy + 120);
             ctx.stroke();
-            // Hatching behind mirror
             ctx.strokeStyle = '#bdc3c7';
             ctx.lineWidth = 1;
             for (var i = -120; i <= 120; i += 12) {
@@ -626,7 +1077,6 @@
             ctx.stroke();
         }
 
-        // Mirror contact point
         var mirrorX, mirrorY;
         if (mirrorType === 'flat') {
             mirrorX = cx - 120;
@@ -639,7 +1089,6 @@
             mirrorY = cy;
         }
 
-        // Normal line (dashed, horizontal)
         ctx.strokeStyle = '#999';
         ctx.lineWidth = 1.5;
         ctx.setLineDash([6, 4]);
@@ -653,30 +1102,16 @@
         ctx.textAlign = 'center';
         ctx.fillText('Normal', mirrorX, cy - 158);
 
-        // The normal direction is horizontal (pointing right from mirror surface)
-        // Incident ray comes from top-right, hitting mirror point
         var rayLen = 180;
         var thetaIRad = thetaI * Math.PI / 180;
         var thetaRRad = thetaR * Math.PI / 180;
 
-        // Incident ray: from some point to mirror contact
-        // Normal is vertical at the contact point for flat mirror.
-        // Actually let's use: normal points right from mirror.
-        // Incident from the right side, angle measured from the normal
-        // Normal points to the right (horizontal), so incident comes from upper-right
-
-        // For flat mirror, normal is horizontal pointing right
-        var normalAngle = 0; // radians, pointing right
-
-        // Incident ray endpoint (where it starts from, away from mirror)
+        var normalAngle = 0;
         var incStartX = mirrorX + rayLen * Math.cos(normalAngle + thetaIRad);
         var incStartY = mirrorY - rayLen * Math.sin(normalAngle + thetaIRad);
-
-        // Reflected ray endpoint
         var refEndX = mirrorX + rayLen * Math.cos(normalAngle - thetaRRad);
         var refEndY = mirrorY + rayLen * Math.sin(normalAngle - thetaRRad);
 
-        // Draw incident ray
         ctx.strokeStyle = '#e74c3c';
         ctx.lineWidth = 3;
         ctx.beginPath();
@@ -684,7 +1119,6 @@
         ctx.lineTo(mirrorX, mirrorY);
         ctx.stroke();
 
-        // Incident arrowhead at mirror
         var incAngle = Math.atan2(mirrorY - incStartY, mirrorX - incStartX);
         ctx.fillStyle = '#e74c3c';
         ctx.beginPath();
@@ -694,7 +1128,6 @@
         ctx.closePath();
         ctx.fill();
 
-        // Draw reflected ray
         ctx.strokeStyle = '#2980b9';
         ctx.lineWidth = 3;
         ctx.beginPath();
@@ -702,7 +1135,6 @@
         ctx.lineTo(refEndX, refEndY);
         ctx.stroke();
 
-        // Reflected arrowhead at end
         var refAngle = Math.atan2(refEndY - mirrorY, refEndX - mirrorX);
         ctx.fillStyle = '#2980b9';
         ctx.beginPath();
@@ -712,28 +1144,22 @@
         ctx.closePath();
         ctx.fill();
 
-        // Angle arcs — normal is horizontal (angle=0, pointing right from mirror)
         var arcR = 40;
-
-        // Angle of incidence arc (from normal=0 to incident ray direction)
         ctx.strokeStyle = '#e74c3c';
         ctx.lineWidth = 1.5;
         ctx.beginPath();
-        // Incident ray direction (from mirror to source): angle going up-right
         var incDirFromMirror = Math.atan2(incStartY - mirrorY, incStartX - mirrorX);
         var arcStart = Math.min(0, incDirFromMirror);
         var arcEnd = Math.max(0, incDirFromMirror);
         ctx.arc(mirrorX, mirrorY, arcR, arcStart, arcEnd);
         ctx.stroke();
 
-        // Label theta_i
         var midArcI = (arcStart + arcEnd) / 2;
         ctx.fillStyle = '#e74c3c';
         ctx.font = 'bold 14px sans-serif';
         ctx.textAlign = 'center';
         ctx.fillText('\u03B8i=' + thetaI + '\u00B0', mirrorX + (arcR + 20) * Math.cos(midArcI), mirrorY + (arcR + 20) * Math.sin(midArcI));
 
-        // Angle of reflection arc (from normal=0 to reflected ray direction)
         ctx.strokeStyle = '#2980b9';
         ctx.lineWidth = 1.5;
         ctx.beginPath();
@@ -742,14 +1168,12 @@
         ctx.arc(mirrorX, mirrorY, arcR, arcStartR, arcEndR);
         ctx.stroke();
 
-        // Label theta_r
         var midArcR = (arcStartR + arcEndR) / 2;
         ctx.fillStyle = '#2980b9';
         ctx.font = 'bold 14px sans-serif';
         ctx.textAlign = 'center';
         ctx.fillText('\u03B8r=' + thetaR.toFixed(0) + '\u00B0', mirrorX + (arcR + 22) * Math.cos(midArcR), mirrorY + (arcR + 22) * Math.sin(midArcR));
 
-        // Labels for rays
         ctx.font = '13px sans-serif';
         ctx.fillStyle = '#e74c3c';
         ctx.fillText('Incident Ray', incStartX - 10, incStartY - 10);
@@ -798,21 +1222,18 @@
         var midY = H / 2;
         var cx = W / 2;
 
-        // Top half - air (light blue)
         ctx.fillStyle = '#e3f2fd';
         ctx.fillRect(0, 0, W, midY);
         ctx.fillStyle = 'rgba(33,150,243,0.06)';
         ctx.fillRect(0, 0, W, midY);
 
-        // Bottom half - glass/water
         if (n === 1.5) {
-            ctx.fillStyle = '#e8f5e9'; // light green for glass
+            ctx.fillStyle = '#e8f5e9';
         } else {
-            ctx.fillStyle = '#e0f7fa'; // light cyan for water
+            ctx.fillStyle = '#e0f7fa';
         }
         ctx.fillRect(0, midY, W, midY);
 
-        // Boundary line
         ctx.strokeStyle = '#555';
         ctx.lineWidth = 2;
         ctx.beginPath();
@@ -820,7 +1241,6 @@
         ctx.lineTo(W, midY);
         ctx.stroke();
 
-        // Normal line (dashed, vertical)
         ctx.strokeStyle = '#999';
         ctx.lineWidth = 1.5;
         ctx.setLineDash([6, 4]);
@@ -834,7 +1254,6 @@
         ctx.textAlign = 'center';
         ctx.fillText('Normal', cx + 30, midY - 170);
 
-        // Medium labels
         ctx.fillStyle = '#1565c0';
         ctx.font = 'bold 14px sans-serif';
         ctx.textAlign = 'left';
@@ -846,9 +1265,6 @@
         var thetaRRad = thetaRDeg * Math.PI / 180;
         var rayLen = 170;
 
-        // Incident ray: from top-left to center
-        // Normal points down (along y-axis). Angle measured from normal.
-        // Incident ray comes from upper-left
         var incStartX = cx - rayLen * Math.sin(thetaIRad);
         var incStartY = midY - rayLen * Math.cos(thetaIRad);
 
@@ -859,7 +1275,6 @@
         ctx.lineTo(cx, midY);
         ctx.stroke();
 
-        // Arrowhead for incident ray
         var incDir = Math.atan2(midY - incStartY, cx - incStartX);
         ctx.fillStyle = '#f44336';
         ctx.beginPath();
@@ -869,7 +1284,6 @@
         ctx.closePath();
         ctx.fill();
 
-        // Refracted ray (or total internal reflection)
         if (!tir) {
             var refEndX = cx + rayLen * Math.sin(thetaRRad);
             var refEndY = midY + rayLen * Math.cos(thetaRRad);
@@ -881,7 +1295,6 @@
             ctx.lineTo(refEndX, refEndY);
             ctx.stroke();
 
-            // Arrowhead
             var refDir = Math.atan2(refEndY - midY, refEndX - cx);
             ctx.fillStyle = '#2196f3';
             ctx.beginPath();
@@ -896,7 +1309,6 @@
             ctx.textAlign = 'left';
             ctx.fillText('Refracted Ray', refEndX + 5, refEndY + 5);
         } else {
-            // Total internal reflection: ray reflects back upward
             var tirEndX = cx + rayLen * Math.sin(thetaIRad);
             var tirEndY = midY - rayLen * Math.cos(thetaIRad);
             ctx.strokeStyle = '#ff9800';
@@ -911,26 +1323,20 @@
             ctx.fillText('Total Internal Reflection', tirEndX + 5, tirEndY - 5);
         }
 
-        // Angle of incidence arc
         ctx.strokeStyle = '#f44336';
         ctx.lineWidth = 1.5;
         ctx.beginPath();
-        // Normal points up: angle = -PI/2
-        // Incident ray direction (coming toward center): angle from center to incStart
         var incAngleOnCanvas = Math.atan2(incStartY - midY, incStartX - cx);
-        // Arc from normal (up = -PI/2) to incident direction
         var normalUpAngle = -Math.PI / 2;
         ctx.arc(cx, midY, 45, Math.min(normalUpAngle, incAngleOnCanvas), Math.max(normalUpAngle, incAngleOnCanvas));
         ctx.stroke();
 
-        // Label theta_i
         var midArcAngle = (normalUpAngle + incAngleOnCanvas) / 2;
         ctx.fillStyle = '#f44336';
         ctx.font = 'bold 13px sans-serif';
         ctx.textAlign = 'center';
         ctx.fillText('\u03B8i=' + thetaIDeg + '\u00B0', cx + 65 * Math.cos(midArcAngle), midY + 65 * Math.sin(midArcAngle));
 
-        // Angle of refraction arc (if no TIR)
         if (!tir && thetaRDeg > 0.5) {
             ctx.strokeStyle = '#2196f3';
             ctx.lineWidth = 1.5;
@@ -946,11 +1352,3177 @@
             ctx.fillText('\u03B8r=' + thetaRDeg.toFixed(1) + '\u00B0', cx + 68 * Math.cos(midArcR), midY + 68 * Math.sin(midArcR));
         }
 
-        // Incident ray label
         ctx.fillStyle = '#f44336';
         ctx.font = '13px sans-serif';
         ctx.textAlign = 'right';
         ctx.fillText('Incident Ray', incStartX - 5, incStartY - 5);
+    }
+
+    /* ================================================================
+       Experiment 6: Gravity & Free Fall
+       ================================================================ */
+    var gravityTime = 0;
+    var gravityRunning = false;
+    var gravityAnimId = null;
+
+    function updateGravityLabel() {
+        document.getElementById('massAVal').textContent = document.getElementById('massA').value;
+        document.getElementById('massBVal').textContent = document.getElementById('massB').value;
+    }
+
+    function startGravityDrop() {
+        gravityTime = 0;
+        gravityRunning = true;
+        if (gravityAnimId) cancelAnimationFrame(gravityAnimId);
+        animateGravity();
+    }
+
+    function resetGravityDrop() {
+        gravityRunning = false;
+        gravityTime = 0;
+        if (gravityAnimId) cancelAnimationFrame(gravityAnimId);
+        gravityAnimId = null;
+        document.getElementById('gravityResult').textContent = 'Click "Drop Objects" to start. Both objects fall at the same rate!';
+        drawGravityFrame(0);
+    }
+
+    function animateGravity() {
+        var g = parseFloat(document.getElementById('gravityPlanet').value);
+        var massA = parseFloat(document.getElementById('massA').value);
+        var massB = parseFloat(document.getElementById('massB').value);
+        var canvas = document.getElementById('gravityCanvas');
+        var H = canvas.height;
+        var groundY = H - 60;
+        var startY = 50;
+        var maxFall = groundY - startY - 40;
+
+        var dist = 0.5 * g * gravityTime * gravityTime * 8;
+        if (dist > maxFall) dist = maxFall;
+
+        var speed = g * gravityTime;
+        document.getElementById('gravityResult').textContent =
+            'g = ' + g + ' m/s\u00B2 | Time = ' + gravityTime.toFixed(2) + ' s | Speed = ' + (speed).toFixed(1) + ' m/s | Both objects fall together!';
+
+        drawGravityFrame(dist);
+
+        if (dist < maxFall && gravityRunning) {
+            gravityTime += 0.02;
+            gravityAnimId = requestAnimationFrame(animateGravity);
+        } else {
+            gravityRunning = false;
+            gravityAnimId = null;
+        }
+    }
+
+    function drawGravityFrame(fallDist) {
+        var canvas = document.getElementById('gravityCanvas');
+        var ctx = canvas.getContext('2d');
+        var W = canvas.width, H = canvas.height;
+        ctx.clearRect(0, 0, W, H);
+
+        var massA = parseFloat(document.getElementById('massA').value);
+        var massB = parseFloat(document.getElementById('massB').value);
+        var planet = document.getElementById('gravityPlanet');
+        var planetName = planet.options[planet.selectedIndex].text.split(' ')[0];
+
+        // Sky gradient
+        var skyGrad = ctx.createLinearGradient(0, 0, 0, H);
+        skyGrad.addColorStop(0, '#87CEEB');
+        skyGrad.addColorStop(1, '#E0F0FF');
+        ctx.fillStyle = skyGrad;
+        ctx.fillRect(0, 0, W, H);
+
+        // Ground
+        var groundY = H - 60;
+        ctx.fillStyle = '#8B7355';
+        ctx.fillRect(0, groundY, W, 60);
+        ctx.fillStyle = '#6d8c3f';
+        ctx.fillRect(0, groundY, W, 8);
+
+        // Starting platform
+        ctx.fillStyle = '#555';
+        ctx.fillRect(120, 30, 360, 10);
+
+        // Object A (small, light)
+        var startY = 50;
+        var objAY = startY + fallDist;
+        var radiusA = 15 + massA * 0.3;
+        ctx.beginPath();
+        ctx.arc(220, objAY, radiusA, 0, 2 * Math.PI);
+        var gradA = ctx.createRadialGradient(220, objAY - 5, 2, 220, objAY, radiusA);
+        gradA.addColorStop(0, '#ff6b6b');
+        gradA.addColorStop(1, '#c0392b');
+        ctx.fillStyle = gradA;
+        ctx.fill();
+        ctx.strokeStyle = '#922b21';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.fillStyle = '#fff';
+        ctx.font = 'bold 12px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(massA + 'kg', 220, objAY + 4);
+
+        // Object B (large, heavy)
+        var radiusB = 15 + massB * 0.3;
+        var objBY = startY + fallDist;
+        ctx.beginPath();
+        ctx.arc(380, objBY, radiusB, 0, 2 * Math.PI);
+        var gradB = ctx.createRadialGradient(380, objBY - 5, 2, 380, objBY, radiusB);
+        gradB.addColorStop(0, '#5dade2');
+        gradB.addColorStop(1, '#2471a3');
+        ctx.fillStyle = gradB;
+        ctx.fill();
+        ctx.strokeStyle = '#1a5276';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        ctx.fillStyle = '#fff';
+        ctx.font = 'bold 12px sans-serif';
+        ctx.fillText(massB + 'kg', 380, objBY + 4);
+
+        // Labels
+        ctx.fillStyle = '#333';
+        ctx.font = 'bold 14px sans-serif';
+        ctx.fillText('Object A', 220, 25);
+        ctx.fillText('Object B', 380, 25);
+        ctx.fillStyle = '#666';
+        ctx.font = '13px sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText('Planet: ' + planetName, 10, H - 25);
+
+        // Alignment line showing same height
+        if (fallDist > 10) {
+            ctx.strokeStyle = 'rgba(231,76,60,0.5)';
+            ctx.setLineDash([4, 4]);
+            ctx.lineWidth = 1;
+            ctx.beginPath();
+            ctx.moveTo(180, objAY);
+            ctx.lineTo(420, objBY);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            ctx.fillStyle = '#e74c3c';
+            ctx.font = '11px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('Same height!', 300, objAY - 10);
+        }
+    }
+
+    /* ================================================================
+       Experiment 7: Pulley System
+       ================================================================ */
+    var pulleyCount = 1;
+
+    function setPulley(count, btn) {
+        pulleyCount = count;
+        var btns = btn.parentElement.querySelectorAll('.toggle-btn');
+        btns.forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        updatePulley();
+    }
+
+    function updatePulley() {
+        var load = parseFloat(document.getElementById('pulleyLoad').value);
+        document.getElementById('pulleyLoadVal').textContent = load;
+        var effort = load / pulleyCount;
+        var ma = pulleyCount;
+        document.getElementById('pulleyResult').textContent =
+            'Load = ' + load + ' N | Effort = ' + effort.toFixed(1) + ' N | Mechanical Advantage = ' + ma;
+        drawPulley(load, effort, ma);
+    }
+
+    function drawPulley(load, effort, ma) {
+        var canvas = document.getElementById('pulleyCanvas');
+        var ctx = canvas.getContext('2d');
+        var W = canvas.width, H = canvas.height;
+        ctx.clearRect(0, 0, W, H);
+
+        ctx.fillStyle = '#f0f4ff';
+        ctx.fillRect(0, 0, W, H);
+
+        // Ceiling
+        ctx.fillStyle = '#555';
+        ctx.fillRect(0, 0, W, 15);
+
+        var cx = W / 2;
+        var pulleyR = 25;
+
+        if (pulleyCount === 1) {
+            // Single pulley at top
+            var py = 55;
+            // Support
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(cx, 15);
+            ctx.lineTo(cx, py - pulleyR);
+            ctx.stroke();
+            // Pulley wheel
+            ctx.beginPath();
+            ctx.arc(cx, py, pulleyR, 0, 2 * Math.PI);
+            ctx.fillStyle = '#7f8c8d';
+            ctx.fill();
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(cx, py, 5, 0, 2 * Math.PI);
+            ctx.fillStyle = '#333';
+            ctx.fill();
+
+            // Rope on left - load
+            ctx.strokeStyle = '#c0392b';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(cx - pulleyR, py);
+            ctx.lineTo(cx - pulleyR, H - 80);
+            ctx.stroke();
+
+            // Rope on right - effort
+            ctx.strokeStyle = '#27ae60';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(cx + pulleyR, py);
+            ctx.lineTo(cx + pulleyR, H - 120);
+            ctx.stroke();
+
+            // Load box
+            var loadW = 60, loadH = 50;
+            ctx.fillStyle = '#e74c3c';
+            ctx.fillRect(cx - pulleyR - loadW / 2, H - 80, loadW, loadH);
+            ctx.fillStyle = '#fff';
+            ctx.font = 'bold 14px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText(load + ' N', cx - pulleyR, H - 50);
+
+            // Effort arrow
+            ctx.fillStyle = '#27ae60';
+            ctx.font = 'bold 13px sans-serif';
+            ctx.fillText('Effort', cx + pulleyR, H - 125);
+            ctx.fillText(effort.toFixed(1) + ' N', cx + pulleyR, H - 108);
+            // Arrow down
+            ctx.beginPath();
+            ctx.moveTo(cx + pulleyR, H - 120);
+            ctx.lineTo(cx + pulleyR - 6, H - 130);
+            ctx.lineTo(cx + pulleyR + 6, H - 130);
+            ctx.closePath();
+            ctx.fill();
+
+        } else if (pulleyCount === 2) {
+            var py1 = 55, py2 = 160;
+            // Top pulley - fixed
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(cx, 15);
+            ctx.lineTo(cx, py1 - pulleyR);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(cx, py1, pulleyR, 0, 2 * Math.PI);
+            ctx.fillStyle = '#7f8c8d';
+            ctx.fill();
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(cx, py1, 5, 0, 2 * Math.PI);
+            ctx.fillStyle = '#333';
+            ctx.fill();
+
+            // Bottom pulley - movable
+            ctx.beginPath();
+            ctx.arc(cx, py2, pulleyR, 0, 2 * Math.PI);
+            ctx.fillStyle = '#95a5a6';
+            ctx.fill();
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 2;
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(cx, py2, 5, 0, 2 * Math.PI);
+            ctx.fillStyle = '#333';
+            ctx.fill();
+
+            // Ropes
+            ctx.strokeStyle = '#c0392b';
+            ctx.lineWidth = 3;
+            // Left side down from top to bottom pulley
+            ctx.beginPath();
+            ctx.moveTo(cx - pulleyR, py1);
+            ctx.lineTo(cx - pulleyR, py2);
+            ctx.stroke();
+            // Right side from bottom up to top and over
+            ctx.beginPath();
+            ctx.moveTo(cx + pulleyR, py2);
+            ctx.lineTo(cx + pulleyR, py1);
+            ctx.stroke();
+            // Effort rope going up from top pulley
+            ctx.strokeStyle = '#27ae60';
+            ctx.beginPath();
+            ctx.moveTo(cx + pulleyR + 40, py1);
+            ctx.lineTo(cx + pulleyR + 40, H - 120);
+            ctx.stroke();
+            ctx.strokeStyle = '#27ae60';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            ctx.moveTo(cx + pulleyR, py1);
+            ctx.lineTo(cx + pulleyR + 40, py1);
+            ctx.stroke();
+
+            // Load
+            ctx.strokeStyle = '#c0392b';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(cx, py2 + pulleyR);
+            ctx.lineTo(cx, H - 80);
+            ctx.stroke();
+            var loadW = 60, loadH = 50;
+            ctx.fillStyle = '#e74c3c';
+            ctx.fillRect(cx - loadW / 2, H - 80, loadW, loadH);
+            ctx.fillStyle = '#fff';
+            ctx.font = 'bold 14px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText(load + ' N', cx, H - 50);
+
+            ctx.fillStyle = '#27ae60';
+            ctx.font = 'bold 13px sans-serif';
+            ctx.fillText('Effort: ' + effort.toFixed(1) + ' N', cx + pulleyR + 40, H - 125);
+
+        } else {
+            // Triple pulley
+            var py1 = 50, py2 = 130, py3 = 210;
+            // Three pulleys stacked
+            for (var p = 0; p < 3; p++) {
+                var pyy = [py1, py2, py3][p];
+                var isFixed = (p % 2 === 0);
+                if (isFixed) {
+                    ctx.strokeStyle = '#333';
+                    ctx.lineWidth = 2;
+                    ctx.beginPath();
+                    ctx.moveTo(cx, pyy - pulleyR - 10);
+                    ctx.lineTo(cx, pyy - pulleyR);
+                    ctx.stroke();
+                }
+                ctx.beginPath();
+                ctx.arc(cx, pyy, pulleyR - 3, 0, 2 * Math.PI);
+                ctx.fillStyle = isFixed ? '#7f8c8d' : '#95a5a6';
+                ctx.fill();
+                ctx.strokeStyle = '#333';
+                ctx.lineWidth = 2;
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.arc(cx, pyy, 4, 0, 2 * Math.PI);
+                ctx.fillStyle = '#333';
+                ctx.fill();
+            }
+
+            // Support from ceiling
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(cx, 15);
+            ctx.lineTo(cx, py1 - pulleyR);
+            ctx.stroke();
+
+            // Simplified rope zigzag
+            ctx.strokeStyle = '#c0392b';
+            ctx.lineWidth = 2;
+            var ropeX = [cx - 20, cx + 20, cx - 20, cx + 20];
+            ctx.beginPath();
+            ctx.moveTo(cx - 20, py1);
+            ctx.lineTo(cx - 20, py2);
+            ctx.lineTo(cx + 20, py2);
+            ctx.lineTo(cx + 20, py1);
+            ctx.lineTo(cx - 20, py1 + 5);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.moveTo(cx + 20, py2);
+            ctx.lineTo(cx + 20, py3);
+            ctx.stroke();
+
+            // Load
+            ctx.strokeStyle = '#c0392b';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(cx, py3 + pulleyR - 3);
+            ctx.lineTo(cx, H - 80);
+            ctx.stroke();
+            var loadW = 60, loadH = 50;
+            ctx.fillStyle = '#e74c3c';
+            ctx.fillRect(cx - loadW / 2, H - 80, loadW, loadH);
+            ctx.fillStyle = '#fff';
+            ctx.font = 'bold 14px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText(load + ' N', cx, H - 50);
+
+            // Effort
+            ctx.strokeStyle = '#27ae60';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(cx + 60, py1);
+            ctx.lineTo(cx + 60, H - 120);
+            ctx.stroke();
+            ctx.fillStyle = '#27ae60';
+            ctx.font = 'bold 13px sans-serif';
+            ctx.fillText('Effort: ' + effort.toFixed(1) + ' N', cx + 60, H - 125);
+        }
+
+        // MA label
+        ctx.fillStyle = '#333';
+        ctx.font = 'bold 15px sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText('MA = ' + ma, 15, 40);
+        ctx.font = '13px sans-serif';
+        ctx.fillText(pulleyCount === 1 ? 'Single Fixed Pulley' : (pulleyCount === 2 ? 'Double Pulley System' : 'Triple Pulley System'), 15, 60);
+    }
+
+    /* ================================================================
+       Experiment 8: Lever & Fulcrum
+       ================================================================ */
+    function updateLever() {
+        var lw = parseFloat(document.getElementById('leverLeftW').value);
+        var ld = parseFloat(document.getElementById('leverLeftD').value);
+        var rw = parseFloat(document.getElementById('leverRightW').value);
+        var rd = parseFloat(document.getElementById('leverRightD').value);
+        document.getElementById('leverLeftWVal').textContent = lw;
+        document.getElementById('leverLeftDVal').textContent = ld;
+        document.getElementById('leverRightWVal').textContent = rw;
+        document.getElementById('leverRightDVal').textContent = rd;
+
+        var leftMoment = lw * ld;
+        var rightMoment = rw * rd;
+        var status = leftMoment === rightMoment ? 'Balanced!' : (leftMoment > rightMoment ? 'Tilts LEFT' : 'Tilts RIGHT');
+        document.getElementById('leverResult').textContent =
+            'Left Moment = ' + leftMoment + ' Nm | Right Moment = ' + rightMoment + ' Nm | ' + status;
+        drawLever(lw, ld, rw, rd, leftMoment, rightMoment);
+    }
+
+    function drawLever(lw, ld, rw, rd, lm, rm) {
+        var canvas = document.getElementById('leverCanvas');
+        var ctx = canvas.getContext('2d');
+        var W = canvas.width, H = canvas.height;
+        ctx.clearRect(0, 0, W, H);
+
+        ctx.fillStyle = '#f5f0ff';
+        ctx.fillRect(0, 0, W, H);
+
+        var cx = W / 2, cy = H / 2 + 20;
+        var beamLen = 460;
+
+        // Calculate tilt angle
+        var diff = lm - rm;
+        var maxDiff = 500;
+        var tiltAngle = Math.max(-0.25, Math.min(0.25, diff / maxDiff * 0.25));
+
+        // Fulcrum triangle
+        ctx.fillStyle = '#e67e22';
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.lineTo(cx - 25, cy + 50);
+        ctx.lineTo(cx + 25, cy + 50);
+        ctx.closePath();
+        ctx.fill();
+        ctx.strokeStyle = '#d35400';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Ground
+        ctx.fillStyle = '#8B7355';
+        ctx.fillRect(0, cy + 50, W, H - cy - 50);
+
+        // Beam (tilted)
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.rotate(tiltAngle);
+
+        // Draw beam
+        ctx.fillStyle = '#6c5ce7';
+        ctx.fillRect(-beamLen / 2, -8, beamLen, 16);
+        ctx.strokeStyle = '#4a3db0';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(-beamLen / 2, -8, beamLen, 16);
+
+        // Distance markers
+        var pixPerM = (beamLen / 2) / 5;
+
+        // Left weight
+        var leftX = -ld * pixPerM;
+        var leftSize = 15 + lw * 0.3;
+        ctx.fillStyle = '#e74c3c';
+        ctx.fillRect(leftX - leftSize / 2, -8 - leftSize, leftSize, leftSize);
+        ctx.fillStyle = '#fff';
+        ctx.font = 'bold 11px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(lw + 'N', leftX, -8 - leftSize / 2 + 4);
+
+        // Right weight
+        var rightX = rd * pixPerM;
+        var rightSize = 15 + rw * 0.3;
+        ctx.fillStyle = '#2980b9';
+        ctx.fillRect(rightX - rightSize / 2, -8 - rightSize, rightSize, rightSize);
+        ctx.fillStyle = '#fff';
+        ctx.font = 'bold 11px sans-serif';
+        ctx.fillText(rw + 'N', rightX, -8 - rightSize / 2 + 4);
+
+        // Distance labels
+        ctx.fillStyle = '#333';
+        ctx.font = '12px sans-serif';
+        ctx.fillText(ld + 'm', leftX, 30);
+        ctx.fillText(rd + 'm', rightX, 30);
+
+        // Distance lines
+        ctx.strokeStyle = 'rgba(0,0,0,0.3)';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([3, 3]);
+        ctx.beginPath();
+        ctx.moveTo(0, 10);
+        ctx.lineTo(leftX, 10);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(0, 10);
+        ctx.lineTo(rightX, 10);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        ctx.restore();
+
+        // Fulcrum label
+        ctx.fillStyle = '#e67e22';
+        ctx.font = 'bold 13px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('Fulcrum', cx, cy + 70);
+    }
+
+    /* ================================================================
+       Experiment 9: Density & Floating
+       ================================================================ */
+    var densityObjY = 40;
+    var densityAnimId = null;
+    var densityDropping = false;
+
+    function updateDensity() {
+        drawDensityFrame();
+    }
+
+    function dropDensityObject() {
+        densityObjY = 40;
+        densityDropping = true;
+        if (densityAnimId) cancelAnimationFrame(densityAnimId);
+        animateDensityDrop();
+    }
+
+    function resetDensity() {
+        densityDropping = false;
+        densityObjY = 40;
+        if (densityAnimId) cancelAnimationFrame(densityAnimId);
+        densityAnimId = null;
+        document.getElementById('densityResult').textContent = 'Select an object and liquid, then click "Drop Object".';
+        drawDensityFrame();
+    }
+
+    function animateDensityDrop() {
+        var canvas = document.getElementById('densityCanvas');
+        var H = canvas.height;
+        var liquidDensity = parseFloat(document.getElementById('densityLiquid').value);
+        var objDensity = parseFloat(document.getElementById('densityObject').value);
+        var liquidSurface = 160;
+        var bottomY = H - 80;
+
+        var floats = objDensity < liquidDensity;
+        var targetY;
+        if (floats) {
+            var submergedFraction = objDensity / liquidDensity;
+            targetY = liquidSurface - 40 * (1 - submergedFraction);
+        } else {
+            targetY = bottomY - 40;
+        }
+
+        if (densityObjY < targetY) {
+            var speed = densityObjY < liquidSurface ? 4 : (floats ? 1 : 2);
+            densityObjY += speed;
+            if (densityObjY > targetY) densityObjY = targetY;
+        }
+
+        var objName = document.getElementById('densityObject').options[document.getElementById('densityObject').selectedIndex].text;
+        var liqName = document.getElementById('densityLiquid').options[document.getElementById('densityLiquid').selectedIndex].text;
+        var action = floats ? 'FLOATS' : 'SINKS';
+        document.getElementById('densityResult').textContent =
+            objName + ' in ' + liqName + ' -> ' + action + ' (Object: ' + objDensity + ' g/cm\u00B3 vs Liquid: ' + liquidDensity + ' g/cm\u00B3)';
+
+        drawDensityFrame();
+
+        if (densityObjY < targetY && densityDropping) {
+            densityAnimId = requestAnimationFrame(animateDensityDrop);
+        } else {
+            densityDropping = false;
+            densityAnimId = null;
+        }
+    }
+
+    function drawDensityFrame() {
+        var canvas = document.getElementById('densityCanvas');
+        var ctx = canvas.getContext('2d');
+        var W = canvas.width, H = canvas.height;
+        ctx.clearRect(0, 0, W, H);
+
+        var liquidDensity = parseFloat(document.getElementById('densityLiquid').value);
+        var objDensity = parseFloat(document.getElementById('densityObject').value);
+
+        // Background
+        ctx.fillStyle = '#f0f8ff';
+        ctx.fillRect(0, 0, W, H);
+
+        // Container/beaker
+        var bx = W / 2 - 120, by = 120, bw = 240, bh = H - 120 - 40;
+        ctx.strokeStyle = '#555';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(bx, by);
+        ctx.lineTo(bx, by + bh);
+        ctx.lineTo(bx + bw, by + bh);
+        ctx.lineTo(bx + bw, by);
+        ctx.stroke();
+
+        // Liquid
+        var liquidSurface = 160;
+        var liquidColor = liquidDensity >= 1.0 ? 'rgba(52, 152, 219, 0.4)' : 'rgba(241, 196, 15, 0.3)';
+        ctx.fillStyle = liquidColor;
+        ctx.fillRect(bx + 3, liquidSurface, bw - 6, by + bh - liquidSurface - 3);
+
+        // Liquid surface line
+        ctx.strokeStyle = liquidDensity >= 1.0 ? '#2980b9' : '#f39c12';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(bx + 3, liquidSurface);
+        ctx.lineTo(bx + bw - 3, liquidSurface);
+        ctx.stroke();
+
+        // Object
+        var objSize = 40;
+        var objX = W / 2 - objSize / 2;
+        var colors = { '0.5': '#d4a574', '0.6': '#b8860b', '0.9': '#add8e6', '2.7': '#c0c0c0', '7.8': '#696969' };
+        var objColor = colors[objDensity.toString()] || '#888';
+
+        ctx.fillStyle = objColor;
+        ctx.fillRect(objX, densityObjY, objSize, objSize);
+        ctx.strokeStyle = '#333';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(objX, densityObjY, objSize, objSize);
+
+        // Object label
+        ctx.fillStyle = '#fff';
+        ctx.font = 'bold 10px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(objDensity + '', W / 2, densityObjY + objSize / 2 + 4);
+
+        // Labels
+        ctx.fillStyle = '#333';
+        ctx.font = '13px sans-serif';
+        ctx.textAlign = 'left';
+        var liqLabel = liquidDensity >= 1.0 ? 'Water' : 'Oil';
+        ctx.fillText(liqLabel + ' (\u03C1 = ' + liquidDensity + ' g/cm\u00B3)', bx + bw + 15, liquidSurface + 40);
+    }
+
+    /* ================================================================
+       Experiment 10: Spring & Hooke's Law
+       ================================================================ */
+    function updateSpring() {
+        var k = parseFloat(document.getElementById('springK').value);
+        var mass = parseFloat(document.getElementById('springMass').value);
+        document.getElementById('springKVal').textContent = k;
+        document.getElementById('springMassVal').textContent = mass;
+
+        var force = mass * 9.8;
+        var extension = force / k;
+        document.getElementById('springResult').textContent =
+            'Force = ' + force.toFixed(1) + ' N | Extension = ' + extension.toFixed(2) + ' m | F = kx';
+        drawSpring(k, mass, force, extension);
+    }
+
+    function drawSpring(k, mass, force, extension) {
+        var canvas = document.getElementById('springCanvas');
+        var ctx = canvas.getContext('2d');
+        var W = canvas.width, H = canvas.height;
+        ctx.clearRect(0, 0, W, H);
+
+        ctx.fillStyle = '#f0f4ff';
+        ctx.fillRect(0, 0, W, H);
+
+        // Left side: spring visualization
+        var springX = 150;
+        var springTopY = 40;
+        var naturalLen = 100;
+        var extPx = Math.min(extension * 80, 200);
+        var springLen = naturalLen + extPx;
+
+        // Ceiling mount
+        ctx.fillStyle = '#555';
+        ctx.fillRect(springX - 40, 20, 80, 15);
+
+        // Draw coiled spring
+        var coils = 12;
+        var coilWidth = 30;
+        ctx.strokeStyle = '#e74c3c';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(springX, springTopY);
+        for (var i = 0; i <= coils; i++) {
+            var y = springTopY + (i / coils) * springLen;
+            var x = springX + (i % 2 === 0 ? -coilWidth : coilWidth);
+            ctx.lineTo(x, y);
+        }
+        ctx.lineTo(springX, springTopY + springLen);
+        ctx.stroke();
+
+        // Mass block
+        var massY = springTopY + springLen;
+        var massSize = 30 + mass * 3;
+        ctx.fillStyle = '#2980b9';
+        ctx.fillRect(springX - massSize / 2, massY, massSize, massSize);
+        ctx.strokeStyle = '#1a5276';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(springX - massSize / 2, massY, massSize, massSize);
+        ctx.fillStyle = '#fff';
+        ctx.font = 'bold 12px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(mass + ' kg', springX, massY + massSize / 2 + 4);
+
+        // Force arrow
+        if (force > 0) {
+            var arrowLen = Math.min(force * 2, 80);
+            ctx.strokeStyle = '#e74c3c';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(springX, massY + massSize);
+            ctx.lineTo(springX, massY + massSize + arrowLen);
+            ctx.stroke();
+            ctx.fillStyle = '#e74c3c';
+            ctx.beginPath();
+            ctx.moveTo(springX, massY + massSize + arrowLen + 8);
+            ctx.lineTo(springX - 6, massY + massSize + arrowLen - 4);
+            ctx.lineTo(springX + 6, massY + massSize + arrowLen - 4);
+            ctx.closePath();
+            ctx.fill();
+            ctx.font = 'bold 12px sans-serif';
+            ctx.fillText('F = ' + force.toFixed(1) + ' N', springX, massY + massSize + arrowLen + 25);
+        }
+
+        // Extension label
+        if (extPx > 5) {
+            ctx.strokeStyle = '#27ae60';
+            ctx.lineWidth = 2;
+            ctx.setLineDash([4, 3]);
+            // Natural length line
+            ctx.beginPath();
+            ctx.moveTo(springX + 60, springTopY + naturalLen);
+            ctx.lineTo(springX + 90, springTopY + naturalLen);
+            ctx.stroke();
+            // Extended length line
+            ctx.beginPath();
+            ctx.moveTo(springX + 60, springTopY + springLen);
+            ctx.lineTo(springX + 90, springTopY + springLen);
+            ctx.stroke();
+            // Vertical
+            ctx.beginPath();
+            ctx.moveTo(springX + 75, springTopY + naturalLen);
+            ctx.lineTo(springX + 75, springTopY + springLen);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            ctx.fillStyle = '#27ae60';
+            ctx.font = 'bold 12px sans-serif';
+            ctx.fillText('x = ' + extension.toFixed(2) + ' m', springX + 80, springTopY + naturalLen + extPx / 2 + 4);
+        }
+
+        // Right side: Force vs Extension graph
+        var graphX = 340, graphY = 50, graphW = 220, graphH = 200;
+        ctx.fillStyle = '#fff';
+        ctx.fillRect(graphX, graphY, graphW, graphH);
+        ctx.strokeStyle = '#333';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(graphX, graphY, graphW, graphH);
+
+        // Axes labels
+        ctx.fillStyle = '#333';
+        ctx.font = '12px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('Extension (m)', graphX + graphW / 2, graphY + graphH + 30);
+        ctx.save();
+        ctx.translate(graphX - 25, graphY + graphH / 2);
+        ctx.rotate(-Math.PI / 2);
+        ctx.fillText('Force (N)', 0, 0);
+        ctx.restore();
+
+        // Plot F = kx line
+        var maxExt = 5;
+        var maxF = maxExt * k;
+        ctx.strokeStyle = '#8e44ad';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        for (var ex = 0; ex <= maxExt; ex += 0.1) {
+            var px = graphX + (ex / maxExt) * graphW;
+            var py = graphY + graphH - ((ex * k) / maxF) * graphH;
+            if (ex === 0) ctx.moveTo(px, py);
+            else ctx.lineTo(px, py);
+        }
+        ctx.stroke();
+
+        // Current point
+        if (extension > 0 && extension <= maxExt) {
+            var dotX = graphX + (extension / maxExt) * graphW;
+            var dotY = graphY + graphH - (force / maxF) * graphH;
+            ctx.beginPath();
+            ctx.arc(dotX, dotY, 6, 0, 2 * Math.PI);
+            ctx.fillStyle = '#e74c3c';
+            ctx.fill();
+        }
+
+        ctx.fillStyle = '#8e44ad';
+        ctx.font = 'bold 13px sans-serif';
+        ctx.fillText('F = kx', graphX + graphW / 2, graphY - 10);
+        ctx.font = '11px sans-serif';
+        ctx.fillText('k = ' + k + ' N/m', graphX + graphW / 2, graphY + graphH + 45);
+    }
+
+    /* ================================================================
+       Experiment 11: Pendulum Motion
+       ================================================================ */
+    var pendulumAngle = 0;
+    var pendulumOmega = 0;
+    var pendulumRunning = false;
+    var pendulumAnimId = null;
+
+    function updatePendulumLabel() {
+        var L = parseFloat(document.getElementById('pendulumL').value);
+        var A = parseFloat(document.getElementById('pendulumA').value);
+        document.getElementById('pendulumLVal').textContent = L.toFixed(1);
+        document.getElementById('pendulumAVal').textContent = A;
+        var T = 2 * Math.PI * Math.sqrt(L / 9.8);
+        document.getElementById('pendulumResult').textContent =
+            'T = ' + T.toFixed(2) + ' s | Length = ' + L.toFixed(1) + ' m | g = 9.8 m/s\u00B2';
+    }
+
+    function startPendulum() {
+        var A = parseFloat(document.getElementById('pendulumA').value);
+        pendulumAngle = A * Math.PI / 180;
+        pendulumOmega = 0;
+        pendulumRunning = true;
+        if (pendulumAnimId) cancelAnimationFrame(pendulumAnimId);
+        animatePendulum();
+    }
+
+    function stopPendulum() {
+        pendulumRunning = false;
+        if (pendulumAnimId) cancelAnimationFrame(pendulumAnimId);
+        pendulumAnimId = null;
+    }
+
+    function animatePendulum() {
+        if (!pendulumRunning) return;
+        var L = parseFloat(document.getElementById('pendulumL').value);
+        var g = 9.8;
+        var dt = 0.03;
+
+        // Simple pendulum equation: alpha = -(g/L) * sin(theta)
+        var alpha = -(g / L) * Math.sin(pendulumAngle);
+        pendulumOmega += alpha * dt;
+        pendulumOmega *= 0.999; // tiny damping
+        pendulumAngle += pendulumOmega * dt;
+
+        drawPendulumFrame(L);
+        pendulumAnimId = requestAnimationFrame(animatePendulum);
+    }
+
+    function drawPendulumFrame(L) {
+        var canvas = document.getElementById('pendulumCanvas');
+        var ctx = canvas.getContext('2d');
+        var W = canvas.width, H = canvas.height;
+        ctx.clearRect(0, 0, W, H);
+
+        ctx.fillStyle = '#fffaf0';
+        ctx.fillRect(0, 0, W, H);
+
+        var pivotX = W / 2, pivotY = 50;
+        var ropeLen = 50 + L * 80; // scale
+
+        // Pivot
+        ctx.fillStyle = '#555';
+        ctx.fillRect(pivotX - 40, 30, 80, 12);
+        ctx.beginPath();
+        ctx.arc(pivotX, pivotY, 6, 0, 2 * Math.PI);
+        ctx.fillStyle = '#333';
+        ctx.fill();
+
+        // Bob position
+        var bobX = pivotX + ropeLen * Math.sin(pendulumAngle);
+        var bobY = pivotY + ropeLen * Math.cos(pendulumAngle);
+
+        // Rope
+        ctx.strokeStyle = '#8B7355';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(pivotX, pivotY);
+        ctx.lineTo(bobX, bobY);
+        ctx.stroke();
+
+        // Bob
+        ctx.beginPath();
+        ctx.arc(bobX, bobY, 20, 0, 2 * Math.PI);
+        var bobGrad = ctx.createRadialGradient(bobX - 5, bobY - 5, 2, bobX, bobY, 20);
+        bobGrad.addColorStop(0, '#f39c12');
+        bobGrad.addColorStop(1, '#e67e22');
+        ctx.fillStyle = bobGrad;
+        ctx.fill();
+        ctx.strokeStyle = '#d35400';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Equilibrium line (dashed)
+        ctx.strokeStyle = 'rgba(0,0,0,0.2)';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([5, 5]);
+        ctx.beginPath();
+        ctx.moveTo(pivotX, pivotY);
+        ctx.lineTo(pivotX, pivotY + ropeLen + 30);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Angle arc
+        if (Math.abs(pendulumAngle) > 0.02) {
+            ctx.strokeStyle = '#e74c3c';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            var startA = Math.PI / 2 - Math.abs(pendulumAngle);
+            var endA = Math.PI / 2;
+            if (pendulumAngle > 0) {
+                ctx.arc(pivotX, pivotY, 40, startA, endA);
+            } else {
+                ctx.arc(pivotX, pivotY, 40, endA, Math.PI - startA);
+            }
+            ctx.stroke();
+        }
+
+        // Info
+        var T = 2 * Math.PI * Math.sqrt(L / 9.8);
+        ctx.fillStyle = '#333';
+        ctx.font = '13px sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText('T = 2\u03C0\u221A(L/g) = ' + T.toFixed(2) + ' s', 15, H - 30);
+        ctx.fillText('L = ' + L.toFixed(1) + ' m', 15, H - 10);
+        ctx.textAlign = 'right';
+        ctx.fillText('\u03B8 = ' + (pendulumAngle * 180 / Math.PI).toFixed(1) + '\u00B0', W - 15, H - 10);
+    }
+
+    /* ================================================================
+       Experiment 12: Wave Interference
+       ================================================================ */
+    var intPhaseAnim = 0;
+
+    function updateInterferenceLabels() {
+        document.getElementById('intFreq1Val').textContent = document.getElementById('intFreq1').value;
+        document.getElementById('intFreq2Val').textContent = document.getElementById('intFreq2').value;
+        document.getElementById('intPhaseVal').textContent = document.getElementById('intPhase').value;
+        var phase = parseFloat(document.getElementById('intPhase').value);
+        var type = (phase < 45 || phase > 315) ? 'Constructive Interference' :
+                   (phase > 135 && phase < 225) ? 'Destructive Interference' : 'Partial Interference';
+        document.getElementById('interferenceResult').textContent = 'Phase Diff = ' + phase + '\u00B0 | ' + type;
+    }
+
+    function animateInterference() {
+        var canvas = document.getElementById('interferenceCanvas');
+        var ctx = canvas.getContext('2d');
+        var W = canvas.width, H = canvas.height;
+        var f1 = parseFloat(document.getElementById('intFreq1').value);
+        var f2 = parseFloat(document.getElementById('intFreq2').value);
+        var phaseDeg = parseFloat(document.getElementById('intPhase').value);
+        var phaseRad = phaseDeg * Math.PI / 180;
+
+        ctx.clearRect(0, 0, W, H);
+        ctx.fillStyle = '#f0f4ff';
+        ctx.fillRect(0, 0, W, H);
+
+        var amp = 40;
+        var sections = [
+            { y: H * 0.2, label: 'Wave 1', color: '#e74c3c', f: f1, phase: 0 },
+            { y: H * 0.5, label: 'Wave 2', color: '#2980b9', f: f2, phase: phaseRad },
+            { y: H * 0.8, label: 'Resultant', color: '#8e44ad', f: 0, phase: 0 }
+        ];
+
+        for (var s = 0; s < 3; s++) {
+            var sec = sections[s];
+            // Center line
+            ctx.strokeStyle = '#ddd';
+            ctx.lineWidth = 1;
+            ctx.setLineDash([4, 4]);
+            ctx.beginPath();
+            ctx.moveTo(0, sec.y);
+            ctx.lineTo(W, sec.y);
+            ctx.stroke();
+            ctx.setLineDash([]);
+
+            // Wave
+            ctx.strokeStyle = sec.color;
+            ctx.lineWidth = 2.5;
+            ctx.beginPath();
+            for (var x = 0; x < W; x++) {
+                var y;
+                if (s < 2) {
+                    y = sec.y - amp * Math.sin(2 * Math.PI * sec.f * x / W + sec.phase + intPhaseAnim);
+                } else {
+                    var y1 = amp * Math.sin(2 * Math.PI * f1 * x / W + intPhaseAnim);
+                    var y2 = amp * Math.sin(2 * Math.PI * f2 * x / W + phaseRad + intPhaseAnim);
+                    y = sec.y - (y1 + y2);
+                }
+                if (x === 0) ctx.moveTo(x, y);
+                else ctx.lineTo(x, y);
+            }
+            ctx.stroke();
+
+            // Label
+            ctx.fillStyle = sec.color;
+            ctx.font = 'bold 13px sans-serif';
+            ctx.textAlign = 'left';
+            ctx.fillText(sec.label, 10, sec.y - amp - 10);
+        }
+
+        intPhaseAnim += 0.04;
+        requestAnimationFrame(animateInterference);
+    }
+
+    /* ================================================================
+       Experiment 13: Electric Circuit
+       ================================================================ */
+    var circuitSwitchOn = true;
+    var circuitElectronPhase = 0;
+
+    function toggleCircuitSwitch() {
+        circuitSwitchOn = !circuitSwitchOn;
+        document.getElementById('circuitSwitch').textContent = circuitSwitchOn ? 'ON' : 'OFF';
+        document.getElementById('circuitSwitch').className = circuitSwitchOn ? 'btn btn-primary' : 'btn btn-outline';
+        updateCircuit();
+    }
+
+    function updateCircuit() {
+        var batteries = parseFloat(document.getElementById('circuitBatt').value);
+        var resistance = parseFloat(document.getElementById('circuitRes').value);
+        document.getElementById('circuitBattVal').textContent = batteries;
+        document.getElementById('circuitResVal').textContent = resistance;
+
+        var voltage = batteries * 1.5;
+        var current = circuitSwitchOn ? voltage / resistance : 0;
+        document.getElementById('circuitResult').textContent =
+            'V = ' + voltage.toFixed(1) + ' V | I = ' + current.toFixed(3) + ' A | R = ' + resistance + ' \u03A9 | Switch: ' + (circuitSwitchOn ? 'ON' : 'OFF');
+    }
+
+    function animateCircuit() {
+        var canvas = document.getElementById('circuitCanvas');
+        var ctx = canvas.getContext('2d');
+        var W = canvas.width, H = canvas.height;
+        ctx.clearRect(0, 0, W, H);
+
+        ctx.fillStyle = '#f9f9f9';
+        ctx.fillRect(0, 0, W, H);
+
+        var batteries = parseFloat(document.getElementById('circuitBatt').value);
+        var resistance = parseFloat(document.getElementById('circuitRes').value);
+        var voltage = batteries * 1.5;
+        var current = circuitSwitchOn ? voltage / resistance : 0;
+
+        // Circuit path (rectangle)
+        var cx1 = 80, cy1 = 80, cx2 = W - 80, cy2 = H - 80;
+        ctx.strokeStyle = '#333';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(cx1, cy1);
+        ctx.lineTo(cx2, cy1);
+        ctx.lineTo(cx2, cy2);
+        ctx.lineTo(cx1, cy2);
+        ctx.lineTo(cx1, cy1);
+        ctx.stroke();
+
+        // Battery (top-left)
+        var battX = cx1 + 60;
+        for (var b = 0; b < batteries; b++) {
+            var bx = battX + b * 40;
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(bx, cy1 - 15);
+            ctx.lineTo(bx, cy1 + 15);
+            ctx.stroke();
+            ctx.lineWidth = 1.5;
+            ctx.beginPath();
+            ctx.moveTo(bx + 10, cy1 - 8);
+            ctx.lineTo(bx + 10, cy1 + 8);
+            ctx.stroke();
+            ctx.fillStyle = '#e74c3c';
+            ctx.font = '10px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('+', bx + 15, cy1 - 10);
+            ctx.fillText('-', bx - 5, cy1 - 10);
+        }
+        ctx.fillStyle = '#333';
+        ctx.font = 'bold 12px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(voltage.toFixed(1) + 'V', battX + batteries * 20, cy1 - 25);
+
+        // Resistor (bottom)
+        var resX = W / 2 - 40;
+        ctx.strokeStyle = '#8e44ad';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        var zigzagY = cy2;
+        ctx.moveTo(resX, zigzagY);
+        for (var z = 0; z < 6; z++) {
+            ctx.lineTo(resX + 10 + z * 12, zigzagY + (z % 2 === 0 ? -12 : 12));
+        }
+        ctx.lineTo(resX + 80, zigzagY);
+        ctx.stroke();
+        ctx.fillStyle = '#8e44ad';
+        ctx.font = 'bold 12px sans-serif';
+        ctx.fillText(resistance + '\u03A9', W / 2, cy2 + 30);
+
+        // Switch (right side)
+        var switchY = (cy1 + cy2) / 2;
+        ctx.fillStyle = circuitSwitchOn ? '#27ae60' : '#e74c3c';
+        ctx.beginPath();
+        ctx.arc(cx2, switchY - 15, 5, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(cx2, switchY + 15, 5, 0, 2 * Math.PI);
+        ctx.fill();
+        if (circuitSwitchOn) {
+            ctx.strokeStyle = '#27ae60';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(cx2, switchY - 15);
+            ctx.lineTo(cx2, switchY + 15);
+            ctx.stroke();
+        } else {
+            ctx.strokeStyle = '#e74c3c';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(cx2, switchY - 15);
+            ctx.lineTo(cx2 + 20, switchY + 5);
+            ctx.stroke();
+        }
+
+        // Bulb (top-right area)
+        var bulbX = cx2 - 100, bulbY = cy1;
+        var brightness = current > 0 ? Math.min(current / 0.3, 1) : 0;
+        // Glow
+        if (brightness > 0) {
+            var glowR = 20 + brightness * 20;
+            var glow = ctx.createRadialGradient(bulbX, bulbY, 5, bulbX, bulbY, glowR);
+            glow.addColorStop(0, 'rgba(255,255,0,' + (brightness * 0.8) + ')');
+            glow.addColorStop(1, 'rgba(255,255,0,0)');
+            ctx.fillStyle = glow;
+            ctx.beginPath();
+            ctx.arc(bulbX, bulbY, glowR, 0, 2 * Math.PI);
+            ctx.fill();
+        }
+        // Bulb circle
+        ctx.beginPath();
+        ctx.arc(bulbX, bulbY, 18, 0, 2 * Math.PI);
+        ctx.fillStyle = brightness > 0 ? 'rgba(255,255,' + Math.floor(150 - brightness * 100) + ',1)' : '#ddd';
+        ctx.fill();
+        ctx.strokeStyle = '#333';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+        // Filament
+        ctx.strokeStyle = brightness > 0 ? '#ff6600' : '#999';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(bulbX - 6, bulbY + 8);
+        ctx.lineTo(bulbX - 3, bulbY - 5);
+        ctx.lineTo(bulbX + 3, bulbY + 5);
+        ctx.lineTo(bulbX + 6, bulbY - 8);
+        ctx.stroke();
+
+        // Electron flow animation dots
+        if (circuitSwitchOn && current > 0) {
+            ctx.fillStyle = '#2980b9';
+            var speed = current * 200;
+            var pathLen = 2 * (cx2 - cx1) + 2 * (cy2 - cy1);
+            for (var e = 0; e < 12; e++) {
+                var pos = ((circuitElectronPhase + e * pathLen / 12) % pathLen);
+                var ex, ey;
+                var seg1 = cx2 - cx1, seg2 = seg1 + (cy2 - cy1), seg3 = seg2 + (cx2 - cx1);
+                if (pos < seg1) {
+                    ex = cx1 + pos; ey = cy1;
+                } else if (pos < seg2) {
+                    ex = cx2; ey = cy1 + (pos - seg1);
+                } else if (pos < seg3) {
+                    ex = cx2 - (pos - seg2); ey = cy2;
+                } else {
+                    ex = cx1; ey = cy2 - (pos - seg3);
+                }
+                ctx.beginPath();
+                ctx.arc(ex, ey, 4, 0, 2 * Math.PI);
+                ctx.fill();
+            }
+            circuitElectronPhase = (circuitElectronPhase + speed * 0.016) % pathLen;
+        }
+
+        requestAnimationFrame(animateCircuit);
+    }
+
+    /* ================================================================
+       Experiment 14: Magnetic Field Lines
+       ================================================================ */
+    var magnetType = 'single';
+
+    function setMagnetType(type, btn) {
+        magnetType = type;
+        var btns = btn.parentElement.querySelectorAll('.toggle-btn');
+        btns.forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        updateMagnet();
+    }
+
+    function updateMagnet() {
+        document.getElementById('magnetDensityVal').textContent = document.getElementById('magnetDensity').value;
+        var desc = magnetType === 'single' ? 'Single bar magnet | Field lines: N to S outside the magnet' :
+                   magnetType === 'attract' ? 'N-S Attraction | Field lines connect between poles' :
+                   'N-N Repulsion | Field lines push apart';
+        document.getElementById('magnetResult').textContent = desc;
+        drawMagnet();
+    }
+
+    function drawMagnet() {
+        var canvas = document.getElementById('magnetCanvas');
+        var ctx = canvas.getContext('2d');
+        var W = canvas.width, H = canvas.height;
+        var density = parseInt(document.getElementById('magnetDensity').value);
+        ctx.clearRect(0, 0, W, H);
+
+        ctx.fillStyle = '#f5f5dc';
+        ctx.fillRect(0, 0, W, H);
+
+        var cx = W / 2, cy = H / 2;
+
+        if (magnetType === 'single') {
+            // Bar magnet
+            var magW = 160, magH = 50;
+            // N pole (red)
+            ctx.fillStyle = '#e74c3c';
+            ctx.fillRect(cx - magW / 2, cy - magH / 2, magW / 2, magH);
+            ctx.fillStyle = '#fff';
+            ctx.font = 'bold 20px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('N', cx - magW / 4, cy + 7);
+            // S pole (blue)
+            ctx.fillStyle = '#2980b9';
+            ctx.fillRect(cx, cy - magH / 2, magW / 2, magH);
+            ctx.fillStyle = '#fff';
+            ctx.fillText('S', cx + magW / 4, cy + 7);
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(cx - magW / 2, cy - magH / 2, magW, magH);
+
+            // Field lines (from N to S, curving around)
+            for (var i = 0; i < density; i++) {
+                var startAngle = -Math.PI / 2 + (i / (density - 1)) * Math.PI;
+                ctx.strokeStyle = 'rgba(139,69,19,0.6)';
+                ctx.lineWidth = 1.5;
+                ctx.beginPath();
+                var nX = cx - magW / 2 - 5;
+                var sX = cx + magW / 2 + 5;
+                var spread = 60 + (Math.abs(startAngle - Math.PI / 4)) * 50;
+
+                // Bezier curve from N to S
+                var cpY = cy + Math.sin(startAngle) * spread;
+                var cpX1 = nX - spread * 0.6;
+                var cpX2 = sX + spread * 0.6;
+                ctx.moveTo(nX, cy + (i - density / 2) * 4);
+                ctx.bezierCurveTo(cpX1, cpY, cpX2, cpY, sX, cy + (i - density / 2) * 4);
+                ctx.stroke();
+
+                // Arrow in middle
+                var midX = (cpX1 + cpX2) / 2;
+                var arrowDir = cpY > cy ? 1 : -1;
+                ctx.fillStyle = 'rgba(139,69,19,0.6)';
+                ctx.beginPath();
+                if (cpY < cy) {
+                    ctx.moveTo(cx, cpY - 5);
+                    ctx.lineTo(cx - 5, cpY + 3);
+                    ctx.lineTo(cx + 5, cpY + 3);
+                } else {
+                    ctx.moveTo(cx, cpY + 5);
+                    ctx.lineTo(cx - 5, cpY - 3);
+                    ctx.lineTo(cx + 5, cpY - 3);
+                }
+                ctx.closePath();
+                ctx.fill();
+            }
+
+        } else if (magnetType === 'attract') {
+            // Two magnets N-S facing
+            var magW = 80, magH = 40;
+            var gap = 100;
+            // Left magnet
+            ctx.fillStyle = '#e74c3c';
+            ctx.fillRect(cx - gap / 2 - magW, cy - magH / 2, magW / 2, magH);
+            ctx.fillStyle = '#2980b9';
+            ctx.fillRect(cx - gap / 2 - magW / 2, cy - magH / 2, magW / 2, magH);
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(cx - gap / 2 - magW, cy - magH / 2, magW, magH);
+            ctx.fillStyle = '#fff';
+            ctx.font = 'bold 16px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('N', cx - gap / 2 - magW * 3 / 4, cy + 6);
+            ctx.fillText('S', cx - gap / 2 - magW / 4, cy + 6);
+
+            // Right magnet
+            ctx.fillStyle = '#e74c3c';
+            ctx.fillRect(cx + gap / 2, cy - magH / 2, magW / 2, magH);
+            ctx.fillStyle = '#2980b9';
+            ctx.fillRect(cx + gap / 2 + magW / 2, cy - magH / 2, magW / 2, magH);
+            ctx.strokeRect(cx + gap / 2, cy - magH / 2, magW, magH);
+            ctx.fillStyle = '#fff';
+            ctx.fillText('N', cx + gap / 2 + magW / 4, cy + 6);
+            ctx.fillText('S', cx + gap / 2 + magW * 3 / 4, cy + 6);
+
+            // Field lines connecting S to N
+            for (var i = 0; i < density; i++) {
+                var yOff = (i - density / 2) * (80 / density);
+                ctx.strokeStyle = 'rgba(139,69,19,0.5)';
+                ctx.lineWidth = 1.5;
+                ctx.beginPath();
+                var sx = cx - gap / 2;
+                var nx = cx + gap / 2;
+                ctx.moveTo(sx, cy + yOff * 0.4);
+                ctx.bezierCurveTo(sx + 20, cy + yOff, nx - 20, cy + yOff, nx, cy + yOff * 0.4);
+                ctx.stroke();
+            }
+
+        } else {
+            // N-N repulsion
+            var magW = 80, magH = 40;
+            var gap = 120;
+            // Left magnet (N facing right)
+            ctx.fillStyle = '#2980b9';
+            ctx.fillRect(cx - gap / 2 - magW, cy - magH / 2, magW / 2, magH);
+            ctx.fillStyle = '#e74c3c';
+            ctx.fillRect(cx - gap / 2 - magW / 2, cy - magH / 2, magW / 2, magH);
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(cx - gap / 2 - magW, cy - magH / 2, magW, magH);
+            ctx.fillStyle = '#fff';
+            ctx.font = 'bold 16px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('S', cx - gap / 2 - magW * 3 / 4, cy + 6);
+            ctx.fillText('N', cx - gap / 2 - magW / 4, cy + 6);
+
+            // Right magnet (N facing left)
+            ctx.fillStyle = '#e74c3c';
+            ctx.fillRect(cx + gap / 2, cy - magH / 2, magW / 2, magH);
+            ctx.fillStyle = '#2980b9';
+            ctx.fillRect(cx + gap / 2 + magW / 2, cy - magH / 2, magW / 2, magH);
+            ctx.strokeRect(cx + gap / 2, cy - magH / 2, magW, magH);
+            ctx.fillStyle = '#fff';
+            ctx.fillText('N', cx + gap / 2 + magW / 4, cy + 6);
+            ctx.fillText('S', cx + gap / 2 + magW * 3 / 4, cy + 6);
+
+            // Repelling field lines (push apart)
+            for (var i = 0; i < density; i++) {
+                var angle = -Math.PI / 2 + (i / (density - 1)) * Math.PI;
+                var spread = 70 + Math.abs(Math.sin(angle)) * 40;
+                ctx.strokeStyle = 'rgba(139,69,19,0.5)';
+                ctx.lineWidth = 1.5;
+                // Left magnet field lines curving away
+                ctx.beginPath();
+                var lx = cx - gap / 2;
+                ctx.moveTo(lx, cy + Math.sin(angle) * 15);
+                ctx.quadraticCurveTo(lx - spread, cy + Math.sin(angle) * spread, lx - 10, cy + Math.sin(angle) * spread * 1.2);
+                ctx.stroke();
+                // Right magnet field lines curving away
+                ctx.beginPath();
+                var rx = cx + gap / 2;
+                ctx.moveTo(rx, cy + Math.sin(angle) * 15);
+                ctx.quadraticCurveTo(rx + spread, cy + Math.sin(angle) * spread, rx + 10, cy + Math.sin(angle) * spread * 1.2);
+                ctx.stroke();
+            }
+        }
+    }
+
+    /* ================================================================
+       Experiment 15: Heat Conduction
+       ================================================================ */
+    var heatProgress = 0;
+    var heatAnimRunning = false;
+    var heatAnimId = null;
+
+    function updateHeat() {
+        document.getElementById('heatTempVal').textContent = document.getElementById('heatTemp').value;
+        var k = parseFloat(document.getElementById('heatMaterial').value);
+        var matName = k > 300 ? 'Copper' : (k > 50 ? 'Iron' : 'Wood');
+        var quality = k > 300 ? 'Good conductor - heat spreads quickly' :
+                      (k > 50 ? 'Moderate conductor' : 'Poor conductor (insulator) - heat barely spreads');
+        document.getElementById('heatResult').textContent =
+            matName + ' | Source: ' + document.getElementById('heatTemp').value + '\u00B0C | ' + quality;
+    }
+
+    function startHeatAnim() {
+        heatProgress = 0;
+        heatAnimRunning = true;
+        if (heatAnimId) cancelAnimationFrame(heatAnimId);
+        animateHeat();
+    }
+
+    function resetHeat() {
+        heatAnimRunning = false;
+        heatProgress = 0;
+        if (heatAnimId) cancelAnimationFrame(heatAnimId);
+        heatAnimId = null;
+        drawHeatFrame();
+    }
+
+    function animateHeat() {
+        var k = parseFloat(document.getElementById('heatMaterial').value);
+        var speed = k > 300 ? 0.015 : (k > 50 ? 0.005 : 0.0005);
+        heatProgress = Math.min(1, heatProgress + speed);
+
+        drawHeatFrame();
+
+        if (heatProgress < 1 && heatAnimRunning) {
+            heatAnimId = requestAnimationFrame(animateHeat);
+        } else {
+            heatAnimRunning = false;
+            heatAnimId = null;
+        }
+    }
+
+    function drawHeatFrame() {
+        var canvas = document.getElementById('heatCanvas');
+        var ctx = canvas.getContext('2d');
+        var W = canvas.width, H = canvas.height;
+        ctx.clearRect(0, 0, W, H);
+
+        var temp = parseFloat(document.getElementById('heatTemp').value);
+        var k = parseFloat(document.getElementById('heatMaterial').value);
+
+        ctx.fillStyle = '#f0f0f0';
+        ctx.fillRect(0, 0, W, H);
+
+        // Rod
+        var rodX = 60, rodY = H / 2 - 25, rodW = W - 120, rodH = 50;
+        var segments = 20;
+        var segW = rodW / segments;
+
+        for (var i = 0; i < segments; i++) {
+            var fraction = i / segments;
+            var heatReach = heatProgress;
+            var segTemp;
+            if (fraction <= heatReach) {
+                segTemp = temp * (1 - fraction / Math.max(heatReach, 0.01)) * 0.8;
+                segTemp = Math.max(segTemp, 25);
+            } else {
+                segTemp = 25;
+            }
+
+            // Temperature to color: 25=blue, 200+=red
+            var t = Math.min((segTemp - 25) / (temp - 25 + 1), 1);
+            var r = Math.floor(50 + t * 205);
+            var g = Math.floor(50 + (1 - t) * 100);
+            var b = Math.floor(200 - t * 180);
+            ctx.fillStyle = 'rgb(' + r + ',' + g + ',' + b + ')';
+            ctx.fillRect(rodX + i * segW, rodY, segW + 1, rodH);
+        }
+
+        ctx.strokeStyle = '#333';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(rodX, rodY, rodW, rodH);
+
+        // Heat source (flame)
+        ctx.fillStyle = '#ff4500';
+        ctx.beginPath();
+        ctx.moveTo(rodX - 10, rodY + rodH);
+        ctx.quadraticCurveTo(rodX - 25, rodY + rodH / 2, rodX - 5, rodY - 10);
+        ctx.quadraticCurveTo(rodX + 5, rodY + rodH / 2, rodX + 15, rodY + rodH);
+        ctx.fill();
+        ctx.fillStyle = '#ffcc00';
+        ctx.beginPath();
+        ctx.moveTo(rodX - 5, rodY + rodH);
+        ctx.quadraticCurveTo(rodX - 12, rodY + rodH / 2 + 10, rodX, rodY + 5);
+        ctx.quadraticCurveTo(rodX + 8, rodY + rodH / 2 + 10, rodX + 8, rodY + rodH);
+        ctx.fill();
+
+        // Temperature gradient bar below
+        var barY = rodY + rodH + 30;
+        for (var i = 0; i < segments; i++) {
+            var fraction = i / segments;
+            var heatReach = heatProgress;
+            var segTemp;
+            if (fraction <= heatReach) {
+                segTemp = temp * (1 - fraction / Math.max(heatReach, 0.01)) * 0.8;
+                segTemp = Math.max(segTemp, 25);
+            } else {
+                segTemp = 25;
+            }
+            var t = Math.min((segTemp - 25) / (temp - 25 + 1), 1);
+            var r = Math.floor(50 + t * 205);
+            var g = Math.floor(50 + (1 - t) * 100);
+            var b = Math.floor(200 - t * 180);
+            ctx.fillStyle = 'rgb(' + r + ',' + g + ',' + b + ')';
+            ctx.fillRect(rodX + i * segW, barY, segW + 1, 15);
+        }
+        ctx.strokeRect(rodX, barY, rodW, 15);
+
+        // Labels
+        ctx.fillStyle = '#333';
+        ctx.font = '12px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(temp + '\u00B0C', rodX, barY + 35);
+        ctx.fillText('25\u00B0C', rodX + rodW, barY + 35);
+        ctx.font = 'bold 13px sans-serif';
+        ctx.fillText('Temperature Gradient', W / 2, barY + 50);
+
+        var matName = k > 300 ? 'Copper' : (k > 50 ? 'Iron' : 'Wood');
+        ctx.fillStyle = '#555';
+        ctx.font = '13px sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText('Material: ' + matName + ' (k = ' + k + ' W/mK)', 15, 25);
+        ctx.fillText('Heat progress: ' + (heatProgress * 100).toFixed(0) + '%', 15, 45);
+    }
+
+    /* ================================================================
+       Experiment 16: Convex & Concave Lens
+       ================================================================ */
+    var lensType = 'convex';
+
+    function setLensType(type, btn) {
+        lensType = type;
+        var btns = btn.parentElement.querySelectorAll('.toggle-btn');
+        btns.forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        updateLens();
+    }
+
+    function updateLens() {
+        var f = parseFloat(document.getElementById('lensF').value);
+        var u = parseFloat(document.getElementById('lensU').value);
+        document.getElementById('lensFVal').textContent = f;
+        document.getElementById('lensUVal').textContent = u;
+
+        var fActual = lensType === 'convex' ? f : -f;
+        // 1/v - 1/u = 1/f => 1/v = 1/f + 1/(-u) = 1/f - 1/u
+        // Using sign convention: u is negative (object on left)
+        var v = 1 / (1 / fActual - 1 / (-u));
+        var mag = Math.abs(v / u);
+        var nature;
+        if (lensType === 'convex') {
+            if (u > f) {
+                nature = 'Real, Inverted';
+            } else {
+                nature = 'Virtual, Erect, Magnified';
+            }
+        } else {
+            nature = 'Virtual, Erect, Diminished';
+        }
+
+        document.getElementById('lensResult').textContent =
+            lensType.charAt(0).toUpperCase() + lensType.slice(1) + ' Lens | u = ' + u + ' px | v = ' + Math.abs(v).toFixed(0) + ' px | Magnification = ' + mag.toFixed(2) + 'x | ' + nature;
+
+        drawLens(f, u, v, mag);
+    }
+
+    function drawLens(f, u, v, mag) {
+        var canvas = document.getElementById('lensCanvas');
+        var ctx = canvas.getContext('2d');
+        var W = canvas.width, H = canvas.height;
+        ctx.clearRect(0, 0, W, H);
+
+        ctx.fillStyle = '#fffef5';
+        ctx.fillRect(0, 0, W, H);
+
+        var cx = W / 2, cy = H / 2;
+
+        // Principal axis
+        ctx.strokeStyle = '#ccc';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(0, cy);
+        ctx.lineTo(W, cy);
+        ctx.stroke();
+
+        // Lens
+        ctx.strokeStyle = '#2980b9';
+        ctx.lineWidth = 3;
+        if (lensType === 'convex') {
+            ctx.beginPath();
+            ctx.arc(cx - 50, cy, 120, -0.4, 0.4);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(cx + 50, cy, 120, Math.PI - 0.4, Math.PI + 0.4);
+            ctx.stroke();
+        } else {
+            ctx.beginPath();
+            ctx.arc(cx + 50, cy, 120, -0.4, 0.4);
+            ctx.stroke();
+            ctx.beginPath();
+            ctx.arc(cx - 50, cy, 120, Math.PI - 0.4, Math.PI + 0.4);
+            ctx.stroke();
+        }
+
+        // Focal points
+        ctx.fillStyle = '#e74c3c';
+        ctx.beginPath();
+        ctx.arc(cx - f, cy, 5, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(cx + f, cy, 5, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.fillStyle = '#e74c3c';
+        ctx.font = '12px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('F', cx - f, cy + 20);
+        ctx.fillText('F', cx + f, cy + 20);
+
+        // 2F points
+        ctx.fillStyle = '#888';
+        ctx.beginPath();
+        ctx.arc(cx - 2 * f, cy, 3, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.beginPath();
+        ctx.arc(cx + 2 * f, cy, 3, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.font = '10px sans-serif';
+        ctx.fillText('2F', cx - 2 * f, cy + 18);
+        ctx.fillText('2F', cx + 2 * f, cy + 18);
+
+        // Object (arrow on left)
+        var objX = cx - u;
+        var objH = 60;
+        ctx.strokeStyle = '#27ae60';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(objX, cy);
+        ctx.lineTo(objX, cy - objH);
+        ctx.stroke();
+        // Arrowhead
+        ctx.fillStyle = '#27ae60';
+        ctx.beginPath();
+        ctx.moveTo(objX, cy - objH - 8);
+        ctx.lineTo(objX - 6, cy - objH + 4);
+        ctx.lineTo(objX + 6, cy - objH + 4);
+        ctx.closePath();
+        ctx.fill();
+        ctx.font = '12px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('Object', objX, cy + 20);
+
+        // Ray tracing
+        // Ray 1: parallel to axis, then through F (or appears from F for concave)
+        ctx.strokeStyle = '#f39c12';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(objX, cy - objH);
+        ctx.lineTo(cx, cy - objH);
+        if (lensType === 'convex') {
+            // Bends through F on other side
+            var ray1EndX = cx + Math.abs(v) + 20;
+            var ray1EndY = cy - objH + (objH + (v > 0 ? objH * mag : -objH * mag)) * ((ray1EndX - cx) / Math.abs(v));
+            ctx.lineTo(cx + Math.max(v, 50), cy + (v > 0 ? objH * (v / f - 1) : -objH));
+        } else {
+            ctx.lineTo(W, cy - objH + objH * (W - cx) / f);
+        }
+        ctx.stroke();
+
+        // Ray 2: through center (undeviated)
+        ctx.strokeStyle = '#8e44ad';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.moveTo(objX, cy - objH);
+        ctx.lineTo(W, cy - objH + (objH) * (W - objX) / u);
+        ctx.stroke();
+
+        // Image (if real)
+        if (lensType === 'convex' && u > f) {
+            var imgX = cx + v;
+            var imgH = objH * mag;
+            ctx.strokeStyle = '#e74c3c';
+            ctx.lineWidth = 3;
+            ctx.setLineDash([]);
+            ctx.beginPath();
+            ctx.moveTo(imgX, cy);
+            ctx.lineTo(imgX, cy + imgH);
+            ctx.stroke();
+            ctx.fillStyle = '#e74c3c';
+            ctx.beginPath();
+            ctx.moveTo(imgX, cy + imgH + 8);
+            ctx.lineTo(imgX - 6, cy + imgH - 4);
+            ctx.lineTo(imgX + 6, cy + imgH - 4);
+            ctx.closePath();
+            ctx.fill();
+            ctx.font = '12px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('Image', imgX, cy - 10);
+        }
+    }
+
+    /* ================================================================
+       Experiment 17: Prism & Dispersion
+       ================================================================ */
+    function updatePrism() {
+        var angle = parseFloat(document.getElementById('prismAngle').value);
+        document.getElementById('prismAngleVal').textContent = angle;
+        document.getElementById('prismResult').textContent =
+            'Prism Angle = ' + angle + '\u00B0 | White light disperses into VIBGYOR spectrum';
+        drawPrism(angle);
+    }
+
+    function drawPrism(angle) {
+        var canvas = document.getElementById('prismCanvas');
+        var ctx = canvas.getContext('2d');
+        var W = canvas.width, H = canvas.height;
+        ctx.clearRect(0, 0, W, H);
+
+        ctx.fillStyle = '#1a1a2e';
+        ctx.fillRect(0, 0, W, H);
+
+        var cx = W / 2, cy = H / 2;
+
+        // Prism (triangle)
+        var prismH = 200;
+        var prismBase = prismH * Math.tan((angle / 2) * Math.PI / 180) * 2;
+        var topX = cx, topY = cy - prismH / 2;
+        var leftX = cx - prismBase / 2, leftY = cy + prismH / 2;
+        var rightX = cx + prismBase / 2, rightY = cy + prismH / 2;
+
+        // Prism glass
+        ctx.fillStyle = 'rgba(200, 200, 255, 0.15)';
+        ctx.strokeStyle = 'rgba(200, 200, 255, 0.6)';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(topX, topY);
+        ctx.lineTo(leftX, leftY);
+        ctx.lineTo(rightX, rightY);
+        ctx.closePath();
+        ctx.fill();
+        ctx.stroke();
+
+        // Incident white light
+        var entryX = (topX + leftX) / 2;
+        var entryY = (topY + leftY) / 2;
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.moveTo(20, entryY - 20);
+        ctx.lineTo(entryX, entryY);
+        ctx.stroke();
+
+        // White light glow
+        var glow = ctx.createLinearGradient(20, entryY - 20, entryX, entryY);
+        glow.addColorStop(0, 'rgba(255,255,255,0.0)');
+        glow.addColorStop(1, 'rgba(255,255,255,0.3)');
+        ctx.strokeStyle = glow;
+        ctx.lineWidth = 12;
+        ctx.beginPath();
+        ctx.moveTo(20, entryY - 20);
+        ctx.lineTo(entryX, entryY);
+        ctx.stroke();
+
+        // Label
+        ctx.fillStyle = '#fff';
+        ctx.font = 'bold 13px sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText('White Light', 25, entryY - 35);
+
+        // Dispersed colors (VIBGYOR)
+        var colors = [
+            { name: 'Violet', color: '#8B00FF', angle: -0.18 },
+            { name: 'Indigo', color: '#4B0082', angle: -0.12 },
+            { name: 'Blue', color: '#0000FF', angle: -0.06 },
+            { name: 'Green', color: '#00FF00', angle: 0.00 },
+            { name: 'Yellow', color: '#FFFF00', angle: 0.06 },
+            { name: 'Orange', color: '#FF7F00', angle: 0.12 },
+            { name: 'Red', color: '#FF0000', angle: 0.18 }
+        ];
+
+        var exitX = (topX + rightX) / 2;
+        var exitY = (topY + rightY) / 2;
+        var spreadFactor = (angle / 60);
+
+        for (var i = 0; i < colors.length; i++) {
+            var c = colors[i];
+            var dispAngle = c.angle * spreadFactor;
+            var endX = W - 30;
+            var endY = exitY + dispAngle * (W - exitX) + (i - 3) * 15 * spreadFactor;
+
+            ctx.strokeStyle = c.color;
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(exitX, exitY);
+            ctx.lineTo(endX, endY);
+            ctx.stroke();
+
+            // Glow effect
+            ctx.strokeStyle = c.color;
+            ctx.lineWidth = 8;
+            ctx.globalAlpha = 0.3;
+            ctx.beginPath();
+            ctx.moveTo(exitX, exitY);
+            ctx.lineTo(endX, endY);
+            ctx.stroke();
+            ctx.globalAlpha = 1.0;
+
+            // Label
+            ctx.fillStyle = c.color;
+            ctx.font = '11px sans-serif';
+            ctx.textAlign = 'left';
+            ctx.fillText(c.name, endX - 55, endY - 5);
+        }
+
+        // Inside prism light
+        ctx.strokeStyle = 'rgba(255,255,255,0.4)';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(entryX, entryY);
+        ctx.lineTo(exitX, exitY);
+        ctx.stroke();
+
+        // Angle label
+        ctx.fillStyle = 'rgba(200,200,255,0.8)';
+        ctx.font = '14px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(angle + '\u00B0', topX, topY - 15);
+    }
+
+    /* ================================================================
+       Experiment 18: Projectile Motion
+       ================================================================ */
+    var projTime = 0;
+    var projRunning = false;
+    var projAnimId = null;
+    var projTrail = [];
+
+    function updateProjectileLabel() {
+        var angle = parseFloat(document.getElementById('projAngle').value);
+        var speed = parseFloat(document.getElementById('projSpeed').value);
+        document.getElementById('projAngleVal').textContent = angle;
+        document.getElementById('projSpeedVal').textContent = speed;
+
+        var rad = angle * Math.PI / 180;
+        var g = 9.8;
+        var range = (speed * speed * Math.sin(2 * rad)) / g;
+        var maxH = (speed * speed * Math.sin(rad) * Math.sin(rad)) / (2 * g);
+        var tof = (2 * speed * Math.sin(rad)) / g;
+
+        document.getElementById('projectileResult').textContent =
+            'Range = ' + range.toFixed(1) + ' m | Max Height = ' + maxH.toFixed(1) + ' m | Time of Flight = ' + tof.toFixed(2) + ' s';
+    }
+
+    function launchProjectile() {
+        projTime = 0;
+        projTrail = [];
+        projRunning = true;
+        if (projAnimId) cancelAnimationFrame(projAnimId);
+        animateProjectile();
+    }
+
+    function resetProjectile() {
+        projRunning = false;
+        projTime = 0;
+        projTrail = [];
+        if (projAnimId) cancelAnimationFrame(projAnimId);
+        projAnimId = null;
+        drawProjectileFrame(0, 0);
+    }
+
+    function animateProjectile() {
+        var angle = parseFloat(document.getElementById('projAngle').value);
+        var speed = parseFloat(document.getElementById('projSpeed').value);
+        var rad = angle * Math.PI / 180;
+        var g = 9.8;
+
+        var vx = speed * Math.cos(rad);
+        var vy = speed * Math.sin(rad);
+
+        var x = vx * projTime;
+        var y = vy * projTime - 0.5 * g * projTime * projTime;
+
+        projTrail.push({ x: x, y: y });
+
+        if (y < 0 && projTime > 0.1) {
+            projRunning = false;
+            projAnimId = null;
+            drawProjectileFrame(x, 0);
+            return;
+        }
+
+        drawProjectileFrame(x, y);
+
+        projTime += 0.04;
+        if (projRunning) {
+            projAnimId = requestAnimationFrame(animateProjectile);
+        }
+    }
+
+    function drawProjectileFrame(px, py) {
+        var canvas = document.getElementById('projectileCanvas');
+        var ctx = canvas.getContext('2d');
+        var W = canvas.width, H = canvas.height;
+        ctx.clearRect(0, 0, W, H);
+
+        var angle = parseFloat(document.getElementById('projAngle').value);
+        var speed = parseFloat(document.getElementById('projSpeed').value);
+        var rad = angle * Math.PI / 180;
+        var g = 9.8;
+        var range = (speed * speed * Math.sin(2 * rad)) / g;
+        var maxH = (speed * speed * Math.sin(rad) * Math.sin(rad)) / (2 * g);
+
+        // Sky
+        var skyGrad = ctx.createLinearGradient(0, 0, 0, H);
+        skyGrad.addColorStop(0, '#87CEEB');
+        skyGrad.addColorStop(1, '#E0F7FA');
+        ctx.fillStyle = skyGrad;
+        ctx.fillRect(0, 0, W, H);
+
+        // Ground
+        var groundY = H - 50;
+        ctx.fillStyle = '#6d8c3f';
+        ctx.fillRect(0, groundY, W, 50);
+
+        // Scale
+        var scaleX = (W - 100) / Math.max(range, 50);
+        var scaleY = (groundY - 60) / Math.max(maxH, 30);
+        var scale = Math.min(scaleX, scaleY);
+        var originX = 50;
+
+        // Trail
+        ctx.strokeStyle = 'rgba(231,76,60,0.6)';
+        ctx.lineWidth = 2;
+        ctx.setLineDash([3, 3]);
+        ctx.beginPath();
+        for (var i = 0; i < projTrail.length; i++) {
+            var tx = originX + projTrail[i].x * scale;
+            var ty = groundY - projTrail[i].y * scale;
+            if (i === 0) ctx.moveTo(tx, ty);
+            else ctx.lineTo(tx, ty);
+        }
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Current projectile
+        var drawX = originX + px * scale;
+        var drawY = groundY - py * scale;
+        ctx.beginPath();
+        ctx.arc(drawX, drawY, 8, 0, 2 * Math.PI);
+        var projGrad = ctx.createRadialGradient(drawX - 2, drawY - 2, 1, drawX, drawY, 8);
+        projGrad.addColorStop(0, '#f39c12');
+        projGrad.addColorStop(1, '#e67e22');
+        ctx.fillStyle = projGrad;
+        ctx.fill();
+        ctx.strokeStyle = '#d35400';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Launch angle indicator
+        ctx.strokeStyle = 'rgba(0,0,0,0.3)';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(originX, groundY);
+        ctx.lineTo(originX + 60 * Math.cos(rad), groundY - 60 * Math.sin(rad));
+        ctx.stroke();
+        ctx.fillStyle = '#333';
+        ctx.font = '12px sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText(angle + '\u00B0', originX + 30, groundY - 10);
+
+        // Max height marker
+        if (maxH > 0) {
+            var mhY = groundY - maxH * scale;
+            ctx.strokeStyle = 'rgba(142,68,173,0.4)';
+            ctx.lineWidth = 1;
+            ctx.setLineDash([4, 4]);
+            ctx.beginPath();
+            ctx.moveTo(0, mhY);
+            ctx.lineTo(W, mhY);
+            ctx.stroke();
+            ctx.setLineDash([]);
+            ctx.fillStyle = '#8e44ad';
+            ctx.font = '11px sans-serif';
+            ctx.textAlign = 'right';
+            ctx.fillText('Max H = ' + maxH.toFixed(1) + ' m', W - 10, mhY - 5);
+        }
+
+        // Range marker
+        var rangeX = originX + range * scale;
+        if (rangeX < W - 10) {
+            ctx.fillStyle = '#e74c3c';
+            ctx.beginPath();
+            ctx.moveTo(rangeX, groundY - 8);
+            ctx.lineTo(rangeX - 5, groundY);
+            ctx.lineTo(rangeX + 5, groundY);
+            ctx.closePath();
+            ctx.fill();
+            ctx.font = '11px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText(range.toFixed(1) + ' m', rangeX, groundY + 20);
+        }
+
+        // Launcher
+        ctx.fillStyle = '#555';
+        ctx.fillRect(originX - 10, groundY - 10, 20, 10);
+    }
+
+    /* ================================================================
+       Experiment 19: Archimedes' Principle
+       ================================================================ */
+    var archObjY = 60;
+    var archAnimId = null;
+    var archLowering = false;
+
+    function updateArchimedes() {
+        var density = parseFloat(document.getElementById('archDensity').value);
+        var volume = parseFloat(document.getElementById('archVolume').value);
+        document.getElementById('archDensityVal').textContent = density.toFixed(1);
+        document.getElementById('archVolumeVal').textContent = volume;
+
+        var mass = density * volume / 1000; // kg
+        var weight = mass * 9.8;
+        var buoyantForce = 1.0 * volume / 1000 * 9.8; // water density = 1.0
+        if (density < 1.0) buoyantForce = weight; // floats
+        var apparentWeight = Math.max(0, weight - buoyantForce);
+
+        document.getElementById('archimedesResult').textContent =
+            'Weight = ' + weight.toFixed(2) + ' N | Buoyant Force = ' + buoyantForce.toFixed(2) + ' N | Apparent Weight = ' + apparentWeight.toFixed(2) + ' N';
+    }
+
+    function lowerArchObject() {
+        archObjY = 60;
+        archLowering = true;
+        if (archAnimId) cancelAnimationFrame(archAnimId);
+        animateArchimedes();
+    }
+
+    function resetArchimedes() {
+        archLowering = false;
+        archObjY = 60;
+        if (archAnimId) cancelAnimationFrame(archAnimId);
+        archAnimId = null;
+        drawArchimedesFrame();
+    }
+
+    function animateArchimedes() {
+        var density = parseFloat(document.getElementById('archDensity').value);
+        var waterSurface = 180;
+        var bottomY = 340;
+        var objSize = 50;
+
+        var targetY;
+        if (density < 1.0) {
+            var submergedFraction = density / 1.0;
+            targetY = waterSurface - objSize * (1 - submergedFraction);
+        } else {
+            targetY = bottomY - objSize;
+        }
+
+        if (archObjY < targetY) {
+            archObjY += 2;
+            if (archObjY > targetY) archObjY = targetY;
+        }
+
+        drawArchimedesFrame();
+
+        if (archObjY < targetY && archLowering) {
+            archAnimId = requestAnimationFrame(animateArchimedes);
+        } else {
+            archLowering = false;
+            archAnimId = null;
+        }
+    }
+
+    function drawArchimedesFrame() {
+        var canvas = document.getElementById('archimedesCanvas');
+        var ctx = canvas.getContext('2d');
+        var W = canvas.width, H = canvas.height;
+        ctx.clearRect(0, 0, W, H);
+
+        var density = parseFloat(document.getElementById('archDensity').value);
+        var volume = parseFloat(document.getElementById('archVolume').value);
+
+        ctx.fillStyle = '#f0f8ff';
+        ctx.fillRect(0, 0, W, H);
+
+        // Beaker
+        var bx = 150, by = 100, bw = 200, bh = 260;
+        ctx.strokeStyle = '#555';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(bx, by);
+        ctx.lineTo(bx, by + bh);
+        ctx.lineTo(bx + bw, by + bh);
+        ctx.lineTo(bx + bw, by);
+        ctx.stroke();
+
+        // Water
+        var waterSurface = 180;
+        ctx.fillStyle = 'rgba(52, 152, 219, 0.3)';
+        ctx.fillRect(bx + 3, waterSurface, bw - 6, by + bh - waterSurface - 3);
+
+        // Water surface
+        ctx.strokeStyle = '#2980b9';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(bx + 3, waterSurface);
+        ctx.lineTo(bx + bw - 3, waterSurface);
+        ctx.stroke();
+
+        // Object
+        var objSize = 50;
+        var objX = bx + bw / 2 - objSize / 2;
+        ctx.fillStyle = density < 1 ? '#e67e22' : (density < 3 ? '#95a5a6' : '#555');
+        ctx.fillRect(objX, archObjY, objSize, objSize);
+        ctx.strokeStyle = '#333';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(objX, archObjY, objSize, objSize);
+        ctx.fillStyle = '#fff';
+        ctx.font = 'bold 11px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(density.toFixed(1), bx + bw / 2, archObjY + objSize / 2 + 4);
+        ctx.fillText('g/cm\u00B3', bx + bw / 2, archObjY + objSize / 2 + 18);
+
+        // String (thread from top)
+        ctx.strokeStyle = '#888';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(bx + bw / 2, 30);
+        ctx.lineTo(bx + bw / 2, archObjY);
+        ctx.stroke();
+
+        // Force arrows on right side
+        var rightX = bx + bw + 50;
+        var mass = density * volume / 1000;
+        var weight = mass * 9.8;
+        var submergedDepth = Math.max(0, archObjY + objSize - waterSurface);
+        var submergedFraction = Math.min(submergedDepth / objSize, 1);
+        var buoyantForce = 1.0 * (volume * submergedFraction) / 1000 * 9.8;
+
+        // Weight arrow (down)
+        if (weight > 0) {
+            var wLen = Math.min(weight * 10, 80);
+            ctx.strokeStyle = '#e74c3c';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(rightX, archObjY + objSize / 2);
+            ctx.lineTo(rightX, archObjY + objSize / 2 + wLen);
+            ctx.stroke();
+            ctx.fillStyle = '#e74c3c';
+            ctx.beginPath();
+            ctx.moveTo(rightX, archObjY + objSize / 2 + wLen + 6);
+            ctx.lineTo(rightX - 5, archObjY + objSize / 2 + wLen - 4);
+            ctx.lineTo(rightX + 5, archObjY + objSize / 2 + wLen - 4);
+            ctx.closePath();
+            ctx.fill();
+            ctx.font = '12px sans-serif';
+            ctx.textAlign = 'left';
+            ctx.fillText('W = ' + weight.toFixed(1) + ' N', rightX + 10, archObjY + objSize / 2 + wLen / 2);
+        }
+
+        // Buoyant force arrow (up)
+        if (buoyantForce > 0.01) {
+            var bLen = Math.min(buoyantForce * 10, 80);
+            ctx.strokeStyle = '#2980b9';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(rightX + 50, archObjY + objSize / 2);
+            ctx.lineTo(rightX + 50, archObjY + objSize / 2 - bLen);
+            ctx.stroke();
+            ctx.fillStyle = '#2980b9';
+            ctx.beginPath();
+            ctx.moveTo(rightX + 50, archObjY + objSize / 2 - bLen - 6);
+            ctx.lineTo(rightX + 45, archObjY + objSize / 2 - bLen + 4);
+            ctx.lineTo(rightX + 55, archObjY + objSize / 2 - bLen + 4);
+            ctx.closePath();
+            ctx.fill();
+            ctx.font = '12px sans-serif';
+            ctx.textAlign = 'left';
+            ctx.fillText('Fb = ' + buoyantForce.toFixed(1) + ' N', rightX + 60, archObjY + objSize / 2 - bLen / 2);
+        }
+
+        // Labels
+        ctx.fillStyle = '#333';
+        ctx.font = '12px sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText('Water (\u03C1 = 1.0 g/cm\u00B3)', bx + 5, by + bh - 10);
+        ctx.fillText('Vol = ' + volume + ' cm\u00B3', 15, 25);
+
+        // Displaced water indicator
+        if (submergedFraction > 0) {
+            var displVol = (volume * submergedFraction).toFixed(0);
+            ctx.fillStyle = '#2980b9';
+            ctx.font = 'bold 12px sans-serif';
+            ctx.textAlign = 'left';
+            ctx.fillText('Displaced: ' + displVol + ' cm\u00B3', 15, 45);
+        }
+    }
+
+    /* ================================================================
+       Experiment 20: Speed of Sound
+       ================================================================ */
+    function updateSpeedSound() {
+        var speed = parseFloat(document.getElementById('soundMedium').value);
+        var delay = parseFloat(document.getElementById('thunderDelay').value);
+        document.getElementById('thunderDelayVal').textContent = delay;
+
+        var mediumName = speed === 343 ? 'Air' : (speed === 1480 ? 'Water' : 'Steel');
+        var distance = speed * delay;
+        var distKm = (distance / 1000).toFixed(2);
+
+        document.getElementById('speedSoundResult').textContent =
+            'Speed = ' + speed + ' m/s (' + mediumName + ') | Thunder delay = ' + delay + ' s | Lightning distance = ' + distance + ' m (' + distKm + ' km)';
+
+        drawSpeedSound(speed, delay, distance, mediumName);
+    }
+
+    function drawSpeedSound(speed, delay, distance, mediumName) {
+        var canvas = document.getElementById('speedSoundCanvas');
+        var ctx = canvas.getContext('2d');
+        var W = canvas.width, H = canvas.height;
+        ctx.clearRect(0, 0, W, H);
+
+        // Background
+        ctx.fillStyle = '#1a1a2e';
+        ctx.fillRect(0, 0, W, H);
+
+        // Top section: comparison bars
+        var barY = 40;
+        var speeds = [
+            { name: 'Air', speed: 343, color: '#3498db' },
+            { name: 'Water', speed: 1480, color: '#2ecc71' },
+            { name: 'Steel', speed: 5960, color: '#e74c3c' }
+        ];
+
+        ctx.fillStyle = '#fff';
+        ctx.font = 'bold 14px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('Speed of Sound Comparison', W / 2, 25);
+
+        var maxSpeed = 5960;
+        var barMaxW = W - 180;
+
+        for (var i = 0; i < speeds.length; i++) {
+            var s = speeds[i];
+            var bw = (s.speed / maxSpeed) * barMaxW;
+            var by = barY + i * 35;
+
+            ctx.fillStyle = 'rgba(255,255,255,0.7)';
+            ctx.font = '12px sans-serif';
+            ctx.textAlign = 'right';
+            ctx.fillText(s.name, 65, by + 18);
+
+            // Bar background
+            ctx.fillStyle = 'rgba(255,255,255,0.1)';
+            ctx.fillRect(80, by + 5, barMaxW, 20);
+
+            // Bar fill
+            var isActive = s.name === mediumName;
+            ctx.fillStyle = isActive ? s.color : 'rgba(' +
+                (s.color === '#3498db' ? '52,152,219' : s.color === '#2ecc71' ? '46,204,113' : '231,76,60') + ',0.4)';
+            ctx.fillRect(80, by + 5, bw, 20);
+
+            if (isActive) {
+                ctx.strokeStyle = '#fff';
+                ctx.lineWidth = 2;
+                ctx.strokeRect(80, by + 5, bw, 20);
+            }
+
+            ctx.fillStyle = '#fff';
+            ctx.font = '11px sans-serif';
+            ctx.textAlign = 'left';
+            ctx.fillText(s.speed + ' m/s', 85 + bw + 5, by + 20);
+        }
+
+        // Bottom section: Thunder-lightning calculator visualization
+        var scenY = 180;
+
+        // Lightning bolt
+        ctx.strokeStyle = '#ffff00';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(100, scenY);
+        ctx.lineTo(110, scenY + 25);
+        ctx.lineTo(95, scenY + 30);
+        ctx.lineTo(105, scenY + 55);
+        ctx.stroke();
+
+        // Glow
+        ctx.shadowColor = '#ffff00';
+        ctx.shadowBlur = 15;
+        ctx.strokeStyle = '#ffff00';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(100, scenY);
+        ctx.lineTo(110, scenY + 25);
+        ctx.lineTo(95, scenY + 30);
+        ctx.lineTo(105, scenY + 55);
+        ctx.stroke();
+        ctx.shadowBlur = 0;
+
+        // Person
+        ctx.fillStyle = '#ddd';
+        ctx.beginPath();
+        ctx.arc(W - 100, scenY + 30, 10, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.strokeStyle = '#ddd';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(W - 100, scenY + 40);
+        ctx.lineTo(W - 100, scenY + 65);
+        ctx.moveTo(W - 100, scenY + 50);
+        ctx.lineTo(W - 112, scenY + 58);
+        ctx.moveTo(W - 100, scenY + 50);
+        ctx.lineTo(W - 88, scenY + 58);
+        ctx.moveTo(W - 100, scenY + 65);
+        ctx.lineTo(W - 112, scenY + 80);
+        ctx.moveTo(W - 100, scenY + 65);
+        ctx.lineTo(W - 88, scenY + 80);
+        ctx.stroke();
+
+        // Distance line
+        ctx.strokeStyle = 'rgba(255,255,255,0.4)';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([5, 5]);
+        ctx.beginPath();
+        ctx.moveTo(110, scenY + 65);
+        ctx.lineTo(W - 115, scenY + 65);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Distance label
+        ctx.fillStyle = '#f39c12';
+        ctx.font = 'bold 16px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('Distance = ' + distance + ' m (' + (distance / 1000).toFixed(2) + ' km)', W / 2, scenY + 60);
+
+        // Formula
+        ctx.fillStyle = '#fff';
+        ctx.font = '14px sans-serif';
+        ctx.fillText('Distance = Speed \u00D7 Time = ' + speed + ' \u00D7 ' + delay + ' = ' + distance + ' m', W / 2, scenY + 100);
+
+        // Delay label
+        ctx.fillStyle = '#3498db';
+        ctx.font = 'bold 14px sans-serif';
+        ctx.fillText('Thunder heard after ' + delay + ' seconds', W / 2, scenY + 125);
+
+        // Ground
+        ctx.fillStyle = '#2d2d44';
+        ctx.fillRect(0, H - 30, W, 30);
+    }
+
+    /* ================================================================
+       Experiment 21: Electromagnetic Induction
+       ================================================================ */
+    var inductionMagnetX = 100;
+    var inductionAnimId = null;
+    var inductionDir = 'right';
+    var inductionMoving = false;
+
+    function updateInductionLabel() {
+        document.getElementById('inductionSpeedVal').textContent = document.getElementById('inductionSpeed').value;
+    }
+
+    function startInduction(dir) {
+        inductionDir = dir;
+        inductionMagnetX = dir === 'right' ? 80 : 520;
+        inductionMoving = true;
+        if (inductionAnimId) cancelAnimationFrame(inductionAnimId);
+        animateInduction();
+    }
+
+    function resetInduction() {
+        inductionMoving = false;
+        inductionMagnetX = 100;
+        if (inductionAnimId) cancelAnimationFrame(inductionAnimId);
+        inductionAnimId = null;
+        document.getElementById('inductionResult').textContent = 'Move the magnet through the coil to induce current.';
+        drawInductionFrame(0);
+    }
+
+    function animateInduction() {
+        var speed = parseFloat(document.getElementById('inductionSpeed').value);
+        var dx = speed * (inductionDir === 'right' ? 1.5 : -1.5);
+        inductionMagnetX += dx;
+
+        var coilCenter = 300;
+        var distFromCoil = Math.abs(inductionMagnetX + 40 - coilCenter);
+        var maxDist = 200;
+        var currentMag = Math.max(0, (1 - distFromCoil / maxDist)) * speed;
+
+        var currentDir = inductionDir === 'right' ? (inductionMagnetX + 40 < coilCenter ? '+' : '-') : (inductionMagnetX + 40 > coilCenter ? '+' : '-');
+
+        document.getElementById('inductionResult').textContent =
+            'Induced Current: ' + currentMag.toFixed(1) + ' units (' + currentDir + ') | Speed: ' + speed;
+
+        drawInductionFrame(currentMag * (currentDir === '+' ? 1 : -1));
+
+        if ((inductionDir === 'right' && inductionMagnetX > 520) || (inductionDir === 'left' && inductionMagnetX < 80)) {
+            inductionMoving = false;
+            inductionAnimId = null;
+            return;
+        }
+
+        if (inductionMoving) {
+            inductionAnimId = requestAnimationFrame(animateInduction);
+        }
+    }
+
+    function drawInductionFrame(current) {
+        var canvas = document.getElementById('inductionCanvas');
+        var ctx = canvas.getContext('2d');
+        var W = canvas.width, H = canvas.height;
+        ctx.clearRect(0, 0, W, H);
+
+        ctx.fillStyle = '#f0f4ff';
+        ctx.fillRect(0, 0, W, H);
+
+        var cy = H / 2;
+
+        // Coil (solenoid)
+        var coilX = 250, coilW = 100, coilH = 120;
+        ctx.strokeStyle = '#c0392b';
+        ctx.lineWidth = 3;
+        for (var i = 0; i < 8; i++) {
+            var x = coilX + (i / 7) * coilW;
+            ctx.beginPath();
+            ctx.ellipse(x, cy, 8, coilH / 2, 0, 0, Math.PI * 2);
+            ctx.stroke();
+        }
+        ctx.fillStyle = '#333';
+        ctx.font = 'bold 13px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('Coil', coilX + coilW / 2, cy - coilH / 2 - 15);
+
+        // Magnet
+        var magW = 80, magH = 35;
+        var magY = cy - magH / 2;
+        // N pole
+        ctx.fillStyle = '#e74c3c';
+        ctx.fillRect(inductionMagnetX, magY, magW / 2, magH);
+        // S pole
+        ctx.fillStyle = '#2980b9';
+        ctx.fillRect(inductionMagnetX + magW / 2, magY, magW / 2, magH);
+        ctx.strokeStyle = '#333';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(inductionMagnetX, magY, magW, magH);
+        ctx.fillStyle = '#fff';
+        ctx.font = 'bold 14px sans-serif';
+        ctx.fillText('N', inductionMagnetX + magW / 4, cy + 5);
+        ctx.fillText('S', inductionMagnetX + magW * 3 / 4, cy + 5);
+
+        // Motion arrow
+        if (inductionMoving) {
+            var arrowX = inductionMagnetX + (inductionDir === 'right' ? magW + 10 : -10);
+            ctx.fillStyle = '#27ae60';
+            ctx.beginPath();
+            if (inductionDir === 'right') {
+                ctx.moveTo(arrowX + 15, cy);
+                ctx.lineTo(arrowX, cy - 8);
+                ctx.lineTo(arrowX, cy + 8);
+            } else {
+                ctx.moveTo(arrowX - 15, cy);
+                ctx.lineTo(arrowX, cy - 8);
+                ctx.lineTo(arrowX, cy + 8);
+            }
+            ctx.closePath();
+            ctx.fill();
+        }
+
+        // Galvanometer
+        var galX = 450, galY = 60, galR = 35;
+        ctx.beginPath();
+        ctx.arc(galX, galY, galR, 0, 2 * Math.PI);
+        ctx.fillStyle = '#fff';
+        ctx.fill();
+        ctx.strokeStyle = '#333';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Galvanometer scale
+        ctx.strokeStyle = '#ccc';
+        ctx.lineWidth = 1;
+        ctx.beginPath();
+        ctx.moveTo(galX - 25, galY);
+        ctx.lineTo(galX + 25, galY);
+        ctx.stroke();
+
+        // Needle
+        var needleAngle = Math.max(-0.8, Math.min(0.8, current / 10));
+        ctx.strokeStyle = '#e74c3c';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(galX, galY);
+        ctx.lineTo(galX + 28 * Math.sin(needleAngle), galY - 28 * Math.cos(needleAngle));
+        ctx.stroke();
+
+        ctx.fillStyle = '#333';
+        ctx.font = '10px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('-', galX - 20, galY + 4);
+        ctx.fillText('0', galX, galY + 15);
+        ctx.fillText('+', galX + 20, galY + 4);
+        ctx.font = 'bold 11px sans-serif';
+        ctx.fillText('Galvanometer', galX, galY + galR + 15);
+
+        // Wires from coil to galvanometer
+        ctx.strokeStyle = '#555';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.moveTo(coilX + coilW, cy - coilH / 2);
+        ctx.lineTo(coilX + coilW + 30, cy - coilH / 2);
+        ctx.lineTo(galX - galR, galY);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(coilX, cy - coilH / 2);
+        ctx.lineTo(coilX - 20, cy - coilH / 2);
+        ctx.lineTo(coilX - 20, 60);
+        ctx.lineTo(galX - galR - 10, 60);
+        ctx.lineTo(galX, galY + galR);
+        ctx.stroke();
+    }
+
+    /* ================================================================
+       Experiment 22: Thermal Expansion
+       ================================================================ */
+    var expansionType = 'solid';
+
+    function setExpansionType(type, btn) {
+        expansionType = type;
+        var btns = btn.parentElement.querySelectorAll('.toggle-btn');
+        btns.forEach(function(b) { b.classList.remove('active'); });
+        btn.classList.add('active');
+        updateExpansion();
+    }
+
+    function updateExpansion() {
+        var temp = parseFloat(document.getElementById('expansionTemp').value);
+        document.getElementById('expansionTempVal').textContent = temp;
+
+        var expansionRate = expansionType === 'solid' ? 0.0001 : (expansionType === 'liquid' ? 0.001 : 0.01);
+        var amount = ((temp - 25) * expansionRate * 100).toFixed(2);
+        var desc = expansionType === 'solid' ? 'Solid' : (expansionType === 'liquid' ? 'Liquid' : 'Gas');
+        var quality = temp <= 30 ? 'minimal' : (temp < 200 ? 'moderate' : 'significant');
+
+        document.getElementById('expansionResult').textContent =
+            desc + ' at ' + temp + '\u00B0C | Expansion: ' + quality + ' (' + amount + '%)';
+
+        drawExpansion(temp);
+    }
+
+    function drawExpansion(temp) {
+        var canvas = document.getElementById('expansionCanvas');
+        var ctx = canvas.getContext('2d');
+        var W = canvas.width, H = canvas.height;
+        ctx.clearRect(0, 0, W, H);
+
+        ctx.fillStyle = '#f5f5f5';
+        ctx.fillRect(0, 0, W, H);
+
+        var cx = W / 2, cy = H / 2;
+        var expansion = (temp - 25) / 475; // 0 to 1
+        var rate = expansionType === 'solid' ? 0.15 : (expansionType === 'liquid' ? 0.4 : 0.8);
+        var expandAmount = expansion * rate;
+
+        // Temperature color
+        var t = Math.min(expansion, 1);
+        var r = Math.floor(100 + t * 155);
+        var g = Math.floor(100 * (1 - t));
+        var b = Math.floor(200 * (1 - t));
+        var tempColor = 'rgb(' + r + ',' + g + ',' + b + ')';
+
+        if (expansionType === 'solid') {
+            // Metal bar expanding
+            var baseW = 200, baseH = 50;
+            var w = baseW * (1 + expandAmount);
+            var h = baseH * (1 + expandAmount * 0.3);
+
+            // Original outline
+            ctx.strokeStyle = 'rgba(0,0,0,0.2)';
+            ctx.lineWidth = 1;
+            ctx.setLineDash([4, 4]);
+            ctx.strokeRect(cx - baseW / 2, cy - baseH / 2, baseW, baseH);
+            ctx.setLineDash([]);
+
+            // Expanded bar
+            ctx.fillStyle = tempColor;
+            ctx.fillRect(cx - w / 2, cy - h / 2, w, h);
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(cx - w / 2, cy - h / 2, w, h);
+
+            ctx.fillStyle = '#333';
+            ctx.font = 'bold 13px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('Metal Bar', cx, cy + h / 2 + 25);
+
+            // Arrows showing expansion
+            if (expandAmount > 0.01) {
+                ctx.strokeStyle = '#e74c3c';
+                ctx.lineWidth = 2;
+                // Left arrow
+                ctx.beginPath();
+                ctx.moveTo(cx - baseW / 2, cy - h / 2 - 15);
+                ctx.lineTo(cx - w / 2 - 5, cy - h / 2 - 15);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(cx - w / 2 - 5, cy - h / 2 - 15);
+                ctx.lineTo(cx - w / 2 + 5, cy - h / 2 - 20);
+                ctx.lineTo(cx - w / 2 + 5, cy - h / 2 - 10);
+                ctx.closePath();
+                ctx.fillStyle = '#e74c3c';
+                ctx.fill();
+                // Right arrow
+                ctx.beginPath();
+                ctx.moveTo(cx + baseW / 2, cy - h / 2 - 15);
+                ctx.lineTo(cx + w / 2 + 5, cy - h / 2 - 15);
+                ctx.stroke();
+                ctx.beginPath();
+                ctx.moveTo(cx + w / 2 + 5, cy - h / 2 - 15);
+                ctx.lineTo(cx + w / 2 - 5, cy - h / 2 - 20);
+                ctx.lineTo(cx + w / 2 - 5, cy - h / 2 - 10);
+                ctx.closePath();
+                ctx.fill();
+            }
+
+        } else if (expansionType === 'liquid') {
+            // Thermometer-like tube
+            var tubeX = cx - 15, tubeY = cy - 100, tubeW = 30, tubeH = 200;
+            var bulbR = 30;
+
+            // Tube
+            ctx.fillStyle = '#eee';
+            ctx.fillRect(tubeX, tubeY, tubeW, tubeH);
+            ctx.strokeStyle = '#555';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(tubeX, tubeY, tubeW, tubeH);
+
+            // Bulb
+            ctx.beginPath();
+            ctx.arc(cx, tubeY + tubeH + bulbR - 10, bulbR, 0, 2 * Math.PI);
+            ctx.fillStyle = tempColor;
+            ctx.fill();
+            ctx.stroke();
+
+            // Liquid level in tube
+            var liquidHeight = tubeH * (0.1 + expandAmount * 0.9);
+            ctx.fillStyle = tempColor;
+            ctx.fillRect(tubeX + 3, tubeY + tubeH - liquidHeight, tubeW - 6, liquidHeight);
+
+            // Scale marks
+            for (var s = 0; s <= 5; s++) {
+                var sy = tubeY + tubeH - (s / 5) * tubeH;
+                ctx.strokeStyle = '#333';
+                ctx.lineWidth = 1;
+                ctx.beginPath();
+                ctx.moveTo(tubeX + tubeW, sy);
+                ctx.lineTo(tubeX + tubeW + 10, sy);
+                ctx.stroke();
+            }
+
+            ctx.fillStyle = '#333';
+            ctx.font = 'bold 13px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('Liquid Expansion in Tube', cx, tubeY - 15);
+
+        } else {
+            // Gas in a container with piston
+            var contX = cx - 80, contY = cy - 60, contW = 160, contH = 120;
+            var pistonY = contY - expandAmount * 100;
+
+            // Container walls
+            ctx.fillStyle = '#ddd';
+            ctx.fillRect(contX, pistonY, contW, contY + contH - pistonY);
+            ctx.strokeStyle = '#555';
+            ctx.lineWidth = 3;
+            ctx.beginPath();
+            ctx.moveTo(contX, pistonY);
+            ctx.lineTo(contX, contY + contH);
+            ctx.lineTo(contX + contW, contY + contH);
+            ctx.lineTo(contX + contW, pistonY);
+            ctx.stroke();
+
+            // Gas (colored)
+            ctx.fillStyle = tempColor;
+            ctx.globalAlpha = 0.3;
+            ctx.fillRect(contX + 3, pistonY + 15, contW - 6, contY + contH - pistonY - 18);
+            ctx.globalAlpha = 1.0;
+
+            // Particles
+            var particleCount = 15;
+            ctx.fillStyle = tempColor;
+            for (var p = 0; p < particleCount; p++) {
+                var px = contX + 20 + (p * 37) % (contW - 40);
+                var py = pistonY + 25 + (p * 53) % (contY + contH - pistonY - 40);
+                var pSize = 4 + expansion * 3;
+                ctx.beginPath();
+                ctx.arc(px, py, pSize, 0, 2 * Math.PI);
+                ctx.fill();
+            }
+
+            // Piston
+            ctx.fillStyle = '#777';
+            ctx.fillRect(contX, pistonY, contW, 12);
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(contX, pistonY, contW, 12);
+
+            // Arrow
+            if (expandAmount > 0.02) {
+                ctx.strokeStyle = '#e74c3c';
+                ctx.lineWidth = 2;
+                ctx.beginPath();
+                ctx.moveTo(cx, contY - 5);
+                ctx.lineTo(cx, pistonY - 10);
+                ctx.stroke();
+                ctx.fillStyle = '#e74c3c';
+                ctx.beginPath();
+                ctx.moveTo(cx, pistonY - 15);
+                ctx.lineTo(cx - 5, pistonY - 5);
+                ctx.lineTo(cx + 5, pistonY - 5);
+                ctx.closePath();
+                ctx.fill();
+            }
+
+            ctx.fillStyle = '#333';
+            ctx.font = 'bold 13px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('Gas with Movable Piston', cx, contY + contH + 25);
+        }
+
+        // Temperature display
+        ctx.fillStyle = '#333';
+        ctx.font = '13px sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText('Temperature: ' + temp + '\u00B0C', 15, 25);
+        ctx.fillText('Type: ' + expansionType.charAt(0).toUpperCase() + expansionType.slice(1), 15, 45);
+    }
+
+    /* ================================================================
+       Experiment 23: Pascal's Law (Hydraulic Press)
+       ================================================================ */
+    function updatePascal() {
+        var a1 = parseFloat(document.getElementById('pascalA1').value);
+        var a2 = parseFloat(document.getElementById('pascalA2').value);
+        var f1 = parseFloat(document.getElementById('pascalF1').value);
+        document.getElementById('pascalA1Val').textContent = a1;
+        document.getElementById('pascalA2Val').textContent = a2;
+        document.getElementById('pascalF1Val').textContent = f1;
+
+        var pressure = f1 / a1;
+        var f2 = pressure * a2;
+        var multiplier = (f2 / f1).toFixed(1);
+
+        document.getElementById('pascalResult').textContent =
+            'Input: ' + f1 + ' N on ' + a1 + ' cm\u00B2 | Output: ' + f2.toFixed(1) + ' N on ' + a2 + ' cm\u00B2 | Force Multiplied ' + multiplier + 'x';
+
+        drawPascal(a1, a2, f1, f2, pressure);
+    }
+
+    function drawPascal(a1, a2, f1, f2, pressure) {
+        var canvas = document.getElementById('pascalCanvas');
+        var ctx = canvas.getContext('2d');
+        var W = canvas.width, H = canvas.height;
+        ctx.clearRect(0, 0, W, H);
+
+        ctx.fillStyle = '#f0f8ff';
+        ctx.fillRect(0, 0, W, H);
+
+        var baseY = H - 80;
+
+        // Fluid container
+        ctx.fillStyle = 'rgba(52,152,219,0.3)';
+        ctx.strokeStyle = '#555';
+        ctx.lineWidth = 3;
+
+        // Main U-tube shape
+        var leftX = 120, rightX = 380;
+        var tubeBottom = baseY;
+        var w1 = 15 + a1 * 1.2;
+        var w2 = 15 + a2 * 0.5;
+
+        // Fluid body
+        ctx.fillStyle = 'rgba(52,152,219,0.35)';
+        ctx.beginPath();
+        ctx.moveTo(leftX - w1, baseY - 100);
+        ctx.lineTo(leftX - w1, tubeBottom);
+        ctx.lineTo(rightX + w2, tubeBottom);
+        ctx.lineTo(rightX + w2, baseY - 60);
+        ctx.lineTo(rightX - w2, baseY - 60);
+        ctx.lineTo(rightX - w2, tubeBottom - 20);
+        ctx.lineTo(leftX + w1, tubeBottom - 20);
+        ctx.lineTo(leftX + w1, baseY - 100);
+        ctx.closePath();
+        ctx.fill();
+
+        // Container outline
+        ctx.strokeStyle = '#555';
+        ctx.lineWidth = 3;
+        // Left tube
+        ctx.beginPath();
+        ctx.moveTo(leftX - w1, baseY - 150);
+        ctx.lineTo(leftX - w1, tubeBottom);
+        ctx.lineTo(rightX + w2, tubeBottom);
+        ctx.lineTo(rightX + w2, baseY - 120);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(leftX + w1, baseY - 150);
+        ctx.lineTo(leftX + w1, tubeBottom - 20);
+        ctx.lineTo(rightX - w2, tubeBottom - 20);
+        ctx.lineTo(rightX - w2, baseY - 120);
+        ctx.stroke();
+
+        // Small piston
+        var piston1Y = baseY - 110;
+        ctx.fillStyle = '#e74c3c';
+        ctx.fillRect(leftX - w1 + 2, piston1Y, w1 * 2 - 4, 15);
+        ctx.strokeStyle = '#c0392b';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(leftX - w1 + 2, piston1Y, w1 * 2 - 4, 15);
+
+        // Large piston
+        var piston2Y = baseY - 70;
+        ctx.fillStyle = '#2980b9';
+        ctx.fillRect(rightX - w2 + 2, piston2Y, w2 * 2 - 4, 15);
+        ctx.strokeStyle = '#1a5276';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(rightX - w2 + 2, piston2Y, w2 * 2 - 4, 15);
+
+        // Force arrows
+        // F1 down arrow
+        ctx.strokeStyle = '#e74c3c';
+        ctx.lineWidth = 3;
+        var f1Len = Math.min(f1, 60);
+        ctx.beginPath();
+        ctx.moveTo(leftX, piston1Y - f1Len - 10);
+        ctx.lineTo(leftX, piston1Y - 2);
+        ctx.stroke();
+        ctx.fillStyle = '#e74c3c';
+        ctx.beginPath();
+        ctx.moveTo(leftX, piston1Y);
+        ctx.lineTo(leftX - 6, piston1Y - 10);
+        ctx.lineTo(leftX + 6, piston1Y - 10);
+        ctx.closePath();
+        ctx.fill();
+        ctx.font = 'bold 13px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('F\u2081 = ' + f1 + ' N', leftX, piston1Y - f1Len - 18);
+
+        // F2 up arrow
+        ctx.strokeStyle = '#2980b9';
+        ctx.lineWidth = 3;
+        var f2Len = Math.min(f2 / 5, 70);
+        ctx.beginPath();
+        ctx.moveTo(rightX, piston2Y - f2Len - 10);
+        ctx.lineTo(rightX, piston2Y - 2);
+        ctx.stroke();
+        ctx.fillStyle = '#2980b9';
+        ctx.beginPath();
+        ctx.moveTo(rightX, piston2Y - f2Len - 15);
+        ctx.lineTo(rightX - 6, piston2Y - f2Len - 5);
+        ctx.lineTo(rightX + 6, piston2Y - f2Len - 5);
+        ctx.closePath();
+        ctx.fill();
+        ctx.font = 'bold 13px sans-serif';
+        ctx.fillText('F\u2082 = ' + f2.toFixed(1) + ' N', rightX, piston2Y - f2Len - 22);
+
+        // Area labels
+        ctx.fillStyle = '#333';
+        ctx.font = '12px sans-serif';
+        ctx.fillText('A\u2081 = ' + a1 + ' cm\u00B2', leftX, baseY + 15);
+        ctx.fillText('A\u2082 = ' + a2 + ' cm\u00B2', rightX, baseY + 15);
+
+        // Pressure label
+        ctx.fillStyle = '#8e44ad';
+        ctx.font = 'bold 14px sans-serif';
+        ctx.fillText('Pressure = ' + pressure.toFixed(2) + ' N/cm\u00B2', W / 2, 30);
+        ctx.font = '12px sans-serif';
+        ctx.fillText('(Same pressure throughout fluid)', W / 2, 50);
+    }
+
+    /* ================================================================
+       Experiment 24: Bernoulli's Principle
+       ================================================================ */
+    function updateBernoulli() {
+        var speed = parseFloat(document.getElementById('bernoulliSpeed').value);
+        document.getElementById('bernoulliSpeedVal').textContent = speed;
+        var lift = (speed * speed * 0.01).toFixed(1);
+        document.getElementById('bernoulliResult').textContent =
+            'Airspeed = ' + speed + ' m/s | Lift Force \u221D speed\u00B2 = ' + lift + ' (relative units)';
+    }
+
+    function animateBernoulli() {
+        var canvas = document.getElementById('bernoulliCanvas');
+        var ctx = canvas.getContext('2d');
+        var W = canvas.width, H = canvas.height;
+        var speed = parseFloat(document.getElementById('bernoulliSpeed').value);
+
+        ctx.clearRect(0, 0, W, H);
+
+        // Sky background
+        var skyGrad = ctx.createLinearGradient(0, 0, 0, H);
+        skyGrad.addColorStop(0, '#87CEEB');
+        skyGrad.addColorStop(1, '#E0F7FA');
+        ctx.fillStyle = skyGrad;
+        ctx.fillRect(0, 0, W, H);
+
+        var cx = W / 2, cy = H / 2;
+
+        // Wing (airfoil shape)
+        ctx.beginPath();
+        ctx.moveTo(cx - 120, cy);
+        // Top (curved)
+        ctx.bezierCurveTo(cx - 80, cy - 50, cx + 40, cy - 55, cx + 120, cy - 5);
+        // Bottom (flatter)
+        ctx.bezierCurveTo(cx + 40, cy + 10, cx - 80, cy + 10, cx - 120, cy);
+        ctx.closePath();
+        ctx.fillStyle = '#95a5a6';
+        ctx.fill();
+        ctx.strokeStyle = '#555';
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Air flow lines
+        var t = (Date.now() / 1000) * speed * 0.05;
+        var numLines = 8;
+
+        for (var i = 0; i < numLines; i++) {
+            var yOffset = -120 + i * 30;
+            var isAbove = yOffset < -10;
+            var flowSpeed = isAbove ? speed * 1.4 : speed * 0.9;
+            var linePhase = (t * flowSpeed / 50) % 40;
+
+            ctx.strokeStyle = isAbove ? 'rgba(52,152,219,0.6)' : 'rgba(231,76,60,0.6)';
+            ctx.lineWidth = 2;
+
+            for (var seg = -1; seg < 3; seg++) {
+                var startX = cx - 200 + seg * 200 - linePhase * 5;
+                ctx.beginPath();
+
+                for (var dx = 0; dx < 180; dx += 5) {
+                    var px = startX + dx;
+                    var distFromCenter = Math.abs(px - cx);
+                    var nearWing = distFromCenter < 140 && Math.abs(cy + yOffset - cy) < 70;
+                    var deflection = 0;
+                    if (nearWing && isAbove) {
+                        deflection = -15 * Math.max(0, 1 - distFromCenter / 140);
+                    } else if (nearWing && !isAbove) {
+                        deflection = 5 * Math.max(0, 1 - distFromCenter / 140);
+                    }
+                    var py = cy + yOffset + deflection;
+                    if (dx === 0) ctx.moveTo(px, py);
+                    else ctx.lineTo(px, py);
+                }
+                ctx.stroke();
+
+                // Arrow
+                var arrowX = startX + 90;
+                var arrowY = cy + yOffset;
+                ctx.fillStyle = ctx.strokeStyle;
+                ctx.beginPath();
+                ctx.moveTo(arrowX + 8, arrowY);
+                ctx.lineTo(arrowX - 3, arrowY - 4);
+                ctx.lineTo(arrowX - 3, arrowY + 4);
+                ctx.closePath();
+                ctx.fill();
+            }
+        }
+
+        // Pressure labels
+        ctx.fillStyle = '#2980b9';
+        ctx.font = 'bold 14px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('Low Pressure (fast)', cx, cy - 75);
+        ctx.fillText('(less dense arrows)', cx, cy - 58);
+        ctx.fillStyle = '#e74c3c';
+        ctx.fillText('High Pressure (slow)', cx, cy + 55);
+        ctx.fillText('(more dense arrows)', cx, cy + 72);
+
+        // Lift arrow
+        var liftMag = Math.min(speed * 0.5, 60);
+        ctx.strokeStyle = '#27ae60';
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.moveTo(cx, cy);
+        ctx.lineTo(cx, cy - liftMag - 20);
+        ctx.stroke();
+        ctx.fillStyle = '#27ae60';
+        ctx.beginPath();
+        ctx.moveTo(cx, cy - liftMag - 30);
+        ctx.lineTo(cx - 8, cy - liftMag - 15);
+        ctx.lineTo(cx + 8, cy - liftMag - 15);
+        ctx.closePath();
+        ctx.fill();
+        ctx.font = 'bold 13px sans-serif';
+        ctx.fillText('LIFT', cx + 25, cy - liftMag / 2 - 10);
+
+        requestAnimationFrame(animateBernoulli);
+    }
+
+    /* ================================================================
+       Experiment 25: Moment of Force (Torque)
+       ================================================================ */
+    function updateTorque() {
+        var f1 = parseFloat(document.getElementById('torqueF1').value);
+        var d1 = parseFloat(document.getElementById('torqueD1').value);
+        var f2 = parseFloat(document.getElementById('torqueF2').value);
+        var d2 = parseFloat(document.getElementById('torqueD2').value);
+        document.getElementById('torqueF1Val').textContent = f1;
+        document.getElementById('torqueD1Val').textContent = d1;
+        document.getElementById('torqueF2Val').textContent = f2;
+        document.getElementById('torqueD2Val').textContent = d2;
+
+        var cw = f1 * d1;
+        var acw = f2 * d2;
+        var status = cw === acw ? 'Balanced!' : (cw > acw ? 'Rotates Clockwise' : 'Rotates Anticlockwise');
+
+        document.getElementById('torqueResult').textContent =
+            'CW Moment = ' + cw + ' Nm | ACW Moment = ' + acw + ' Nm | ' + status;
+        drawTorque(f1, d1, f2, d2, cw, acw);
+    }
+
+    function drawTorque(f1, d1, f2, d2, cw, acw) {
+        var canvas = document.getElementById('torqueCanvas');
+        var ctx = canvas.getContext('2d');
+        var W = canvas.width, H = canvas.height;
+        ctx.clearRect(0, 0, W, H);
+
+        ctx.fillStyle = '#f5f0ff';
+        ctx.fillRect(0, 0, W, H);
+
+        var cx = W / 2, cy = H / 2;
+        var beamLen = 450;
+
+        // Tilt
+        var diff = cw - acw;
+        var maxDiff = 400;
+        var tiltAngle = Math.max(-0.2, Math.min(0.2, diff / maxDiff * 0.2));
+
+        // Pivot
+        ctx.fillStyle = '#333';
+        ctx.beginPath();
+        ctx.arc(cx, cy, 8, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.fillStyle = '#555';
+        ctx.beginPath();
+        ctx.moveTo(cx, cy + 8);
+        ctx.lineTo(cx - 20, cy + 50);
+        ctx.lineTo(cx + 20, cy + 50);
+        ctx.closePath();
+        ctx.fill();
+
+        // Ground
+        ctx.fillStyle = '#ddd';
+        ctx.fillRect(cx - 40, cy + 50, 80, 8);
+
+        ctx.save();
+        ctx.translate(cx, cy);
+        ctx.rotate(tiltAngle);
+
+        // Beam
+        ctx.fillStyle = '#34495e';
+        ctx.fillRect(-beamLen / 2, -6, beamLen, 12);
+        ctx.strokeStyle = '#2c3e50';
+        ctx.lineWidth = 2;
+        ctx.strokeRect(-beamLen / 2, -6, beamLen, 12);
+
+        var pixPerM = (beamLen / 2) / 5;
+
+        // Force 1 (left side, pulling down - clockwise)
+        var x1 = -d1 * pixPerM;
+        var arrowLen1 = Math.min(f1, 60);
+        ctx.strokeStyle = '#e74c3c';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(x1, 10);
+        ctx.lineTo(x1, 10 + arrowLen1);
+        ctx.stroke();
+        ctx.fillStyle = '#e74c3c';
+        ctx.beginPath();
+        ctx.moveTo(x1, 10 + arrowLen1 + 8);
+        ctx.lineTo(x1 - 5, 10 + arrowLen1 - 3);
+        ctx.lineTo(x1 + 5, 10 + arrowLen1 - 3);
+        ctx.closePath();
+        ctx.fill();
+        ctx.font = 'bold 12px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('F\u2081=' + f1 + 'N', x1, 10 + arrowLen1 + 25);
+        ctx.fillText(d1 + 'm', x1, -20);
+
+        // Force 2 (right side, pulling down - anticlockwise)
+        var x2 = d2 * pixPerM;
+        var arrowLen2 = Math.min(f2, 60);
+        ctx.strokeStyle = '#2980b9';
+        ctx.lineWidth = 3;
+        ctx.beginPath();
+        ctx.moveTo(x2, 10);
+        ctx.lineTo(x2, 10 + arrowLen2);
+        ctx.stroke();
+        ctx.fillStyle = '#2980b9';
+        ctx.beginPath();
+        ctx.moveTo(x2, 10 + arrowLen2 + 8);
+        ctx.lineTo(x2 - 5, 10 + arrowLen2 - 3);
+        ctx.lineTo(x2 + 5, 10 + arrowLen2 - 3);
+        ctx.closePath();
+        ctx.fill();
+        ctx.font = 'bold 12px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('F\u2082=' + f2 + 'N', x2, 10 + arrowLen2 + 25);
+        ctx.fillText(d2 + 'm', x2, -20);
+
+        // Distance markers
+        ctx.strokeStyle = 'rgba(0,0,0,0.2)';
+        ctx.lineWidth = 1;
+        ctx.setLineDash([3, 3]);
+        ctx.beginPath();
+        ctx.moveTo(0, -15);
+        ctx.lineTo(x1, -15);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(0, -15);
+        ctx.lineTo(x2, -15);
+        ctx.stroke();
+        ctx.setLineDash([]);
+
+        // Application point dots
+        ctx.fillStyle = '#e74c3c';
+        ctx.beginPath();
+        ctx.arc(x1, 0, 5, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.fillStyle = '#2980b9';
+        ctx.beginPath();
+        ctx.arc(x2, 0, 5, 0, 2 * Math.PI);
+        ctx.fill();
+
+        ctx.restore();
+
+        // Labels
+        ctx.fillStyle = '#e74c3c';
+        ctx.font = '12px sans-serif';
+        ctx.textAlign = 'left';
+        ctx.fillText('CW: ' + cw + ' Nm', 15, 25);
+        ctx.fillStyle = '#2980b9';
+        ctx.textAlign = 'right';
+        ctx.fillText('ACW: ' + acw + ' Nm', W - 15, 25);
+
+        // Rotation indicator
+        if (Math.abs(diff) > 1) {
+            ctx.strokeStyle = diff > 0 ? '#e74c3c' : '#2980b9';
+            ctx.lineWidth = 2;
+            ctx.beginPath();
+            if (diff > 0) {
+                ctx.arc(cx, cy, 30, -0.5, 1.5);
+            } else {
+                ctx.arc(cx, cy, 30, Math.PI - 1.5, Math.PI + 0.5);
+            }
+            ctx.stroke();
+            // Arrow on arc
+            ctx.fillStyle = ctx.strokeStyle;
+            ctx.font = '10px sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText(diff > 0 ? 'CW' : 'ACW', cx, cy - 40);
+        }
+
+        ctx.fillStyle = '#333';
+        ctx.font = 'bold 12px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText('Pivot', cx, cy + 68);
     }
 
     /* ================================================================
@@ -963,6 +4535,54 @@
         animateSound();
         updateReflection();
         updateRefraction();
+
+        // Experiment 6
+        drawGravityFrame(0);
+        // Experiment 7
+        updatePulley();
+        // Experiment 8
+        updateLever();
+        // Experiment 9
+        drawDensityFrame();
+        // Experiment 10
+        updateSpring();
+        // Experiment 11
+        updatePendulumLabel();
+        drawPendulumFrame(1.0);
+        // Experiment 12
+        updateInterferenceLabels();
+        animateInterference();
+        // Experiment 13
+        updateCircuit();
+        animateCircuit();
+        // Experiment 14
+        updateMagnet();
+        // Experiment 15
+        updateHeat();
+        drawHeatFrame();
+        // Experiment 16
+        updateLens();
+        // Experiment 17
+        updatePrism();
+        // Experiment 18
+        updateProjectileLabel();
+        drawProjectileFrame(0, 0);
+        // Experiment 19
+        updateArchimedes();
+        drawArchimedesFrame();
+        // Experiment 20
+        updateSpeedSound();
+        // Experiment 21
+        drawInductionFrame(0);
+        // Experiment 22
+        updateExpansion();
+        // Experiment 23
+        updatePascal();
+        // Experiment 24
+        updateBernoulli();
+        animateBernoulli();
+        // Experiment 25
+        updateTorque();
     });
     </script>
 </body>

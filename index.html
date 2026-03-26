@@ -5,11 +5,374 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>CBSE Class 8 Physics</title>
   <link rel="stylesheet" href="style.css">
+  <style>
+    /* ===== Dark Theme ===== */
+    body.dark-theme {
+      --primary: #3b82f6;
+      --primary-dark: #2563eb;
+      --primary-light: #1e3a5f;
+      --white: #1e293b;
+      --gray-50: #0f172a;
+      --gray-100: #1e293b;
+      --gray-200: #334155;
+      --gray-300: #475569;
+      --gray-400: #94a3b8;
+      --gray-600: #cbd5e1;
+      --gray-700: #e2e8f0;
+      --gray-800: #f1f5f9;
+      --gray-900: #f8fafc;
+      color: #f1f5f9;
+    }
+    body.dark-theme .navbar { background: #1e3a5f; }
+    body.dark-theme .hero { background: linear-gradient(135deg, #1e3a5f, #0f172a); }
+    body.dark-theme .flashcard-front { background: #1e3a5f; color: #93c5fd; border-color: #3b82f6; }
+    body.dark-theme .score-table th { background: #1e3a5f; color: #93c5fd; }
+
+    /* ===== Theme Toggle ===== */
+    #themeToggle {
+      background: rgba(255,255,255,0.15);
+      border: 2px solid rgba(255,255,255,0.3);
+      color: #fff;
+      font-size: 1.2rem;
+      padding: 0.35rem 0.65rem;
+      border-radius: 8px;
+      cursor: pointer;
+      margin-left: auto;
+      transition: 0.3s ease;
+      line-height: 1;
+    }
+    #themeToggle:hover { background: rgba(255,255,255,0.25); }
+
+    /* ===== Motivational Quote ===== */
+    .hero-quote {
+      font-style: italic;
+      opacity: 0.85;
+      margin-top: 0.75rem;
+      font-size: 0.95rem;
+    }
+
+    /* ===== Skill Test Banner ===== */
+    .skill-banner {
+      background: linear-gradient(135deg, #f97316, #ea580c);
+      color: #fff;
+      border-radius: var(--radius);
+      padding: 2rem;
+      margin-bottom: 2rem;
+      text-align: center;
+    }
+    .skill-banner h2 { margin-bottom: 0.5rem; font-size: 1.5rem; }
+    .skill-banner p { opacity: 0.9; margin-bottom: 1rem; }
+    .skill-banner .btn {
+      background: #fff;
+      color: #ea580c;
+      font-weight: 700;
+      padding: 0.7rem 2rem;
+      font-size: 1.05rem;
+    }
+    .skill-banner .btn:hover { background: #fff7ed; }
+
+    /* Skill test previous results summary on banner */
+    .skill-prev-summary {
+      margin-top: 1rem;
+      background: rgba(255,255,255,0.15);
+      border-radius: 8px;
+      padding: 1rem;
+      text-align: left;
+      display: inline-block;
+      min-width: 300px;
+    }
+    .skill-prev-summary strong { display: block; margin-bottom: 0.5rem; }
+
+    /* ===== Skill Test Modal ===== */
+    .skill-modal-overlay {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0,0,0,0.6);
+      z-index: 1000;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+    .skill-modal-overlay.active { display: flex; }
+    .skill-modal {
+      background: #fff;
+      border-radius: var(--radius);
+      max-width: 700px;
+      width: 100%;
+      max-height: 90vh;
+      overflow-y: auto;
+      padding: 2rem;
+      position: relative;
+    }
+    body.dark-theme .skill-modal { background: #1e293b; color: #f1f5f9; }
+    .skill-modal-close {
+      position: absolute;
+      top: 1rem; right: 1rem;
+      background: none; border: none;
+      font-size: 1.5rem; cursor: pointer;
+      color: #475569;
+    }
+    body.dark-theme .skill-modal-close { color: #cbd5e1; }
+
+    /* Skill test progress bar */
+    .skill-progress-bar {
+      height: 8px;
+      background: #e2e8f0;
+      border-radius: 4px;
+      margin-bottom: 1.5rem;
+      overflow: hidden;
+    }
+    .skill-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #2563eb, #f97316);
+      border-radius: 4px;
+      transition: width 0.3s ease;
+    }
+
+    /* Skill test question */
+    .skill-q-number {
+      font-size: 0.85rem;
+      color: #94a3b8;
+      margin-bottom: 0.25rem;
+    }
+    .skill-q-chapter {
+      display: inline-block;
+      background: #dbeafe;
+      color: #1d4ed8;
+      padding: 0.15rem 0.6rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      margin-bottom: 0.75rem;
+    }
+    .skill-q-difficulty {
+      display: inline-block;
+      padding: 0.15rem 0.6rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      margin-left: 0.5rem;
+    }
+    .skill-q-difficulty.easy { background: #dcfce7; color: #166534; }
+    .skill-q-difficulty.medium { background: #fef3c7; color: #b45309; }
+    .skill-q-difficulty.hard { background: #fee2e2; color: #991b1b; }
+    body.dark-theme .skill-q-chapter { background: #1e3a5f; color: #93c5fd; }
+    body.dark-theme .skill-q-difficulty.easy { background: #14532d; color: #86efac; }
+    body.dark-theme .skill-q-difficulty.medium { background: #78350f; color: #fde68a; }
+    body.dark-theme .skill-q-difficulty.hard { background: #7f1d1d; color: #fca5a5; }
+
+    .skill-q-text {
+      font-size: 1.1rem;
+      margin-bottom: 1.25rem;
+      font-weight: 500;
+      line-height: 1.5;
+    }
+    .skill-options { display: flex; flex-direction: column; gap: 0.6rem; }
+    .skill-option {
+      padding: 0.85rem 1.1rem;
+      background: #f8fafc;
+      border: 2px solid #e2e8f0;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 0.95rem;
+      text-align: left;
+      transition: 0.2s ease;
+      font-family: inherit;
+      color: #1e293b;
+    }
+    body.dark-theme .skill-option { background: #0f172a; border-color: #334155; color: #f1f5f9; }
+    .skill-option:hover { border-color: #2563eb; background: #dbeafe; }
+    body.dark-theme .skill-option:hover { background: #1e3a5f; }
+    .skill-option.selected { border-color: #2563eb; background: #dbeafe; font-weight: 600; }
+    body.dark-theme .skill-option.selected { background: #1e3a5f; }
+    .skill-nav { display: flex; justify-content: space-between; margin-top: 1.5rem; }
+
+    /* Skill test results */
+    .skill-results h2 { text-align: center; margin-bottom: 0.5rem; }
+    .skill-score-big {
+      text-align: center;
+      font-size: 3rem;
+      font-weight: 800;
+      margin: 1rem 0 0.25rem;
+    }
+    .skill-score-big.good { color: #22c55e; }
+    .skill-score-big.ok { color: #f97316; }
+    .skill-score-big.bad { color: #ef4444; }
+    .skill-score-label { text-align: center; color: #94a3b8; margin-bottom: 1.5rem; }
+    .skill-chapter-breakdown { margin: 1.5rem 0; }
+    .skill-chapter-row {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 0.75rem;
+    }
+    .skill-chapter-name {
+      min-width: 180px;
+      font-weight: 500;
+      font-size: 0.9rem;
+    }
+    .skill-chapter-bar-bg {
+      flex: 1;
+      height: 12px;
+      background: #e2e8f0;
+      border-radius: 6px;
+      overflow: hidden;
+    }
+    body.dark-theme .skill-chapter-bar-bg { background: #334155; }
+    .skill-chapter-bar-fill {
+      height: 100%;
+      border-radius: 6px;
+      transition: width 0.5s ease;
+    }
+    .skill-chapter-pct { min-width: 45px; font-weight: 700; font-size: 0.9rem; text-align: right; }
+    .skill-strengths {
+      background: #dcfce7;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 0.75rem;
+    }
+    .skill-weaknesses {
+      background: #fee2e2;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+    body.dark-theme .skill-strengths { background: #14532d; color: #dcfce7; }
+    body.dark-theme .skill-weaknesses { background: #7f1d1d; color: #fee2e2; }
+    .skill-recommendations {
+      background: #dbeafe;
+      border-radius: 8px;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+    }
+    body.dark-theme .skill-recommendations { background: #1e3a5f; color: #bfdbfe; }
+    .skill-recommendations ul { margin-left: 1.25rem; margin-top: 0.5rem; }
+    .skill-recommendations li { margin-bottom: 0.25rem; }
+
+    /* ===== Stats Cards ===== */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 1.25rem;
+      margin-bottom: 2rem;
+    }
+    .stat-card {
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1.25rem;
+      text-align: center;
+      transition: var(--transition);
+    }
+    body.dark-theme .stat-card { background: #1e293b; }
+    .stat-card:hover { box-shadow: var(--shadow-lg); transform: translateY(-2px); }
+    .stat-icon { font-size: 2rem; margin-bottom: 0.5rem; }
+    .stat-number { font-size: 2rem; font-weight: 800; color: #2563eb; }
+    .stat-label { font-size: 0.85rem; color: #94a3b8; margin-top: 0.25rem; }
+
+    /* ===== Activity Chart ===== */
+    .activity-chart-section {
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    body.dark-theme .activity-chart-section { background: #1e293b; }
+    .activity-chart-section h2 { font-size: 1.25rem; margin-bottom: 1rem; }
+    #activityChart { width: 100%; height: 200px; }
+
+    /* ===== Section Card Badges ===== */
+    .card-badge {
+      display: inline-block;
+      background: #f97316;
+      color: #fff;
+      padding: 0.15rem 0.55rem;
+      border-radius: 12px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      margin-left: 0.5rem;
+      vertical-align: middle;
+    }
+
+    /* ===== Daily Tip ===== */
+    .daily-tip {
+      background: linear-gradient(135deg, #dbeafe, #ede9fe);
+      border-radius: var(--radius);
+      padding: 1.5rem 2rem;
+      margin-bottom: 2rem;
+      border-left: 5px solid #2563eb;
+    }
+    body.dark-theme .daily-tip { background: linear-gradient(135deg, #1e3a5f, #312e81); border-left-color: #3b82f6; }
+    .daily-tip h3 { color: #2563eb; margin-bottom: 0.5rem; font-size: 1.1rem; }
+    .daily-tip p { font-size: 1rem; line-height: 1.6; }
+
+    /* ===== Sparkline ===== */
+    .sparkline-cell { display: flex; align-items: center; gap: 0.5rem; }
+    .sparkline-cell canvas { vertical-align: middle; }
+
+    /* ===== Study Streak Calendar ===== */
+    .streak-calendar {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(30px, 1fr));
+      gap: 4px;
+      margin-top: 1rem;
+    }
+    .streak-day {
+      width: 100%;
+      aspect-ratio: 1;
+      border-radius: 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.6rem;
+      font-weight: 600;
+      color: #94a3b8;
+    }
+    .streak-day.active {
+      background: #22c55e;
+      color: #fff;
+    }
+    .streak-day.inactive {
+      background: #e2e8f0;
+    }
+    body.dark-theme .streak-day.inactive { background: #334155; }
+    .streak-day.today {
+      outline: 2px solid #2563eb;
+      outline-offset: 1px;
+    }
+    .streak-tracker {
+      background: #fff;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    body.dark-theme .streak-tracker { background: #1e293b; }
+    .streak-tracker h2 { font-size: 1.25rem; margin-bottom: 0.25rem; }
+    .streak-tracker .streak-subtitle { color: #94a3b8; font-size: 0.9rem; }
+
+    /* ===== Shuffle Button ===== */
+    .flashcard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.5rem;
+    }
+
+    @media (max-width: 768px) {
+      .skill-chapter-name { min-width: 100px; font-size: 0.8rem; }
+      .stats-row { grid-template-columns: repeat(2, 1fr); }
+      .skill-modal { padding: 1.25rem; }
+    }
+  </style>
 </head>
 <body>
   <nav class="navbar">
     <div class="nav-container">
-      <div class="nav-logo">⚛ Physics Lab</div>
+      <div class="nav-logo">&#9883; Physics Lab</div>
       <ul class="nav-tabs">
         <li><a href="index.html">Home</a></li>
         <li><a href="pages/experiments.html">Experiments</a></li>
@@ -17,68 +380,153 @@
         <li><a href="pages/questions.html">Exam Q&amp;A</a></li>
         <li><a href="pages/quiz.html">Quiz</a></li>
       </ul>
+      <button id="themeToggle" title="Toggle dark/light theme">&#9790;</button>
     </div>
   </nav>
 
   <div class="container">
-    <!-- Hero -->
+
+    <!-- 1. Hero -->
     <div class="hero">
       <h1>Welcome to Class 8 Physics</h1>
       <p>Explore interactive experiments, models, and test your knowledge with quizzes!</p>
+      <p class="hero-quote" id="heroQuote"></p>
     </div>
 
-    <!-- Section Cards -->
+    <!-- 2. Introductory Skill Test Banner -->
+    <div class="skill-banner" id="skillBanner">
+      <h2>New here? Assess Your Physics Knowledge!</h2>
+      <p>Take the Introductory Skill Test &mdash; 15 questions covering all chapters to find your strengths and weaknesses.</p>
+      <button class="btn" id="skillStartBtn" onclick="openSkillTest()">Start Test</button>
+      <div id="skillPrevSummary"></div>
+    </div>
+
+    <!-- Skill Test Modal -->
+    <div class="skill-modal-overlay" id="skillModal">
+      <div class="skill-modal">
+        <button class="skill-modal-close" onclick="closeSkillTest()">&times;</button>
+        <div id="skillTestContent"></div>
+      </div>
+    </div>
+
+    <!-- 3. Stats Cards -->
+    <div class="stats-row" id="statsRow">
+      <div class="stat-card">
+        <div class="stat-icon">&#128221;</div>
+        <div class="stat-number" id="statRevised">0</div>
+        <div class="stat-label">Questions Revised</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">&#127942;</div>
+        <div class="stat-number" id="statAvgScore">--</div>
+        <div class="stat-label">Quiz Avg Score</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">&#128293;</div>
+        <div class="stat-number" id="statStreak">0</div>
+        <div class="stat-label">Day Streak</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">&#128300;</div>
+        <div class="stat-number" id="statExperiments">0</div>
+        <div class="stat-label">Experiments Explored</div>
+      </div>
+    </div>
+
+    <!-- 4. Weekly Activity Chart -->
+    <div class="activity-chart-section">
+      <h2>Weekly Activity</h2>
+      <canvas id="activityChart"></canvas>
+    </div>
+
+    <!-- 5. Section Cards with Badges -->
     <h2 class="section-title">Explore Sections</h2>
-    <div class="card-grid">
+    <div class="card-grid" id="sectionCards">
       <a href="pages/experiments.html" class="card">
-        <div class="card-icon">🔬</div>
-        <h3>Experiments</h3>
+        <div class="card-icon">&#128300;</div>
+        <h3>Experiments <span class="card-badge" id="badgeExperiments">0</span></h3>
         <p>Interactive simulations for Force, Friction, Sound, and Light. Drag sliders and see physics in action!</p>
-        <span class="card-link">Start Experimenting →</span>
+        <span class="card-link">Start Experimenting &rarr;</span>
       </a>
       <a href="pages/models.html" class="card">
-        <div class="card-icon">🧬</div>
-        <h3>Physical Models</h3>
+        <div class="card-icon">&#129516;</div>
+        <h3>Physical Models <span class="card-badge">3</span></h3>
         <p>Clickable cross-section diagrams of the Human Ear, Eye, and Friction at the microscopic level.</p>
-        <span class="card-link">Explore Models →</span>
+        <span class="card-link">Explore Models &rarr;</span>
       </a>
       <a href="pages/questions.html" class="card">
-        <div class="card-icon">📝</div>
-        <h3>Exam Q&amp;A</h3>
+        <div class="card-icon">&#128221;</div>
+        <h3>Exam Q&amp;A <span class="card-badge" id="badgeQuestions">0</span></h3>
         <p>Chapter-wise questions with detailed answers. Filter by marks and track your revision progress.</p>
-        <span class="card-link">Start Revising →</span>
+        <span class="card-link">Start Revising &rarr;</span>
       </a>
       <a href="pages/quiz.html" class="card">
-        <div class="card-icon">🏆</div>
-        <h3>Quiz</h3>
+        <div class="card-icon">&#127942;</div>
+        <h3>Quiz <span class="card-badge" id="badgeQuizzes">0</span></h3>
         <p>Timed multiple-choice quizzes for each chapter. Challenge yourself and track your scores!</p>
-        <span class="card-link">Take a Quiz →</span>
+        <span class="card-link">Take a Quiz &rarr;</span>
       </a>
     </div>
 
-    <!-- Chapter Progress -->
+    <!-- 6. Chapter Progress -->
     <div class="progress-section">
       <h2 class="section-title mt-4">Chapter Progress</h2>
       <p class="section-subtitle">Questions you've revised across each chapter</p>
       <div id="progressBars"></div>
     </div>
 
-    <!-- Quick Revise Flashcards -->
+    <!-- 7. Quick Revise Flashcards -->
     <div class="mt-4">
-      <h2 class="section-title">Quick Revise</h2>
-      <p class="section-subtitle">Click a card to reveal the answer</p>
+      <div class="flashcard-header">
+        <div>
+          <h2 class="section-title">Quick Revise</h2>
+          <p class="section-subtitle">Click a card to reveal the answer</p>
+        </div>
+        <button class="btn btn-outline btn-sm" onclick="renderFlashcards()">&#128256; Shuffle</button>
+      </div>
       <div class="flashcard-grid" id="flashcards"></div>
     </div>
 
-    <!-- Recent Quiz Scores -->
+    <!-- 8. Daily Physics Tip -->
+    <div class="daily-tip mt-4">
+      <h3>&#128161; Daily Physics Tip</h3>
+      <p id="dailyTip"></p>
+    </div>
+
+    <!-- 9. Recent Quiz Scores -->
     <div class="mt-4 mb-3">
       <h2 class="section-title">Recent Quiz Scores</h2>
       <div id="quizHistory"></div>
     </div>
+
+    <!-- 10. Study Streak Tracker -->
+    <div class="streak-tracker mt-4 mb-3">
+      <h2>&#128197; Study Streak Tracker</h2>
+      <p class="streak-subtitle">Last 30 days &mdash; green = active day</p>
+      <div class="streak-calendar" id="streakCalendar"></div>
+    </div>
+
   </div>
 
   <script src="script.js"></script>
   <script>
+    // ===== Theme Toggle =====
+    (function() {
+      const toggle = document.getElementById('themeToggle');
+      const saved = localStorage.getItem('theme');
+      if (saved === 'dark') {
+        document.body.classList.add('dark-theme');
+        toggle.textContent = '\u2600';
+      }
+      toggle.addEventListener('click', function() {
+        document.body.classList.toggle('dark-theme');
+        const isDark = document.body.classList.contains('dark-theme');
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+        toggle.textContent = isDark ? '\u2600' : '\u263E';
+      });
+    })();
+
+    // ===== Constants =====
     const chapters = [
       "Force and Pressure",
       "Friction",
@@ -87,7 +535,6 @@
       "Human Eye and Colourful World"
     ];
 
-    // Total questions per chapter (from questions.js — approximate)
     const totalPerChapter = {
       "Force and Pressure": 10,
       "Friction": 10,
@@ -96,77 +543,547 @@
       "Human Eye and Colourful World": 10
     };
 
-    // Render progress bars
-    function renderProgress() {
-      const container = document.getElementById('progressBars');
-      const revised = getRevisedQuestions();
+    // ===== Activity Tracking =====
+    function recordActivity(type) {
+      var today = new Date().toISOString().slice(0, 10);
+      var key = 'activity_' + today;
+      var data = Storage.get(key, { questions: 0, quizzes: 0 });
+      if (type === 'question') data.questions++;
+      if (type === 'quiz') data.quizzes++;
+      Storage.set(key, data);
+      // Also mark day as active for streak
+      var activeDays = Storage.get('activeDays', []);
+      if (activeDays.indexOf(today) === -1) {
+        activeDays.push(today);
+        Storage.set('activeDays', activeDays);
+      }
+    }
 
-      container.innerHTML = chapters.map(ch => {
-        // Count revised questions for this chapter
-        const count = revised.filter(id => id.startsWith(ch + '|')).length;
-        const total = totalPerChapter[ch];
-        const pct = Math.min(100, Math.round((count / total) * 100));
-        return `
-          <div class="progress-item">
-            <div class="progress-label">
-              <span>${ch}</span>
-              <span>${count}/${total} revised</span>
-            </div>
-            <div class="progress-bar">
-              <div class="progress-fill" style="width: ${pct}%"></div>
-            </div>
-          </div>`;
+    // ===== 1. Daily Motivational Quote =====
+    (function() {
+      var quotes = [
+        '"The important thing is not to stop questioning." \u2014 Albert Einstein',
+        '"Physics is experience, arranged in economical order." \u2014 Ernst Mach',
+        '"Imagination is more important than knowledge." \u2014 Albert Einstein',
+        '"Nothing in life is to be feared, it is only to be understood." \u2014 Marie Curie',
+        '"The only way to learn physics is to do physics." \u2014 Richard Feynman',
+        '"What we observe is not nature itself, but nature exposed to our method of questioning." \u2014 Werner Heisenberg',
+        '"Science is a way of thinking much more than it is a body of knowledge." \u2014 Carl Sagan',
+        '"In the middle of difficulty lies opportunity." \u2014 Albert Einstein',
+        '"Logic will get you from A to Z; imagination will get you everywhere." \u2014 Albert Einstein',
+        '"The universe is under no obligation to make sense to you." \u2014 Neil deGrasse Tyson',
+        '"If you can\'t explain it simply, you don\'t understand it well enough." \u2014 Albert Einstein',
+        '"Equipped with his five senses, man explores the universe and calls the adventure Science." \u2014 Edwin Hubble',
+        '"Energy cannot be created or destroyed; it can only be changed from one form to another." \u2014 Albert Einstein',
+        '"Every great advance in science has issued from a new audacity of imagination." \u2014 John Dewey'
+      ];
+      var dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
+      document.getElementById('heroQuote').textContent = quotes[dayOfYear % quotes.length];
+    })();
+
+    // ===== 2. Skill Test =====
+    var skillTestQuestions = [
+      // Force and Pressure
+      { chapter: "Force and Pressure", question: "What is the SI unit of force?", options: ["Pascal", "Newton", "Joule", "Watt"], correct: 1, difficulty: "easy" },
+      { chapter: "Force and Pressure", question: "Atmospheric pressure is caused by the weight of:", options: ["Water in oceans", "Air above us", "Soil and rocks", "Clouds in the sky"], correct: 1, difficulty: "medium" },
+      { chapter: "Force and Pressure", question: "A block of weight 100 N rests on a surface of area 0.5 m\u00B2. What is the pressure exerted?", options: ["50 Pa", "200 Pa", "100 Pa", "500 Pa"], correct: 1, difficulty: "hard" },
+      // Friction
+      { chapter: "Friction", question: "Friction always acts in a direction _____ to the motion of an object.", options: ["Same", "Opposite", "Perpendicular", "Diagonal"], correct: 1, difficulty: "easy" },
+      { chapter: "Friction", question: "Which type of friction is the weakest?", options: ["Static friction", "Sliding friction", "Rolling friction", "Fluid friction"], correct: 2, difficulty: "medium" },
+      { chapter: "Friction", question: "A ball bearing reduces friction by converting:", options: ["Static friction to sliding", "Sliding friction to rolling", "Rolling friction to static", "Fluid friction to sliding"], correct: 1, difficulty: "hard" },
+      // Sound
+      { chapter: "Sound", question: "Sound is produced by:", options: ["Heating objects", "Vibrating objects", "Painting objects", "Cooling objects"], correct: 1, difficulty: "easy" },
+      { chapter: "Sound", question: "What is the audible range of frequency for humans?", options: ["10 Hz to 10,000 Hz", "20 Hz to 20,000 Hz", "50 Hz to 50,000 Hz", "100 Hz to 100,000 Hz"], correct: 1, difficulty: "medium" },
+      { chapter: "Sound", question: "Sound cannot travel through:", options: ["Solids", "Liquids", "Gases", "Vacuum"], correct: 3, difficulty: "hard" },
+      // Light
+      { chapter: "Light", question: "The angle of incidence is equal to the angle of:", options: ["Refraction", "Reflection", "Dispersion", "Diffraction"], correct: 1, difficulty: "easy" },
+      { chapter: "Light", question: "Which of the following can form a real image?", options: ["Plane mirror", "Convex mirror", "Concave mirror", "All mirrors"], correct: 2, difficulty: "medium" },
+      { chapter: "Light", question: "White light splits into seven colours when passed through a prism. This phenomenon is called:", options: ["Reflection", "Refraction", "Dispersion", "Total internal reflection"], correct: 2, difficulty: "hard" },
+      // Human Eye
+      { chapter: "Human Eye", question: "Which part of the eye controls the amount of light entering?", options: ["Cornea", "Retina", "Iris", "Lens"], correct: 2, difficulty: "easy" },
+      { chapter: "Human Eye", question: "The least distance of distinct vision for a normal eye is:", options: ["15 cm", "20 cm", "25 cm", "30 cm"], correct: 2, difficulty: "medium" },
+      { chapter: "Human Eye", question: "A person who cannot see nearby objects clearly suffers from:", options: ["Myopia", "Hypermetropia", "Presbyopia", "Astigmatism"], correct: 1, difficulty: "hard" }
+    ];
+
+    var skillTestState = { currentQ: 0, answers: [] };
+
+    function openSkillTest() {
+      document.getElementById('skillModal').classList.add('active');
+      skillTestState = { currentQ: 0, answers: new Array(15).fill(-1) };
+      renderSkillQuestion();
+    }
+
+    function closeSkillTest() {
+      document.getElementById('skillModal').classList.remove('active');
+    }
+
+    function renderSkillQuestion() {
+      var i = skillTestState.currentQ;
+      var q = skillTestQuestions[i];
+      var total = skillTestQuestions.length;
+      var pct = ((i) / total) * 100;
+      var selected = skillTestState.answers[i];
+
+      var html = '<h2 style="margin-bottom:1rem;">Introductory Skill Test</h2>';
+      html += '<div class="skill-progress-bar"><div class="skill-progress-fill" style="width:' + pct + '%"></div></div>';
+      html += '<div class="skill-q-number">Question ' + (i + 1) + ' of ' + total + '</div>';
+      html += '<span class="skill-q-chapter">' + q.chapter + '</span>';
+      html += '<span class="skill-q-difficulty ' + q.difficulty + '">' + q.difficulty.toUpperCase() + '</span>';
+      html += '<div class="skill-q-text">' + q.question + '</div>';
+      html += '<div class="skill-options">';
+      for (var j = 0; j < q.options.length; j++) {
+        var sel = (selected === j) ? ' selected' : '';
+        html += '<button class="skill-option' + sel + '" onclick="selectSkillAnswer(' + j + ')">' + q.options[j] + '</button>';
+      }
+      html += '</div>';
+      html += '<div class="skill-nav">';
+      if (i > 0) html += '<button class="btn btn-outline btn-sm" onclick="skillTestState.currentQ--;renderSkillQuestion();">&larr; Previous</button>';
+      else html += '<span></span>';
+      if (i < total - 1) html += '<button class="btn btn-primary btn-sm" onclick="nextSkillQuestion()">Next &rarr;</button>';
+      else html += '<button class="btn btn-orange btn-sm" onclick="submitSkillTest()">Submit Test</button>';
+      html += '</div>';
+
+      document.getElementById('skillTestContent').innerHTML = html;
+    }
+
+    function selectSkillAnswer(idx) {
+      skillTestState.answers[skillTestState.currentQ] = idx;
+      renderSkillQuestion();
+    }
+
+    function nextSkillQuestion() {
+      if (skillTestState.answers[skillTestState.currentQ] === -1) {
+        alert('Please select an answer before proceeding.');
+        return;
+      }
+      skillTestState.currentQ++;
+      renderSkillQuestion();
+    }
+
+    function submitSkillTest() {
+      if (skillTestState.answers[skillTestState.currentQ] === -1) {
+        alert('Please select an answer before submitting.');
+        return;
+      }
+      // Check if all answered
+      for (var k = 0; k < 15; k++) {
+        if (skillTestState.answers[k] === -1) {
+          alert('Please answer all questions. Question ' + (k + 1) + ' is unanswered.');
+          skillTestState.currentQ = k;
+          renderSkillQuestion();
+          return;
+        }
+      }
+
+      // Calculate results
+      var chapterMap = {};
+      var chapterNames = ["Force and Pressure", "Friction", "Sound", "Light", "Human Eye"];
+      chapterNames.forEach(function(c) { chapterMap[c] = { correct: 0, total: 0 }; });
+
+      var totalCorrect = 0;
+      for (var i = 0; i < 15; i++) {
+        var q = skillTestQuestions[i];
+        var chKey = q.chapter === "Human Eye" ? "Human Eye" : q.chapter;
+        // Normalize chapter name for mapping
+        var mapKey = chapterNames.find(function(cn) { return q.chapter.indexOf(cn) !== -1 || cn.indexOf(q.chapter) !== -1; });
+        if (!mapKey) mapKey = q.chapter;
+        if (!chapterMap[mapKey]) chapterMap[mapKey] = { correct: 0, total: 0 };
+        chapterMap[mapKey].total++;
+        if (skillTestState.answers[i] === q.correct) {
+          chapterMap[mapKey].correct++;
+          totalCorrect++;
+        }
+      }
+
+      var result = {
+        totalCorrect: totalCorrect,
+        totalQuestions: 15,
+        percentage: Math.round((totalCorrect / 15) * 100),
+        chapters: {},
+        date: new Date().toISOString()
+      };
+      chapterNames.forEach(function(c) {
+        var d = chapterMap[c];
+        result.chapters[c] = {
+          correct: d.correct,
+          total: d.total,
+          percentage: Math.round((d.correct / d.total) * 100)
+        };
+      });
+
+      Storage.set('skillTestResult', result);
+      recordActivity('quiz');
+      showSkillResults(result);
+      renderSkillBannerSummary();
+    }
+
+    function showSkillResults(result) {
+      var chapterNames = ["Force and Pressure", "Friction", "Sound", "Light", "Human Eye"];
+      var scoreClass = result.percentage >= 70 ? 'good' : (result.percentage >= 40 ? 'ok' : 'bad');
+
+      var html = '<div class="skill-results">';
+      html += '<h2>Skill Test Complete!</h2>';
+      html += '<div class="skill-score-big ' + scoreClass + '">' + result.percentage + '%</div>';
+      html += '<div class="skill-score-label">' + result.totalCorrect + ' out of ' + result.totalQuestions + ' correct</div>';
+
+      // Chapter breakdown
+      html += '<div class="skill-chapter-breakdown">';
+      chapterNames.forEach(function(ch) {
+        var d = result.chapters[ch];
+        var pct = d.percentage;
+        var color = pct >= 70 ? '#22c55e' : (pct >= 40 ? '#f97316' : '#ef4444');
+        html += '<div class="skill-chapter-row">';
+        html += '<div class="skill-chapter-name">' + ch + '</div>';
+        html += '<div class="skill-chapter-bar-bg"><div class="skill-chapter-bar-fill" style="width:' + pct + '%;background:' + color + '"></div></div>';
+        html += '<div class="skill-chapter-pct" style="color:' + color + '">' + pct + '%</div>';
+        html += '</div>';
+      });
+      html += '</div>';
+
+      // Strengths and weaknesses
+      var strong = [];
+      var weak = [];
+      chapterNames.forEach(function(ch) {
+        if (result.chapters[ch].percentage >= 67) strong.push(ch);
+        else if (result.chapters[ch].percentage <= 33) weak.push(ch);
+      });
+
+      if (strong.length > 0) {
+        html += '<div class="skill-strengths"><strong>&#9989; Strong in:</strong> ' + strong.join(', ') + '</div>';
+      }
+      if (weak.length > 0) {
+        html += '<div class="skill-weaknesses"><strong>&#10060; Needs practice:</strong> ' + weak.join(', ') + '</div>';
+      }
+
+      // Recommendations
+      html += '<div class="skill-recommendations"><strong>&#128218; Recommendations:</strong><ul>';
+      chapterNames.forEach(function(ch) {
+        var pct = result.chapters[ch].percentage;
+        if (pct < 67) {
+          html += '<li>Review <strong>' + ch + '</strong> chapter &mdash; ';
+          if (pct <= 33) html += 'start with basics and key definitions.';
+          else html += 'focus on application-based and numerical problems.';
+          html += '</li>';
+        }
+      });
+      if (result.percentage >= 70) {
+        html += '<li>Great job! Try the chapter-specific quizzes to push for 100%.</li>';
+      }
+      html += '</ul></div>';
+
+      html += '<div style="text-align:center;"><button class="btn btn-primary" onclick="closeSkillTest()">Back to Dashboard</button> ';
+      html += '<button class="btn btn-outline" style="margin-left:0.5rem" onclick="openSkillTest()">Retake Test</button></div>';
+      html += '</div>';
+
+      document.getElementById('skillTestContent').innerHTML = html;
+    }
+
+    function renderSkillBannerSummary() {
+      var result = Storage.get('skillTestResult', null);
+      var summaryEl = document.getElementById('skillPrevSummary');
+      var startBtn = document.getElementById('skillStartBtn');
+      if (!result) {
+        summaryEl.innerHTML = '';
+        return;
+      }
+      startBtn.textContent = 'Retake Test';
+
+      var chapterNames = ["Force and Pressure", "Friction", "Sound", "Light", "Human Eye"];
+      var strong = [];
+      var weak = [];
+      chapterNames.forEach(function(ch) {
+        if (result.chapters[ch].percentage >= 67) strong.push(ch);
+        else if (result.chapters[ch].percentage <= 33) weak.push(ch);
+      });
+
+      var html = '<div class="skill-prev-summary">';
+      html += '<strong>Previous Result: ' + result.percentage + '% (' + result.totalCorrect + '/' + result.totalQuestions + ')</strong>';
+      if (strong.length > 0) html += '<div>&#9989; Strong: ' + strong.join(', ') + '</div>';
+      if (weak.length > 0) html += '<div>&#10060; Needs practice: ' + weak.join(', ') + '</div>';
+      html += '</div>';
+      summaryEl.innerHTML = html;
+    }
+
+    // ===== 3. Stats Cards =====
+    function renderStats() {
+      // Questions revised
+      var revised = Storage.get('revisedQuestions', []);
+      document.getElementById('statRevised').textContent = revised.length;
+
+      // Quiz avg score
+      var scores = getQuizScores();
+      if (scores.length > 0) {
+        var avg = Math.round(scores.reduce(function(sum, s) { return sum + (s.correct / s.total) * 100; }, 0) / scores.length);
+        document.getElementById('statAvgScore').textContent = avg + '%';
+      }
+
+      // Study streak
+      var activeDays = Storage.get('activeDays', []);
+      var streak = 0;
+      var d = new Date();
+      while (true) {
+        var dateStr = d.toISOString().slice(0, 10);
+        if (activeDays.indexOf(dateStr) !== -1) {
+          streak++;
+          d.setDate(d.getDate() - 1);
+        } else {
+          break;
+        }
+      }
+      document.getElementById('statStreak').textContent = streak;
+
+      // Experiments explored
+      var experiments = Storage.get('experimentsExplored', []);
+      document.getElementById('statExperiments').textContent = experiments.length;
+
+      // Badges
+      document.getElementById('badgeExperiments').textContent = experiments.length;
+      document.getElementById('badgeQuestions').textContent = revised.length;
+      document.getElementById('badgeQuizzes').textContent = scores.length;
+    }
+
+    // ===== 4. Weekly Activity Chart =====
+    function renderActivityChart() {
+      var canvas = document.getElementById('activityChart');
+      var ctx = canvas.getContext('2d');
+      var dpr = window.devicePixelRatio || 1;
+      var rect = canvas.parentElement.getBoundingClientRect();
+      canvas.width = rect.width * dpr;
+      canvas.height = 200 * dpr;
+      canvas.style.width = rect.width + 'px';
+      canvas.style.height = '200px';
+      ctx.scale(dpr, dpr);
+
+      var w = rect.width;
+      var h = 200;
+      var days = [];
+      var labels = [];
+      for (var i = 6; i >= 0; i--) {
+        var d = new Date();
+        d.setDate(d.getDate() - i);
+        var key = 'activity_' + d.toISOString().slice(0, 10);
+        var data = Storage.get(key, { questions: 0, quizzes: 0 });
+        days.push(data.questions + data.quizzes);
+        labels.push(d.toLocaleDateString('en', { weekday: 'short' }));
+      }
+
+      var maxVal = Math.max.apply(null, days.concat([5]));
+      var barWidth = (w - 80) / 7;
+      var chartLeft = 50;
+      var chartBottom = h - 30;
+      var chartTop = 20;
+      var chartH = chartBottom - chartTop;
+
+      // Background
+      var isDark = document.body.classList.contains('dark-theme');
+      ctx.fillStyle = isDark ? '#1e293b' : '#fff';
+      ctx.fillRect(0, 0, w, h);
+
+      // Grid lines
+      ctx.strokeStyle = isDark ? '#334155' : '#e2e8f0';
+      ctx.lineWidth = 1;
+      for (var g = 0; g <= 4; g++) {
+        var y = chartBottom - (g / 4) * chartH;
+        ctx.beginPath();
+        ctx.moveTo(chartLeft, y);
+        ctx.lineTo(w - 10, y);
+        ctx.stroke();
+        ctx.fillStyle = isDark ? '#94a3b8' : '#94a3b8';
+        ctx.font = '11px sans-serif';
+        ctx.textAlign = 'right';
+        ctx.fillText(Math.round((g / 4) * maxVal), chartLeft - 8, y + 4);
+      }
+
+      // Bars
+      for (var b = 0; b < 7; b++) {
+        var barH = (days[b] / maxVal) * chartH;
+        var x = chartLeft + b * barWidth + barWidth * 0.2;
+        var bw = barWidth * 0.6;
+        var y = chartBottom - barH;
+
+        var gradient = ctx.createLinearGradient(x, y, x, chartBottom);
+        gradient.addColorStop(0, '#f97316');
+        gradient.addColorStop(1, '#2563eb');
+        ctx.fillStyle = gradient;
+        ctx.beginPath();
+        ctx.roundRect(x, y, bw, barH, [4, 4, 0, 0]);
+        ctx.fill();
+
+        // Value on top
+        if (days[b] > 0) {
+          ctx.fillStyle = isDark ? '#f1f5f9' : '#334155';
+          ctx.font = 'bold 12px sans-serif';
+          ctx.textAlign = 'center';
+          ctx.fillText(days[b], x + bw / 2, y - 6);
+        }
+
+        // Label
+        ctx.fillStyle = isDark ? '#94a3b8' : '#64748b';
+        ctx.font = '11px sans-serif';
+        ctx.textAlign = 'center';
+        ctx.fillText(labels[b], x + bw / 2, chartBottom + 18);
+      }
+    }
+
+    // ===== 6. Chapter Progress (color-coded) =====
+    function renderProgress() {
+      var container = document.getElementById('progressBars');
+      var revised = getRevisedQuestions();
+
+      container.innerHTML = chapters.map(function(ch) {
+        var count = revised.filter(function(id) { return id.startsWith(ch + '|'); }).length;
+        var total = totalPerChapter[ch];
+        var pct = Math.min(100, Math.round((count / total) * 100));
+        var color;
+        if (pct < 30) color = '#ef4444';
+        else if (pct < 70) color = '#f97316';
+        else color = '#22c55e';
+        return '<div class="progress-item">' +
+          '<div class="progress-label"><span>' + ch + '</span><span>' + count + '/' + total + ' revised</span></div>' +
+          '<div class="progress-bar"><div class="progress-fill" style="width:' + pct + '%;background:' + color + '"></div></div>' +
+          '</div>';
       }).join('');
     }
 
-    // Render flashcards
+    // ===== 7. Flashcards (6 cards with shuffle) =====
     function renderFlashcards() {
-      const container = document.getElementById('flashcards');
-      const cards = randomPick(physicsFacts, 3);
-      container.innerHTML = cards.map(card => `
-        <div class="flashcard" onclick="this.classList.toggle('flipped')">
-          <div class="flashcard-inner">
-            <div class="flashcard-front">${card.q}</div>
-            <div class="flashcard-back">${card.a}</div>
-          </div>
-        </div>
-      `).join('');
+      var container = document.getElementById('flashcards');
+      var cards = randomPick(physicsFacts, 6);
+      container.innerHTML = cards.map(function(card) {
+        return '<div class="flashcard" onclick="this.classList.toggle(\'flipped\')">' +
+          '<div class="flashcard-inner">' +
+          '<div class="flashcard-front">' + card.q + '</div>' +
+          '<div class="flashcard-back">' + card.a + '</div>' +
+          '</div></div>';
+      }).join('');
     }
 
-    // Render quiz history
+    // ===== 8. Daily Physics Tip =====
+    (function() {
+      var tips = [
+        "If you could fold a piece of paper 42 times, it would reach the Moon! Each fold doubles the thickness, demonstrating exponential growth.",
+        "Sound travels about 4 times faster in water than in air because water molecules are packed more closely together.",
+        "The speed of light is so fast that it could travel around the Earth 7.5 times in just one second!",
+        "Friction produces heat \u2014 that is why rubbing your hands together warms them up. The kinetic energy converts to thermal energy.",
+        "Your eye can distinguish about 10 million different colors thanks to three types of cone cells in the retina.",
+        "Pressure increases with depth in a liquid. That is why deep-sea divers need special suits to withstand the enormous pressure.",
+        "A concave mirror can produce both real and virtual images depending on where the object is placed relative to the focus.",
+        "Static friction is stronger than kinetic friction \u2014 it takes more force to start moving an object than to keep it moving.",
+        "The human ear can detect pressure changes as small as one-billionth of atmospheric pressure!",
+        "White light is actually a mixture of seven colors (VIBGYOR), which you can see when light passes through a prism.",
+        "Force is a vector quantity \u2014 it has both magnitude and direction. Push and pull are both forces.",
+        "Rolling friction is much less than sliding friction, which is why we use wheels for transportation.",
+        "The image formed on your retina is actually upside down \u2014 your brain flips it right-side up!",
+        "Thunder and lightning happen at the same time, but we see lightning first because light travels much faster than sound.",
+        "A mosquito can stand on water because of surface tension, which is related to cohesive forces between water molecules.",
+        "The iris of your eye works like the aperture of a camera, controlling how much light enters.",
+        "Ultrasound waves (above 20,000 Hz) are used in medical imaging because they can pass through soft tissue.",
+        "A plane mirror always forms a virtual, erect, and same-sized image of the object.",
+        "Atmospheric pressure at sea level is about 101,325 Pa \u2014 equivalent to a 1 kg weight on every square centimetre!",
+        "Friction is essential for walking \u2014 without it, your feet would slip on the ground like on ice.",
+        "Noise pollution, caused by sounds above 80 dB, can cause hearing damage over time.",
+        "The cornea of the eye does most of the light focusing \u2014 the lens only fine-tunes the focus.",
+        "Hydraulic machines work on Pascal\u2019s law: pressure applied to a confined fluid is transmitted equally in all directions.",
+        "When you see a rainbow, you are actually seeing sunlight being dispersed by millions of water droplets in the air.",
+        "Ball bearings convert sliding friction into rolling friction, making machines more efficient.",
+        "The blind spot in your eye is where the optic nerve connects to the retina \u2014 there are no light-detecting cells there.",
+        "Sound needs a medium to travel. Astronauts in space cannot hear each other without radio communication.",
+        "The normal to a mirror at the point of incidence is an imaginary line perpendicular to the mirror surface.",
+        "Streamlined shapes reduce fluid friction \u2014 that is why fish, birds, and aeroplanes have tapering bodies.",
+        "A total of 1 Pascal of pressure means a force of 1 Newton is spread over an area of 1 square metre."
+      ];
+      var dayOfYear = Math.floor((new Date() - new Date(new Date().getFullYear(), 0, 0)) / 86400000);
+      document.getElementById('dailyTip').textContent = tips[dayOfYear % tips.length];
+    })();
+
+    // ===== 9. Quiz History with Sparkline =====
     function renderQuizHistory() {
-      const container = document.getElementById('quizHistory');
-      const scores = getQuizScores();
+      var container = document.getElementById('quizHistory');
+      var scores = getQuizScores();
       if (scores.length === 0) {
         container.innerHTML = '<p style="color: var(--gray-400);">No quiz scores yet. Take a quiz to see your results here!</p>';
         return;
       }
-      container.innerHTML = `
-        <table class="score-table">
-          <thead>
-            <tr>
-              <th>Date</th>
-              <th>Chapter</th>
-              <th>Score</th>
-              <th>Time</th>
-            </tr>
-          </thead>
-          <tbody>
-            ${scores.map(s => `
-              <tr>
-                <td>${s.date}</td>
-                <td>${s.chapter}</td>
-                <td>${s.correct}/${s.total}</td>
-                <td>${s.timeTaken}</td>
-              </tr>
-            `).join('')}
-          </tbody>
-        </table>`;
+
+      var html = '<table class="score-table"><thead><tr>' +
+        '<th>Date</th><th>Chapter</th><th>Score</th><th>Time</th><th>Trend</th>' +
+        '</tr></thead><tbody>';
+      scores.forEach(function(s, idx) {
+        html += '<tr><td>' + s.date + '</td><td>' + s.chapter + '</td>' +
+          '<td>' + s.correct + '/' + s.total + '</td><td>' + s.timeTaken + '</td>' +
+          '<td class="sparkline-cell"><canvas id="spark' + idx + '" width="60" height="24"></canvas></td></tr>';
+      });
+      html += '</tbody></table>';
+      container.innerHTML = html;
+
+      // Draw sparklines
+      var percentages = scores.map(function(s) { return (s.correct / s.total) * 100; }).reverse();
+      scores.forEach(function(s, idx) {
+        var canvas = document.getElementById('spark' + idx);
+        if (!canvas) return;
+        var ctx = canvas.getContext('2d');
+        var pts = percentages.slice(Math.max(0, percentages.length - 5));
+        if (pts.length < 2) return;
+        var maxV = 100;
+        var minV = 0;
+        var w = 60;
+        var h = 24;
+        ctx.strokeStyle = '#2563eb';
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        pts.forEach(function(v, j) {
+          var x = (j / (pts.length - 1)) * (w - 4) + 2;
+          var y = h - 2 - ((v - minV) / (maxV - minV)) * (h - 4);
+          if (j === 0) ctx.moveTo(x, y);
+          else ctx.lineTo(x, y);
+        });
+        ctx.stroke();
+        // Dot on current position
+        var lastX = w - 2;
+        var lastY = h - 2 - ((pts[pts.length - 1] - minV) / (maxV - minV)) * (h - 4);
+        ctx.beginPath();
+        ctx.arc(lastX, lastY, 3, 0, Math.PI * 2);
+        ctx.fillStyle = '#f97316';
+        ctx.fill();
+      });
     }
 
+    // ===== 10. Study Streak Calendar =====
+    function renderStreakCalendar() {
+      var container = document.getElementById('streakCalendar');
+      var activeDays = Storage.get('activeDays', []);
+      var today = new Date();
+      var todayStr = today.toISOString().slice(0, 10);
+      var html = '';
+
+      for (var i = 29; i >= 0; i--) {
+        var d = new Date();
+        d.setDate(d.getDate() - i);
+        var dateStr = d.toISOString().slice(0, 10);
+        var isActive = activeDays.indexOf(dateStr) !== -1;
+        var isToday = dateStr === todayStr;
+        var cls = 'streak-day';
+        if (isActive) cls += ' active';
+        else cls += ' inactive';
+        if (isToday) cls += ' today';
+        var dayNum = d.getDate();
+        html += '<div class="' + cls + '" title="' + dateStr + '">' + dayNum + '</div>';
+      }
+
+      container.innerHTML = html;
+    }
+
+    // ===== Initialize Everything =====
+    renderSkillBannerSummary();
+    renderStats();
+    renderActivityChart();
     renderProgress();
     renderFlashcards();
     renderQuizHistory();
+    renderStreakCalendar();
+
+    // Redraw chart on resize
+    window.addEventListener('resize', renderActivityChart);
   </script>
 </body>
 </html>
